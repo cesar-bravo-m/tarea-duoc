@@ -1,0 +1,57 @@
+<div class="landing-page">
+  <header class="header">
+    <nav class="nav-container">
+      <div class="logo">Hospital Scheduler</div>
+      <div class="nav-links">
+        <a (click)="toggleLoginModal()" style="cursor: pointer;">Iniciar Sesión</a>
+        <a routerLink="/register" class="register-btn">Registrarse</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <section class="hero">
+      <h1>Gestión de Citas Médicas</h1>
+      <p>Sistema integral para la administración de citas y horarios médicos</p>
+      <div class="cta-buttons">
+        <a routerLink="/register" class="cta-primary">Comenzar Ahora</a>
+        <a routerLink="/about" class="cta-secondary">Saber Más</a>
+      </div>
+    </section>
+
+    <section class="features">
+      <h2>Características Principales</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <i class="feature-icon">📅</i>
+          <h3>Gestión de Citas</h3>
+          <p>Programa y administra citas médicas de manera eficiente</p>
+        </div>
+        <div class="feature-card">
+          <i class="feature-icon">👨‍⚕️</i>
+          <h3>Perfil Médico</h3>
+          <p>Gestiona la información y disponibilidad de los médicos</p>
+        </div>
+        <div class="feature-card">
+          <i class="feature-icon">📊</i>
+          <h3>Reportes</h3>
+          <p>Genera informes detallados de las citas y atenciones</p>
+        </div>
+        <div class="feature-card">
+          <i class="feature-icon">🔔</i>
+          <h3>Recordatorios</h3>
+          <p>Sistema de notificaciones para citas próximas</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2024 Hospital Scheduler. Todos los derechos reservados.</p>
+  </footer>
+
+  <app-login-modal 
+    *ngIf="showLoginModal" 
+    (close)="toggleLoginModal()">
+  </app-login-modal>
+</div>

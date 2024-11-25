@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { DatabaseService, Especialidad, Funcionario, Paciente, SegmentoHorario, Cupo, Cita } from './services/database.service';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -80,49 +81,5 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.citasSubscription) {
       this.citasSubscription.unsubscribe();
     } 
-  }
-
-  // addTask() {
-  //   try {
-  //     this.dbService.addTask(this.newTaskTitle);
-  //     this.newTaskTitle = '';
-  //   } catch (err) {
-  //     this.error = 'Failed to add task';
-  //     console.error(err);
-  //   }
-  // }
-
-  // toggleTask(task: Task) {
-  //   try {
-  //     this.dbService.toggleTask(task);
-  //   } catch (err) {
-  //     this.error = 'Failed to update task';
-  //     console.error(err);
-  //   }
-  // }
-
-  // deleteTask(id: number) {
-  //   try {
-  //     this.dbService.deleteTask(id);
-  //   } catch (err) {
-  //     this.error = 'Failed to delete task';
-  //     console.error(err);
-  //   }
-  // }
-
-  exportDatabase() {
-    try {
-      const data = this.dbService.exportDatabase();
-      const blob = new Blob([data], { type: 'application/x-sqlite3' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'tasks.db';
-      link.click();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      this.error = 'Failed to export database';
-      console.error(err);
-    }
   }
 }

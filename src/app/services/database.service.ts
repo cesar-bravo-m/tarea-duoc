@@ -261,60 +261,14 @@ INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento,
     }
   }
 
-  // private loadTasks(): void {
-  //   const result = this.db.exec('SELECT * FROM tasks');
-  //   if (result.length > 0) {
-  //     const tasks = result[0].values.map((row: any) => ({
-  //       id: row[0],
-  //       title: row[1],
-  //       completed: Boolean(row[2])
-  //     }));
-  //     this.tasksSubject.next(tasks);
-  //   } else {
-  //     this.tasksSubject.next([]);
-  //   }
-  // }
+  public tryLogin(email: string, password: string): boolean {
+    const result = this.db.exec(`SELECT * FROM FUN_FUNCIONARIO WHERE email = ? AND password = ?`, [email, password]);
+    return result.length > 0 && result[0].values.length > 0;
+  }
 
-  // addTask(title: string): void {
-  //   if (!title.trim()) return;
-
-  //   try {
-  //     this.db.run(
-  //       'INSERT INTO tasks (title) VALUES (?)',
-  //       [title]
-  //     );
-  //     this.loadTasks();
-  //   } catch (err) {
-  //     throw new Error('Failed to add task');
-  //   }
-  // }
-
-  // toggleTask(task: Task): void {
-  //   try {
-  //     this.db.run(
-  //       'UPDATE tasks SET completed = ? WHERE id = ?',
-  //       [!task.completed ? 1 : 0, task.id]
-  //     );
-  //     this.loadTasks();
-  //   } catch (err) {
-  //     throw new Error('Failed to update task');
-  //   }
-  // }
-
-  // deleteTask(id: number): void {
-  //   try {
-  //     this.db.run('DELETE FROM tasks WHERE id = ?', [id]);
-  //     this.loadTasks();
-  //   } catch (err) {
-  //     throw new Error('Failed to delete task');
-  //   }
-  // }
-
-  exportDatabase(): Uint8Array {
-    try {
-      return this.db.export();
-    } catch (err) {
-      throw new Error('Failed to export database');
-    }
+  public getFuncionario(email: string): Funcionario | null {
+    const result = this.db.exec(`SELECT * FROM FUN_FUNCIONARIO WHERE email = ?`, [email]);
+    const funcionario: Funcionario | null = result.length > 0 && result[0].values.length > 0 ? result[0].values[0] : null;
+    return funcionario;
   }
 } 
