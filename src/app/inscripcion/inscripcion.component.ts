@@ -142,19 +142,9 @@ export class InscripcionComponent {
       return;
     }
 
-    const paciente = this.dbService.getPacienteByRut(this.searchRut);
+    const paciente = this.dbService.getPacienteByRut(this.searchRut.replace(/\./g, '').replace('-', ''));
     if (paciente) {
-      // Update all form fields with patient data
-      this.pacienteForm.patchValue({
-        nombres: paciente.nombres,
-        apellidos: paciente.apellidos,
-        rut: paciente.rut,
-        telefono: paciente.telefono,
-        email: paciente.email,
-        fecha_nacimiento: paciente.fecha_nacimiento,
-        genero: paciente.genero,
-        direccion: paciente.direccion
-      });
+      this.pacienteForm.patchValue(paciente);
       this.showSuccess = true;
       this.message = 'Paciente encontrado';
     } else {
