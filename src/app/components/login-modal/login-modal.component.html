@@ -1,11 +1,11 @@
 <div class="modal-backdrop" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
     <div class="modal-header">
-        <h2>Iniciar Sesión</h2>
+        <h2>{{ isRecovering ? 'Recuperar Contraseña' : 'Iniciar Sesión' }}</h2>
         <button class="close-button" (click)="closeModal()">×</button>
     </div>
     <div class="modal-body">
-        <form (submit)="handleSubmit($event)">
+        <form *ngIf="!isRecovering" (submit)="handleSubmit($event)">
         <div class="form-group">
             <label for="rut">RUT</label>
             <input 
@@ -36,6 +36,10 @@
             RUT o contraseña incorrectos
         </div>
 
+        <div class="recovery-link">
+            <a (click)="startRecovery()">¿Olvidaste tu contraseña?</a>
+        </div>
+
         <div class="form-footer">
             <button 
             type="submit" 
@@ -43,6 +47,66 @@
             [disabled]="isLoading"
             >
             {{ isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
+            </button>
+        </div>
+        </form>
+
+        <form *ngIf="isRecovering" (submit)="handleRecovery($event)">
+        <div class="form-group">
+            <label for="recoveryRut">RUT</label>
+            <input 
+            id="recoveryRut" 
+            type="text" 
+            [(ngModel)]="recoveryRut" 
+            name="recoveryRut"
+            required
+            placeholder="12.345.678-9"
+            (input)="onRutInput($event)"
+            [class.error]="showError"
+            >
+        </div>
+
+        <div class="form-group" *ngIf="recoveryCodeSent">
+            <label for="recoveryCode">Código de Recuperación</label>
+            <input 
+            id="recoveryCode" 
+            type="text" 
+            [(ngModel)]="recoveryCode" 
+            name="recoveryCode"
+            required
+            [class.error]="showError"
+            >
+        </div>
+
+        <div class="form-group" *ngIf="recoveryCodeSent && recoveryCodeVerified">
+            <label for="newPassword">Nueva Contraseña</label>
+            <input 
+            id="newPassword" 
+            type="password" 
+            [(ngModel)]="newPassword" 
+            name="newPassword"
+            required
+            [class.error]="showError"
+            >
+        </div>
+
+        <div class="error-message" *ngIf="showError">
+            {{ errorMessage }}
+        </div>
+
+        <div class="form-footer">
+            <button 
+            type="submit" 
+            class="login-button"
+            [disabled]="isLoading"
+            >
+            {{ 
+                isLoading ? 'Procesando...' : 
+                (recoveryCodeSent ? 
+                    (recoveryCodeVerified ? 'Cambiar Contraseña' : 'Verificar Código') : 
+                    'Enviar Código'
+                )
+            }}
             </button>
         </div>
         </form>

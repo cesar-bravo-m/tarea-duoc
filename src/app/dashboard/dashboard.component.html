@@ -4,9 +4,10 @@
       <div class="header-left">
         <h1 class="app-title">
           <span class="full-title">Hospital Scheduler</span>
+          <span class="short-title">HS</span>
         </h1>
         <nav class="main-nav">
-          <a *ngFor="let item of navItems" 
+          <a *ngFor="let item of authorizedNavItems" 
              [routerLink]="item.path"
              routerLinkActive="active"
              class="nav-link">
@@ -20,10 +21,6 @@
           {{ getUserInitials() }}
         </div>
         <div class="dropdown-menu" *ngIf="showUserMenu">
-          <div class="user-info">
-            <span class="user-name">{{ getUserName() }}</span>
-            <span class="user-speciality">{{ getUserSpeciality() }}</span>
-          </div>
           <button class="logout-btn" (click)="logout()">
             <span class="icon">🚪</span>
             <span>Cerrar Sesión</span>

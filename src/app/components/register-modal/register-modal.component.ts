@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { DatabaseService, Funcionario } from '../../services/database.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-register-modal',
@@ -23,7 +24,8 @@ export class RegisterModalComponent {
   constructor(
     private fb: FormBuilder,
     private dbService: DatabaseService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {
     this.registerForm = this.fb.group({
       nombres: ['', [Validators.required, Validators.minLength(2)]],
@@ -112,7 +114,6 @@ export class RegisterModalComponent {
     try {
       const formValue = this.registerForm.value;
       
-      // Check if RUT already exists
       const existingUser = this.dbService.getFuncionarioByRut(formValue.rut);
       if (existingUser) {
         this.showError = true;
@@ -121,23 +122,21 @@ export class RegisterModalComponent {
         return;
       }
 
-      console.log("### formValue", formValue);
-      // Create new funcionario object
       const newFuncionario = {
         id: 0,
         nombres: formValue.nombres,
         apellidos: formValue.apellidos,
-        rut: formValue.rut.replace(/\./g, '').replace('-', ''), // Store RUT without dots and dash
+        rut: formValue.rut.replace(/\./g, '').replace('-', ''),
         telefono: formValue.telefono,
         email: formValue.email,
         password: formValue.password,
         esp_id: parseInt(formValue.esp_id)
       } as Funcionario;
 
-      // Add to database
       this.dbService.addFuncionario(newFuncionario);
       
-      // Close modal and show success message
+      this.toastService.show('Usuario registrado. Inicie sesión con su RUT y contraseña.', 'success');
+      
       this.closeModal();
       
     } catch (error) {
@@ -154,19 +153,15 @@ export class RegisterModalComponent {
       const email = control.value;
       if (!email) return null;
       
-      // Basic email format check
       if (!email.includes('@')) return { invalidEmail: true };
 
       const [localPart, domain] = email.split('@');
       
-      // Check if domain exists and has at least one dot
       if (!domain || !domain.includes('.')) return { invalidDomain: true };
 
-      // Check if domain has a valid TLD
       const parts = domain.split('.');
       const tld = parts[parts.length - 1];
       
-      // TLD should be at least 2 characters long and contain only letters
       if (tld.length < 2 || !/^[a-zA-Z]+$/.test(tld)) {
         return { invalidTld: true };
       }

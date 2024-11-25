@@ -370,20 +370,17 @@ export class FuncionariosComponent implements OnInit {
   }
 
   selectFuncionario(funcionario: Funcionario) {
-    console.log("Selected funcionario:", funcionario); // Debug log
     this.selectedFuncionario = funcionario;
     
-    // Explicitly set each form control value
     this.funcionarioForm.setValue({
       nombres: funcionario.nombres || '',
       apellidos: funcionario.apellidos || '',
       email: funcionario.email || '',
       telefono: funcionario.telefono || '',
       esp_id: funcionario.esp_id || '',
-      password: '' // Always empty for security
+      password: ''
     });
 
-    // Mark form as pristine and untouched after setting values
     this.funcionarioForm.markAsPristine();
     this.funcionarioForm.markAsUntouched();
   }

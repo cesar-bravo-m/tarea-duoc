@@ -2,13 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ToastComponent } from './components/toast/toast.component';
 import { DatabaseService, Especialidad, Funcionario, Paciente, SegmentoHorario, Cupo, Cita } from './services/database.service';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ToastComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

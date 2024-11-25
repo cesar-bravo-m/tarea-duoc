@@ -7,6 +7,7 @@ import { FullCalendarModule, FullCalendarComponent } from '@fullcalendar/angular
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { ToastService } from '../services/toast.service';
 
 interface FuncionarioWithAvailability extends Funcionario {
   hasAvailableSegments?: boolean;
@@ -57,7 +58,10 @@ export class CitasComponent implements OnInit {
     this.checkScreenSize();
   }
 
-  constructor(private dbService: DatabaseService) {
+  constructor(
+    private dbService: DatabaseService,
+    private toastService: ToastService
+  ) {
     this.dbService.funcionarios$.subscribe(
       funcionarios => {
         this.funcionarios = funcionarios.map(f => ({
@@ -74,7 +78,6 @@ export class CitasComponent implements OnInit {
     const wasSmallScreen = this.isSmallScreen;
     this.isSmallScreen = window.innerWidth < 768;
 
-    // Only update calendar if screen size category changed
     if (wasSmallScreen !== this.isSmallScreen) {
       this.updateCalendarView();
     }
@@ -115,9 +118,9 @@ export class CitasComponent implements OnInit {
     const segmentos = this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
     const today = new Date();
     const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay()); // Start of current week
+    startOfWeek.setDate(today.getDate() - today.getDay());
     const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 7); // End of current week
+    endOfWeek.setDate(startOfWeek.getDate() + 7);
 
     return segmentos.some(segmento => {
       const segmentoDate = new Date(segmento.fecha_hora_inicio);
@@ -144,7 +147,6 @@ export class CitasComponent implements OnInit {
     this.selectedFuncionario = funcionario;
     this.loadSegmentos(funcionario.id);
     
-    // Ensure correct view is set after loading shifts
     setTimeout(() => {
       this.updateCalendarView();
     }, 0);
@@ -172,6 +174,8 @@ export class CitasComponent implements OnInit {
     if (segmento.free) {
       this.selectedSegmento = segmento;
       this.showAssignModal = true;
+    } else {
+      alert('Este horario ya está ocupado');
     }
   }
 
@@ -212,21 +216,14 @@ export class CitasComponent implements OnInit {
     if (!this.selectedSegmento || !this.selectedPaciente) return;
 
     try {
-      const updatedSegmento = {
-        ...this.selectedSegmento,
-        free: false
-      };
-      this.dbService.updateSegmentoHorario(updatedSegmento);
+      this.dbService.assignSegmentoToPaciente(this.selectedPaciente.id, this.selectedSegmento.id);
       
-      this.showSuccess = true;
-      this.successMessage = 'Cita asignada exitosamente';
+      this.toastService.show('Cita creada exitosamente', 'success');
       
-      // Reset selections
       this.selectedSegmento = null;
       this.selectedPaciente = null;
       this.searchRut = '';
       
-      // Reload segments
       if (this.selectedFuncionario) {
         this.loadSegmentos(this.selectedFuncionario.id);
       }

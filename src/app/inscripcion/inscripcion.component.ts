@@ -59,13 +59,10 @@ export class InscripcionComponent {
   }
 
   formatRut(rut: string): string {
-    // Remove any existing dots and dashes
     rut = rut.replace(/\./g, '').replace(/-/g, '');
     
-    // If the RUT is empty or too short, return the input as is
     if (!rut || rut.length <= 1) return rut;
 
-    // Extract the verification digit if the length is sufficient
     let verificationDigit = '';
     let numbers = rut;
     
@@ -74,37 +71,29 @@ export class InscripcionComponent {
       numbers = rut.slice(0, -1);
     }
 
-    // Add dots every three digits from right to left
     let formattedNumbers = numbers.split('').reverse().join('')
       .match(/.{1,3}/g)?.join('.')
       .split('').reverse().join('') || numbers;
 
-    // Return the formatted RUT with verification digit if present
     return verificationDigit ? `${formattedNumbers}-${verificationDigit}` : formattedNumbers;
   }
 
   validateRut(rut: string): boolean {
-    // Remove dots and dashes
     rut = rut.replace(/\./g, '').replace(/-/g, '');
     
-    // Basic format validation
     if (!/^[0-9]{7,8}[0-9Kk]$/.test(rut)) return false;
 
-    // Extract digits and verification digit
     const verificationDigit = rut.slice(-1).toUpperCase();
     const numbers = rut.slice(0, -1);
     
-    // Calculate verification digit
     let sum = 0;
     let multiplier = 2;
     
-    // Sum each digit multiplied by its corresponding multiplier
     for (let i = numbers.length - 1; i >= 0; i--) {
       sum += parseInt(numbers[i]) * multiplier;
       multiplier = multiplier === 7 ? 2 : multiplier + 1;
     }
     
-    // Calculate expected verification digit
     const expectedDigit = 11 - (sum % 11);
     let expectedVerificationDigit: string;
     
@@ -119,10 +108,8 @@ export class InscripcionComponent {
     const input = event.target;
     let rut = input.value.replace(/\./g, '').replace(/-/g, '');
     
-    // Only allow numbers and 'K'
     rut = rut.replace(/[^0-9kK]/g, '');
     
-    // Format only if there's input
     if (rut.length > 0) {
       input.value = this.formatRut(rut);
     }
@@ -135,7 +122,6 @@ export class InscripcionComponent {
       return;
     }
 
-    // Validate RUT format and check digit
     if (!this.validateRut(this.searchRut)) {
       this.showError = true;
       this.message = 'RUT inválido';

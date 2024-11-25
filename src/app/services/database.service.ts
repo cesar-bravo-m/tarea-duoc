@@ -175,7 +175,6 @@ export class DatabaseService {
         )
       `);
 
-      // Create roles table
       this.db.run(`
         CREATE TABLE IF NOT EXISTS ROL_ROLES (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -183,7 +182,6 @@ export class DatabaseService {
         )
       `);
 
-      // Create role-funcionario relationship table
       this.db.run(`
         CREATE TABLE IF NOT EXISTS RL_ROL_FUN (
           rol_id INTEGER,
@@ -217,16 +215,16 @@ INSERT INTO ESP_ESPECIALIDAD (nombre) VALUES ('Pediatría');
 INSERT INTO ESP_ESPECIALIDAD (nombre) VALUES ('Dermatología');
 INSERT INTO ESP_ESPECIALIDAD (nombre) VALUES ('Oncología');
 
-INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('196450963', 'María', 'González', '555-1001', 'maria.gonzalez@ejemplo.com', 'contraseña123', 1);
-INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('13538951k', 'José', 'Rodríguez', '555-1002', 'jose.rodriguez@ejemplo.com', 'contraseña123', 2);
-INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('145092035', 'Carmen', 'López', '555-1003', 'carmen.lopez@ejemplo.com', 'contraseña123', 3);
-INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('199072412', 'Luis', 'Martínez', '555-1004', 'luis.martinez@ejemplo.com', 'contraseña123', 4);
-INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('151205682', 'Ana', 'García', '555-1005', 'ana.garcia@ejemplo.com', 'contraseña123', 5);
-INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('195174571', 'Juan', 'Sánchez', '555-1006', 'juan.sanchez@ejemplo.com', 'contraseña123', 1);
-INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('116726459', 'Laura', 'Pérez', '555-1007', 'laura.perez@ejemplo.com', 'contraseña123', 2);
-INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('170401697', 'Carlos', 'Torres', '555-1008', 'carlos.torres@ejemplo.com', 'contraseña123', 3);
-INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('171939747', 'Isabel', 'Ramírez', '555-1009', 'isabel.ramirez@ejemplo.com', 'contraseña123', 4);
-INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('198848395', 'Miguel', 'Flores', '555-1010', 'miguel.flores@ejemplo.com', 'contraseña123', 5);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('196450963', 'María', 'González', '555-1001', 'maria.gonzalez@ejemplo.com', 'Abc123', 1);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('13538951k', 'José', 'Rodríguez', '555-1002', 'jose.rodriguez@ejemplo.com', 'Abc123', 2);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('145092035', 'Carmen', 'López', '555-1003', 'carmen.lopez@ejemplo.com', 'Abc123', 3);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('199072412', 'Luis', 'Martínez', '555-1004', 'luis.martinez@ejemplo.com', 'Abc123', 4);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('151205682', 'Ana', 'García', '555-1005', 'ana.garcia@ejemplo.com', 'Abc123', 5);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('195174571', 'Juan', 'Sánchez', '555-1006', 'juan.sanchez@ejemplo.com', 'Abc123', 1);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('116726459', 'Laura', 'Pérez', '555-1007', 'laura.perez@ejemplo.com', 'Abc123', 2);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('170401697', 'Carlos', 'Torres', '555-1008', 'carlos.torres@ejemplo.com', 'Abc123', 3);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('171939747', 'Isabel', 'Ramírez', '555-1009', 'isabel.ramirez@ejemplo.com', 'Abc123', 4);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('198848395', 'Miguel', 'Flores', '555-1010', 'miguel.flores@ejemplo.com', 'Abc123', 5);
 
 INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('111111111', 'Diego', 'Castro', '555-2001', 'diego.castro@ejemplo.com', '1990-05-14', 'M', 'Calle Principal 123');
 INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('222222222', 'Lucía', 'Morales', '555-2002', 'lucia.morales@ejemplo.com', '1985-08-23', 'F', 'Avenida Secundaria 456');
@@ -238,6 +236,30 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
 INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('888888888', 'Elena', 'Santos', '555-2008', 'elena.santos@ejemplo.com', '1988-04-22', 'F', 'Avenida Octava 753');
 INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('999999999', 'Jorge', 'Cruz', '555-2009', 'jorge.cruz@ejemplo.com', '1993-06-17', 'M', 'Calle Novena 852');
 INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('101010101', 'Camila', 'Reyes', '555-2010', 'camila.reyes@ejemplo.com', '1991-01-28', 'F', 'Avenida Décima 951');
+
+-- Seed Segmentos Horarios for this week (Nov 24-30 2024)
+INSERT INTO SGH_SEGMENTO_HORARIO (nombre, fecha_hora_inicio, fecha_hora_fin, fun_id, free) 
+VALUES 
+-- Monday Nov 25
+('Atención general', '2024-11-25 09:00:00', '2024-11-25 12:00:00', 1, true),
+('Atención general', '2024-11-25 14:00:00', '2024-11-25 17:00:00', 1, true),
+('Atención general', '2024-11-25 15:00:00', '2024-11-25 18:00:00', 3, true),
+
+-- Tuesday Nov 26
+('Atención general', '2024-11-26 08:00:00', '2024-11-26 12:00:00', 4, true),
+
+-- Wednesday Nov 27
+('Atención general', '2024-11-27 09:00:00', '2024-11-27 12:00:00', 8, true),
+('Atención general', '2024-11-27 14:00:00', '2024-11-27 17:00:00', 9, true),
+('Atención general', '2024-11-27 15:00:00', '2024-11-27 18:00:00', 1, true),
+
+-- Thursday Nov 28
+('Atención general', '2024-11-28 14:00:00', '2024-11-28 18:00:00', 3, true),
+('Atención general', '2024-11-28 08:00:00', '2024-11-28 12:00:00', 4, true),
+
+-- Friday Nov 29
+('Atención general', '2024-11-29 08:00:00', '2024-11-29 12:00:00', 8, true),
+('Atención general', '2024-11-29 15:00:00', '2024-11-29 18:00:00', 9, true);
     `;
     this.db.run(script);
   }
@@ -256,9 +278,10 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
         console.error(`Error seeding role ${rol}:`, error);
       }
     });
-    // Add all roles to funcionarios 1 to 10 
-    for (let i = 1; i <= 10; i++) {
-      this.db.run('INSERT OR IGNORE INTO RL_ROL_FUN (rol_id, fun_id) VALUES (?, ?)', [1, i]);
+    this.db.run('INSERT OR IGNORE INTO RL_ROL_FUN (rol_id, fun_id) VALUES (1, 1)');
+    this.db.run('INSERT OR IGNORE INTO RL_ROL_FUN (rol_id, fun_id) VALUES (2, 1)');
+    this.db.run('INSERT OR IGNORE INTO RL_ROL_FUN (rol_id, fun_id) VALUES (3, 1)');
+    for (let i = 2; i <= 10; i++) {
       this.db.run('INSERT OR IGNORE INTO RL_ROL_FUN (rol_id, fun_id) VALUES (?, ?)', [2, i]);
       this.db.run('INSERT OR IGNORE INTO RL_ROL_FUN (rol_id, fun_id) VALUES (?, ?)', [3, i]);
     }
@@ -372,7 +395,6 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
   }
 
   public getFuncionarioById(id: number): Funcionario | null {
-    // Get funcionario with especialidad name
     const result = this.db.exec(`
       SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
       FROM FUN_FUNCIONARIO
@@ -383,7 +405,6 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
   }
 
   public getFuncionarioByEmail(email: string): Funcionario | null {
-    // Get funcionario with especialidad name
     const result = this.db.exec(`
       SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
       FROM FUN_FUNCIONARIO
@@ -394,7 +415,6 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
   }
 
   public addFuncionario(funcionario: Funcionario): void {
-    // First add the funcionario
     this.db.run(`
       INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, rut, telefono, email, password, esp_id) 
       VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -409,7 +429,6 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
       ]
     );
 
-    // Get the id of the newly inserted funcionario
     const result = this.db.exec(`
       SELECT id FROM FUN_FUNCIONARIO 
       WHERE rut = ?`, 
@@ -419,13 +438,11 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
     if (result.length > 0 && result[0].values.length > 0) {
       const funId = result[0].values[0][0];
       
-      // Add all roles to the new funcionario
       this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (1, ?)', [funId]);
       this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (2, ?)', [funId]);
       this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (3, ?)', [funId]);
     }
 
-    // Reload data
     this.loadFuncionarios();
     this.loadRolesFuncionario();
   }
@@ -531,13 +548,10 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
       segmentoHorario.free
     ]);
 
-    // Update associated cupos
     const duration = (new Date(segmentoHorario.fecha_hora_fin).getTime() - new Date(segmentoHorario.fecha_hora_inicio).getTime()) / (30*60000);
     
-    // First, delete existing cupos
     this.db.run(`DELETE FROM CUP_CUPO WHERE sgh_id = ?`, [segmentoHorario.id]);
 
-    // Then, create new cupos
     for (let i = 0; i < duration; i++) {
       const cupoStart = new Date(segmentoHorario.fecha_hora_inicio);
       cupoStart.setMinutes(cupoStart.getMinutes() + (i * 30));
@@ -618,5 +632,19 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
       esp_id: result[0].values[0][7],
       especialidad: result[0].values[0][8]
     } as Funcionario : null;
+  }
+
+  public assignSegmentoToPaciente(pacId: number, sghId: number): void {
+    this.db.run('UPDATE SGH_SEGMENTO_HORARIO SET free = 0 WHERE id = ?', [sghId]);
+    this.db.run('INSERT INTO CIT_CITA (pac_id, cup_id) VALUES (?, ?)', [pacId, sghId]);
+    this.loadCitas();
+    this.loadSegmentosHorario();
+  }
+
+  public updateFuncionarioPassword(id: number, newPassword: string): void {
+    this.db.run(
+      'UPDATE FUN_FUNCIONARIO SET password = ? WHERE id = ?',
+      [newPassword, id]
+    );
   }
 }

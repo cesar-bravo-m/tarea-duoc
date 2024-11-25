@@ -1,12 +1,15 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { DatabaseService } from '../services/database.service';
+import { ToastService } from '../services/toast.service';
 
 interface NavItem {
   path: string;
   icon: string;
   label: string;
   description: string;
+  requiredRole: string;
 }
 
 @Component({
@@ -17,48 +20,47 @@ interface NavItem {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  showUserMenu = false;
   currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  showUserMenu = false;
 
   navItems: NavItem[] = [
     {
       path: 'inscripcion',
-      icon: '📝',
+      icon: '👥',
       label: 'Inscripción',
-      description: 'Gestiona las inscripciones de pacientes'
+      description: 'Gestiona los pacientes',
+      requiredRole: 'USA_INSCRIPCION'
     },
     {
       path: 'agenda',
       icon: '📅',
       label: 'Agenda',
-      description: 'Administra los horarios y citas'
+      description: 'Gestiona los horarios',
+      requiredRole: 'USA_AGENDA'
     },
-    // {
-    //   path: 'funcionarios',
-    //   icon: '👥',
-    //   label: 'Funcionarios',
-    //   description: 'Gestiona el personal médico'
-    // },
     {
       path: 'citas',
       icon: '🕒',
       label: 'Citas',
-      description: 'Administra las citas médicas'
+      description: 'Administra las citas médicas',
+      requiredRole: 'USA_CITAS'
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private dbService: DatabaseService,
+    private toastService: ToastService
+  ) {}
+
+  get authorizedNavItems(): NavItem[] {
+    return this.navItems.filter(item => 
+      this.dbService.hasRole(this.currentUser.id, item.requiredRole)
+    );
+  }
 
   getUserInitials(): string {
     return `${this.currentUser.nombres?.[0] || ''}${this.currentUser.apellidos?.[0] || ''}`;
-  }
-
-  getUserName(): string {
-    return `${this.currentUser.nombres} ${this.currentUser.apellidos}`;
-  }
-
-  getUserSpeciality(): string {
-    return this.currentUser.especialidad;
   }
 
   toggleUserMenu() {
@@ -67,15 +69,17 @@ export class DashboardComponent {
 
   logout() {
     localStorage.removeItem('currentUser');
+    
+    const now = new Date();
+    const timeStr = now.toLocaleString('es-CL', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+    this.toastService.show(`Cierre de sesión exitoso @ ${timeStr}`, 'success');
+    
     this.router.navigate(['/']);
-  }
-
-  // Add click outside handler to close menu
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const userMenu = document.querySelector('.user-menu');
-    if (userMenu && !userMenu.contains(event.target as Node)) {
-      this.showUserMenu = false;
-    }
   }
 }

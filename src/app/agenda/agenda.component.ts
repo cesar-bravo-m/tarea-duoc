@@ -281,7 +281,6 @@ export class AgendaComponent implements OnInit {
     const wasSmallScreen = this.isSmallScreen;
     this.isSmallScreen = window.innerWidth < 768;
 
-    // Only update calendar if screen size category changed
     if (wasSmallScreen !== this.isSmallScreen) {
       this.updateCalendarView();
     }
@@ -336,7 +335,6 @@ export class AgendaComponent implements OnInit {
     this.selectedFuncionario = funcionario;
     this.loadShifts(funcionario.id);
     
-    // Ensure correct view is set after loading shifts
     setTimeout(() => {
       this.updateCalendarView();
     }, 0);
