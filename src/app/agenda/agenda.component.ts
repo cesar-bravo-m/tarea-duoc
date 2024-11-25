@@ -15,42 +15,35 @@ import { SegmentoModalComponent } from './segmento-modal/segmento-modal.componen
   imports: [CommonModule, FormsModule, FullCalendarModule, SegmentoModalComponent],
   template: `
     <div class="agenda-container">
-      <div class="search-section" [class.collapsed]="selectedFuncionario">
-        <div class="search-header" (click)="toggleSearch()">
-          <h2>{{ selectedFuncionario ? selectedFuncionario.nombres + ' ' + selectedFuncionario.apellidos : 'Seleccionar Funcionario' }}</h2>
-          <button class="toggle-btn">
-            {{ selectedFuncionario ? '▼' : '▲' }}
-          </button>
+      <div class="search-section">
+        <h2>Seleccionar Funcionario</h2>
+        <div class="search-box">
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            placeholder="Buscar por nombre o especialidad"
+            class="search-input"
+            (input)="searchFuncionarios()"
+          >
         </div>
 
-        <div class="search-content" [class.hidden]="selectedFuncionario">
-          <div class="search-box">
-            <input 
-              type="text" 
-              [(ngModel)]="searchTerm" 
-              placeholder="Buscar por nombre o especialidad"
-              class="search-input"
-              (input)="searchFuncionarios()"
-            >
-          </div>
-
-          <div class="funcionarios-list" *ngIf="filteredFuncionarios.length > 0">
-            <div 
-              *ngFor="let funcionario of filteredFuncionarios" 
-              class="funcionario-card"
-              [class.selected]="selectedFuncionario?.id === funcionario.id"
-              (click)="selectFuncionario(funcionario)"
-            >
-              <div class="funcionario-info">
-                <h3>{{ funcionario.nombres }} {{ funcionario.apellidos }}</h3>
-                <p>{{ funcionario.especialidad }}</p>
-              </div>
+        <div class="funcionarios-list" *ngIf="filteredFuncionarios.length > 0">
+          <div 
+            *ngFor="let funcionario of filteredFuncionarios" 
+            class="funcionario-card"
+            [class.selected]="selectedFuncionario?.id === funcionario.id"
+            (click)="selectFuncionario(funcionario)"
+          >
+            <div class="funcionario-info">
+              <h3>{{ funcionario.nombres }} {{ funcionario.apellidos }}</h3>
+              <p>{{ funcionario.especialidad }}</p>
             </div>
           </div>
         </div>
       </div>
 
       <div class="calendar-section" *ngIf="selectedFuncionario">
+        <h2>Agenda de {{ selectedFuncionario.nombres }} {{ selectedFuncionario.apellidos }}</h2>
         <full-calendar [options]="calendarOptions"></full-calendar>
       </div>
 
@@ -78,45 +71,11 @@ import { SegmentoModalComponent } from './segmento-modal/segmento-modal.componen
       border-radius: 8px;
       margin-bottom: 2rem;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
     }
 
-    .search-section.collapsed {
-      padding: 1rem 1.5rem;
-    }
-
-    .search-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .search-header h2 {
-      margin: 0;
+    .search-section h2 {
+      margin: 0 0 1rem 0;
       color: #2d3748;
-    }
-
-    .toggle-btn {
-      background: none;
-      border: none;
-      color: #4a5568;
-      font-size: 1.2rem;
-      cursor: pointer;
-      padding: 0.5rem;
-      transition: transform 0.3s ease;
-    }
-
-    .search-content {
-      margin-top: 1.5rem;
-      transition: all 0.3s ease;
-      overflow: hidden;
-    }
-
-    .search-content.hidden {
-      margin-top: 0;
-      height: 0;
-      opacity: 0;
     }
 
     .search-box {
@@ -335,14 +294,6 @@ export class AgendaComponent implements OnInit {
     if (segmento) {
       this.selectedSegmento = segmento;
       this.showSegmentoModal = true;
-    }
-  }
-
-  toggleSearch() {
-    if (this.selectedFuncionario) {
-      this.selectedFuncionario = null;
-      this.searchTerm = '';
-      this.searchFuncionarios();
     }
   }
 }
