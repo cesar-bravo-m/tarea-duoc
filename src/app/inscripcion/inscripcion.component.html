@@ -142,6 +142,9 @@
     </div>
 
     <div class="form-actions">
+      <button type="button" (click)="resetForm()" class="reset-btn">
+        Limpiar
+      </button>
       <button type="submit" [disabled]="isLoading || pacienteForm.invalid" class="submit-btn">
         {{ isLoading ? 'Guardando...' : 'Guardar Paciente' }}
       </button>

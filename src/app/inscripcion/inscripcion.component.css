@@ -49,12 +49,17 @@
 }
 
 .reset-btn {
-  background-color: #edf2f7;
+  background-color: #e2e8f0;
   color: #4a5568;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .reset-btn:hover {
-  background-color: #e2e8f0;
+  background-color: #cbd5e0;
 }
 
 .patient-form {
@@ -140,7 +145,23 @@
 .form-actions {
   display: flex;
   justify-content: flex-end;
+  gap: 1rem;
   margin-top: 2rem;
+}
+
+.reset-btn {
+  padding: 0.75rem 2rem;
+  background-color: #e2e8f0;
+  color: #4a5568;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.reset-btn:hover {
+  background-color: #cbd5e0;
 }
 
 .submit-btn {
