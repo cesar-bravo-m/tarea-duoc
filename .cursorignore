@@ -1,0 +1,5 @@
+.angular
+.angular/cache/18.2.12/tarea-duoc/vite/deps/*
+.angular/*
+node_modules/*
+dist/*
