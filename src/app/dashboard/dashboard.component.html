@@ -1,1 +1,60 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">Hospital Scheduler</div>
+    </div>
+    
+    <div class="user-info">
+      <div class="avatar">
+        {{ currentUser.nombres?.[0] }}{{ currentUser.apellidos?.[0] }}
+      </div>
+      <div class="user-details">
+        <div class="user-name">{{ currentUser.nombres }} {{ currentUser.apellidos }}</div>
+        <div class="user-role">{{ currentUser.especialidad }}</div>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <a routerLink="inscripcion" routerLinkActive="active" class="nav-link">
+        <i class="icon">📝</i>
+        <span>Inscripción</span>
+      </a>
+      <a routerLink="agenda" routerLinkActive="active" class="nav-link">
+        <i class="icon">📅</i>
+        <span>Agenda</span>
+      </a>
+      <a routerLink="funcionarios" routerLinkActive="active" class="nav-link">
+        <i class="icon">👥</i>
+        <span>Funcionarios</span>
+      </a>
+      <a routerLink="citas" routerLinkActive="active" class="nav-link">
+        <i class="icon">🕒</i>
+        <span>Citas</span>
+      </a>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <i class="icon">🚪</i>
+        <span>Cerrar Sesión</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <header class="content-header">
+      <div class="breadcrumb">
+        Dashboard
+      </div>
+      <div class="header-actions">
+        <button class="notifications-btn">
+          <i class="icon">🔔</i>
+        </button>
+      </div>
+    </header>
+
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
