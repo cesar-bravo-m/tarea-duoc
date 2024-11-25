@@ -5,6 +5,10 @@ import { DatabaseService, Funcionario } from '../../services/database.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 
+/**
+ * Componente que maneja el modal de registro de funcionarios
+ * @description Permite registrar nuevos funcionarios en el sistema con validación de campos
+ */
 @Component({
   selector: 'app-register-modal',
   standalone: true,
@@ -13,12 +17,18 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./register-modal.component.css']
 })
 export class RegisterModalComponent {
+  /** Evento emitido para cerrar el modal */
   @Output() close = new EventEmitter<void>();
   
+  /** Formulario reactivo para el registro */
   registerForm: FormGroup;
+  /** Indica si hay un error que mostrar */
   showError = false;
+  /** Indica si hay una operación en curso */
   isLoading = false;
+  /** Mensaje de error para mostrar al usuario */
   errorMessage = '';
+  /** Lista de especialidades disponibles */
   especialidades: any[] = [];
 
   constructor(
@@ -47,6 +57,11 @@ export class RegisterModalComponent {
     );
   }
 
+  /**
+   * Valida el RUT ingresado
+   * @param rut RUT a validar
+   * @returns boolean indicando si el RUT es válido
+   */
   validateRut(rut: string): boolean {
     rut = rut.replace(/\./g, '').replace(/-/g, '');
     if (!/^[0-9]{7,8}[0-9Kk]$/.test(rut)) return false;
@@ -66,6 +81,10 @@ export class RegisterModalComponent {
     return verificationDigit === expectedVerificationDigit;
   }
 
+  /**
+   * Validador personalizado para el RUT
+   * @returns ValidatorFn para validar el formato del RUT
+   */
   rutValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const rut = control.value;
@@ -74,6 +93,11 @@ export class RegisterModalComponent {
     };
   }
 
+  /**
+   * Formatea el RUT mientras el usuario escribe
+   * @param event Evento de input
+   * @description Agrega puntos y guión al RUT
+   */
   onRutInput(event: any) {
     const input = event.target;
     let rut = input.value.replace(/\./g, '').replace(/-/g, '');
@@ -88,6 +112,10 @@ export class RegisterModalComponent {
     }
   }
 
+  /**
+   * Validador para asegurar que las contraseñas coincidan
+   * @returns ValidatorFn para comparar password y confirmPassword
+   */
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const password = control.get('password')?.value;
@@ -96,15 +124,28 @@ export class RegisterModalComponent {
     };
   }
 
+  /**
+   * Verifica si un campo del formulario es inválido
+   * @param fieldName Nombre del campo a verificar
+   * @returns boolean indicando si el campo es inválido y ha sido tocado
+   */
   isFieldInvalid(fieldName: string): boolean {
     const field = this.registerForm.get(fieldName);
     return field ? (field.invalid && (field.dirty || field.touched)) : false;
   }
 
+  /**
+   * Cierra el modal de registro
+   * @description Emite el evento close
+   */
   closeModal() {
     this.close.emit();
   }
 
+  /**
+   * Maneja el envío del formulario
+   * @description Valida y procesa el registro del nuevo funcionario
+   */
   async handleSubmit() {
     if (this.registerForm.invalid) return;
 
@@ -148,6 +189,10 @@ export class RegisterModalComponent {
     }
   }
 
+  /**
+   * Validador personalizado para el dominio del email
+   * @returns ValidatorFn para validar que el email tenga un dominio válido
+   */
   emailDomainValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const email = control.value;
@@ -170,6 +215,11 @@ export class RegisterModalComponent {
     };
   }
 
+  /**
+   * Obtiene el mensaje de error para un campo
+   * @param fieldName Nombre del campo
+   * @returns Mensaje de error correspondiente al tipo de error
+   */
   getErrorMessage(fieldName: string): string {
     const control = this.registerForm.get(fieldName);
     if (control?.errors) {

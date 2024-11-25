@@ -4,6 +4,10 @@ import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } 
 import { DatabaseService, Paciente } from '../services/database.service';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
+/**
+ * Componente que maneja la inscripción de pacientes
+ * @description Permite registrar nuevos pacientes y buscar pacientes existentes
+ */
 @Component({
   selector: 'app-inscripcion',
   standalone: true,
@@ -14,12 +18,22 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 })
 export class InscripcionComponent {
   pacienteForm: FormGroup;
+  /** RUT para búsqueda de pacientes */
+  searchRut: string = '';
+  /** Indica si hay un error que mostrar */
   showError = false;
+  /** Indica si hay un mensaje de éxito que mostrar */
   showSuccess = false;
+  /** Mensaje para mostrar al usuario */
   message = '';
+  /** Indica si hay una operación en curso */
   isLoading = false;
-  searchRut = '';
 
+  /**
+   * Constructor del componente
+   * @param fb Servicio de formulario reactivo
+   * @param dbService Servicio de base de datos
+   */
   constructor(
     private fb: FormBuilder,
     private dbService: DatabaseService
@@ -36,11 +50,29 @@ export class InscripcionComponent {
     });
   }
 
+  /**
+   * Inicializa el componente
+   * @description Carga los datos necesarios del servicio
+   */
+  ngOnInit() {
+    this.dbService.loadPacientes();
+  }
+
+  /**
+   * Verifica si un campo del formulario es inválido
+   * @param fieldName Nombre del campo a verificar
+   * @returns boolean indicando si el campo es inválido y ha sido tocado
+   */
   isFieldInvalid(fieldName: string): boolean {
     const field = this.pacienteForm.get(fieldName);
     return field ? (field.invalid && (field.dirty || field.touched)) : false;
   }
 
+  /**
+   * Obtiene el mensaje de error para un campo
+   * @param fieldName Nombre del campo
+   * @returns Mensaje de error correspondiente al tipo de error
+   */
   getErrorMessage(fieldName: string): string {
     const control = this.pacienteForm.get(fieldName);
     if (control?.errors) {
@@ -58,6 +90,11 @@ export class InscripcionComponent {
     return '';
   }
 
+  /**
+   * Formatea el RUT mientras el usuario escribe
+   * @param rut RUT a formatear
+   * @returns RUT formateado con puntos y guión
+   */
   formatRut(rut: string): string {
     rut = rut.replace(/\./g, '').replace(/-/g, '');
     
@@ -78,6 +115,11 @@ export class InscripcionComponent {
     return verificationDigit ? `${formattedNumbers}-${verificationDigit}` : formattedNumbers;
   }
 
+  /**
+   * Valida el RUT ingresado
+   * @param rut RUT a validar
+   * @returns boolean indicando si el RUT es válido
+   */
   validateRut(rut: string): boolean {
     rut = rut.replace(/\./g, '').replace(/-/g, '');
     
@@ -104,6 +146,11 @@ export class InscripcionComponent {
     return verificationDigit === expectedVerificationDigit;
   }
 
+  /**
+   * Formatea el RUT mientras el usuario escribe
+   * @param event Evento de entrada
+   * @description Formatea el RUT ingresado para que cumpla con el formato estándar
+   */
   onRutInput(event: any) {
     const input = event.target;
     let rut = input.value.replace(/\./g, '').replace(/-/g, '');
@@ -115,6 +162,10 @@ export class InscripcionComponent {
     }
   }
 
+  /**
+   * Busca un paciente por RUT
+   * @description Actualiza el formulario con los datos del paciente si se encuentra
+   */
   searchPaciente() {
     if (!this.searchRut) {
       this.showError = true;
@@ -140,6 +191,10 @@ export class InscripcionComponent {
     }
   }
 
+  /**
+   * Maneja el envío del formulario
+   * @description Crea o actualiza un paciente según los datos del formulario
+   */
   onSubmit() {
     if (this.pacienteForm.invalid) {
       Object.keys(this.pacienteForm.controls).forEach(key => {
@@ -171,6 +226,10 @@ export class InscripcionComponent {
     }
   }
 
+  /**
+   * Reinicia el formulario
+   * @description Limpia todos los campos y mensajes
+   */
   resetForm() {
     this.pacienteForm.reset();
     this.showError = false;

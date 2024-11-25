@@ -9,6 +9,10 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { SegmentoModalComponent } from './segmento-modal/segmento-modal.component';
 
+/**
+ * Componente que maneja la agenda de los funcionarios
+ * @description Permite a los funcionarios gestionar sus horarios de atención
+ */
 @Component({
   selector: 'app-agenda',
   standalone: true,
@@ -232,10 +236,19 @@ import { SegmentoModalComponent } from './segmento-modal/segmento-modal.componen
   `]
 })
 export class AgendaComponent implements OnInit {
+  /** Referencia al componente de calendario */
+  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+  
+  /** Término de búsqueda para funcionarios */
   searchTerm: string = '';
+  /** Lista de todos los funcionarios */
   funcionarios: Funcionario[] = [];
+  /** Lista de funcionarios filtrados por búsqueda */
   filteredFuncionarios: Funcionario[] = [];
+  /** Funcionario seleccionado actualmente */
   selectedFuncionario: Funcionario | null = null;
+
+  /** Configuración del calendario */
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     initialView: window.innerWidth < 768 ? 'timeGridDay' : 'timeGridWeek',
@@ -256,12 +269,20 @@ export class AgendaComponent implements OnInit {
     eventClick: this.handleEventClick.bind(this),
     events: []
   };
-  showSegmentoModal = false;
-  selectedDate: Date | null = null;
-  selectedSegmento: SegmentoHorario | null = null;
-  isSmallScreen: boolean = false;
-  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
+  /** Indica si se debe mostrar el modal de segmento */
+  showSegmentoModal = false;
+  /** Fecha seleccionada para nuevo segmento */
+  selectedDate: Date | null = null;
+  /** Segmento seleccionado para edición */
+  selectedSegmento: SegmentoHorario | null = null;
+  /** Indica si la pantalla es pequeña */
+  isSmallScreen: boolean = false;
+
+  /**
+   * Escucha cambios en el tamaño de la ventana
+   * @description Actualiza la vista del calendario según el tamaño de pantalla
+   */
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.checkScreenSize();
@@ -277,6 +298,11 @@ export class AgendaComponent implements OnInit {
     this.checkScreenSize();
   }
 
+  /**
+   * Verifica el tamaño de la pantalla
+   * @description Actualiza isSmallScreen y la vista del calendario
+   * @private
+   */
   private checkScreenSize() {
     const wasSmallScreen = this.isSmallScreen;
     this.isSmallScreen = window.innerWidth < 768;
@@ -286,6 +312,11 @@ export class AgendaComponent implements OnInit {
     }
   }
 
+  /**
+   * Actualiza la vista del calendario
+   * @description Cambia entre vista diaria y semanal según el tamaño de pantalla
+   * @private
+   */
   private updateCalendarView() {
     if (this.calendarComponent) {
       const calendarApi = this.calendarComponent.getApi();
@@ -313,10 +344,18 @@ export class AgendaComponent implements OnInit {
     }
   }
 
+  /**
+   * Inicializa el componente
+   * @description Carga la lista de funcionarios
+   */
   ngOnInit() {
     this.dbService.loadFuncionarios();
   }
 
+  /**
+   * Filtra funcionarios según término de búsqueda
+   * @description Actualiza filteredFuncionarios basado en searchTerm
+   */
   searchFuncionarios() {
     if (!this.searchTerm.trim()) {
       this.filteredFuncionarios = this.funcionarios;
@@ -331,6 +370,10 @@ export class AgendaComponent implements OnInit {
     );
   }
 
+  /**
+   * Selecciona un funcionario y carga sus horarios
+   * @param funcionario Funcionario seleccionado
+   */
   selectFuncionario(funcionario: Funcionario) {
     this.selectedFuncionario = funcionario;
     this.loadShifts(funcionario.id);
@@ -340,6 +383,11 @@ export class AgendaComponent implements OnInit {
     }, 0);
   }
 
+  /**
+   * Carga los horarios de un funcionario
+   * @param funcionarioId ID del funcionario
+   * @description Actualiza los eventos del calendario con los segmentos del funcionario
+   */
   loadShifts(funcionarioId: number) {
     const segmentos = this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
     const events: EventInput[] = segmentos.map(segmento => ({
@@ -353,6 +401,11 @@ export class AgendaComponent implements OnInit {
     this.calendarOptions.events = events;
   }
 
+  /**
+   * Maneja la selección de una fecha en el calendario
+   * @param selectInfo Información de la selección
+   * @description Abre el modal para crear un nuevo segmento
+   */
   handleDateSelect(selectInfo: any) {
     if (!this.selectedFuncionario) {
       alert('Por favor seleccione un funcionario primero');
@@ -365,6 +418,11 @@ export class AgendaComponent implements OnInit {
     selectInfo.view.calendar.unselect();
   }
 
+  /**
+   * Maneja el envío del formulario de segmento
+   * @param segmento Segmento a guardar
+   * @description Crea o actualiza un segmento horario
+   */
   handleSegmentoSubmit(segmento: SegmentoHorario) {
     try {
       if (segmento.id === 0) {
@@ -383,6 +441,10 @@ export class AgendaComponent implements OnInit {
     this.selectedSegmento = null;
   }
 
+  /**
+   * Maneja la eliminación de un segmento
+   * @param id ID del segmento a eliminar
+   */
   handleSegmentoDelete(id: number) {
     try {
       this.dbService.deleteSegmentoHorario(id);
@@ -393,6 +455,11 @@ export class AgendaComponent implements OnInit {
     }
   }
 
+  /**
+   * Maneja el clic en un evento del calendario
+   * @param clickInfo Información del evento clickeado
+   * @description Abre el modal para editar el segmento
+   */
   handleEventClick(clickInfo: any) {
     console.log("### clickInfo", clickInfo);
     const segmento = this.dbService.getSegmentoHorarioById(clickInfo.event.id);
@@ -402,6 +469,10 @@ export class AgendaComponent implements OnInit {
     }
   }
 
+  /**
+   * Alterna la visibilidad de la sección de búsqueda
+   * @description Limpia la selección actual si está colapsada
+   */
   toggleSearch() {
     if (this.selectedFuncionario) {
       this.selectedFuncionario = null;

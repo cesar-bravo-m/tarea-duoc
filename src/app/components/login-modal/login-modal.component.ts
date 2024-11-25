@@ -5,6 +5,10 @@ import { DatabaseService } from '../../services/database.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 
+/**
+ * Componente que maneja el modal de inicio de sesión
+ * @description Permite a los usuarios iniciar sesión y recuperar su contraseña
+ */
 @Component({
   selector: 'app-login-modal',
   standalone: true,
@@ -13,21 +17,34 @@ import { ToastService } from '../../services/toast.service';
   styleUrls: ['./login-modal.component.css']
 })
 export class LoginModalComponent {
+  /** Evento emitido para cerrar el modal */
   @Output() close = new EventEmitter<void>();
   
+  /** RUT del usuario para inicio de sesión */
   rut: string = '';
+  /** Contraseña del usuario */
   password: string = '';
   
+  /** Indica si se está en proceso de recuperación de contraseña */
   isRecovering: boolean = false;
+  /** RUT para recuperación de contraseña */
   recoveryRut: string = '';
+  /** Código de recuperación ingresado por el usuario */
   recoveryCode: string = '';
+  /** Indica si el código de recuperación ha sido enviado */
   recoveryCodeSent: boolean = false;
+  /** Indica si el código de recuperación ha sido verificado */
   recoveryCodeVerified: boolean = false;
+  /** Nueva contraseña durante recuperación */
   newPassword: string = '';
+  /** Código de recuperación generado por el sistema */
   generatedCode: string = '';
   
+  /** Indica si hay un error que mostrar */
   showError: boolean = false;
+  /** Indica si hay una operación en curso */
   isLoading: boolean = false;
+  /** Mensaje de error para mostrar al usuario */
   errorMessage: string = 'RUT o contraseña incorrectos';
 
   constructor(
@@ -36,16 +53,28 @@ export class LoginModalComponent {
     private toastService: ToastService
   ) {}
 
+  /**
+   * Cierra el modal de inicio de sesión
+   * @description Emite el evento close
+   */
   closeModal() {
     this.close.emit();
   }
 
+  /**
+   * Inicia el proceso de recuperación de contraseña
+   * @description Cambia el estado del modal a recuperación
+   */
   startRecovery() {
     this.isRecovering = true;
     this.showError = false;
     this.errorMessage = '';
   }
 
+  /**
+   * Cancela el proceso de recuperación de contraseña
+   * @description Reinicia todos los campos de recuperación
+   */
   cancelRecovery() {
     this.isRecovering = false;
     this.recoveryRut = '';
@@ -57,6 +86,11 @@ export class LoginModalComponent {
     this.errorMessage = '';
   }
 
+  /**
+   * Maneja el proceso de recuperación de contraseña
+   * @param event Evento del formulario
+   * @description Proceso de tres pasos: envío de código, verificación y cambio de contraseña
+   */
   handleRecovery(event: Event) {
     event.preventDefault();
     this.showError = false;
@@ -109,6 +143,11 @@ export class LoginModalComponent {
     }
   }
 
+  /**
+   * Formatea el RUT mientras el usuario escribe
+   * @param event Evento de input
+   * @description Agrega puntos y guión al RUT
+   */
   onRutInput(event: any) {
     const input = event.target;
     let rut = input.value.replace(/\./g, '').replace(/-/g, '');
@@ -123,6 +162,11 @@ export class LoginModalComponent {
     }
   }
 
+  /**
+   * Maneja el intento de inicio de sesión
+   * @param event Evento del formulario
+   * @description Verifica credenciales y redirige al dashboard si son correctas
+   */
   async handleSubmit(event: Event) {
     event.preventDefault();
     this.showError = false;

@@ -2,84 +2,24 @@ import { Injectable } from '@angular/core';
 import initSqlJs from 'sql.js';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export interface Task {
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
-export interface Especialidad {
-  id: number;
-  nombre: string;
-}
-
-export interface Funcionario {
-  id: number;
-  nombres: string;
-  apellidos: string;
-  rut: string;
-  telefono: string;
-  email: string;
-  password: string;
-  esp_id: number;
-  especialidad?: string; // UI
-}
-
-export interface Paciente {
-  id: number;
-  nombres: string;
-  apellidos: string;
-  rut: string;
-  telefono: string;
-  email: string;
-  fecha_nacimiento: string;
-  genero: string;
-  direccion: string;
-}
-
-export interface SegmentoHorario {
-  id: number;
-  nombre: string;
-  fecha_hora_inicio: string;
-  fecha_hora_fin: string;
-  fun_id: number;
-  free: boolean;
-}
-
-enum Estado {
-  DISPONIBLE = '0',
-  OCUPADO = '1'
-}
-
-export interface Cupo {
-  id: number;
-  estado: Estado;
-  fecha_hora_inicio: string;
-  fecha_hora_fin: string;
-  duracion: number; // En minutos
-}
-
-export interface Cita {
-  id: number;
-  cup_id: number;
-  pac_id: number;
-}
-
-export interface Rol {
-  id: number;
-  nombre: string;
-}
-
-export interface RolFuncionario {
-  rol_id: number;
-  fun_id: number;
-}
-
+/**
+ * Servicio que maneja todas las operaciones de la base de datos usando SQL.js
+ * @description Este servicio gestiona las operaciones de la base de datos SQLite para la aplicación Hospital Scheduler
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
+  /**
+   * Base de datos SQLite
+   * @private
+   */
   private db: any;
+
+  /**
+   * Observables para los diferentes tipos de datos
+   * @description Utilizan BehaviorSubject para mantener el último valor emitido
+   */
   private especialidadesSubject = new BehaviorSubject<Especialidad[]>([]);
   private funcionariosSubject = new BehaviorSubject<Funcionario[]>([]);
   private pacientesSubject = new BehaviorSubject<Paciente[]>([]);
@@ -88,6 +28,11 @@ export class DatabaseService {
   private citasSubject = new BehaviorSubject<Cita[]>([]);
   private rolesSubject = new BehaviorSubject<Rol[]>([]);
   private rolesFuncionarioSubject = new BehaviorSubject<RolFuncionario[]>([]);
+
+  /**
+   * Streams observables públicos
+   * @description Exponen los datos a los componentes
+   */
   especialidades$ = this.especialidadesSubject.asObservable();
   funcionarios$ = this.funcionariosSubject.asObservable();
   pacientes$ = this.pacientesSubject.asObservable();
@@ -97,6 +42,11 @@ export class DatabaseService {
   roles$ = this.rolesSubject.asObservable();
   rolesFuncionario$ = this.rolesFuncionarioSubject.asObservable();
 
+  /**
+   * Inicializa la base de datos SQLite y crea todas las tablas necesarias
+   * @returns Promise<void>
+   * @throws Error si la inicialización de la base de datos falla
+   */
   async initializeDatabase(): Promise<void> {
     try {
       const SQL = await initSqlJs({
@@ -207,6 +157,11 @@ export class DatabaseService {
     }
   }
 
+  /**
+   * Inicializa los roles por defecto en la base de datos
+   * @description Crea los roles: USA_CITAS, USA_AGENDA, USA_INSCRIPCION
+   * @private
+   */
   private async seedDatabase(): Promise<void> {
     const script = `
 INSERT INTO ESP_ESPECIALIDAD (nombre) VALUES ('Cardiología');
@@ -264,6 +219,11 @@ VALUES
     this.db.run(script);
   }
 
+  /**
+   * Inicializa los roles por defecto en la base de datos
+   * @description Crea los roles: USA_CITAS, USA_AGENDA, USA_INSCRIPCION
+   * @private
+   */
   private seedRoles(): void {
     const roles = [
       'USA_CITAS',
@@ -287,6 +247,10 @@ VALUES
     }
   }
 
+  /**
+   * Carga todas las especialidades desde la base de datos
+   * @description Actualiza el especialidadesSubject con los datos más recientes
+   */
   public loadEspecialidades(): void {
     const result = this.db.exec('SELECT * FROM ESP_ESPECIALIDAD');
     if (result.length > 0) {
@@ -414,6 +378,11 @@ VALUES
     return funcionario;
   }
 
+  /**
+   * Agrega un nuevo funcionario a la base de datos
+   * @param funcionario Objeto funcionario a agregar
+   * @description También asigna roles por defecto al nuevo funcionario
+   */
   public addFuncionario(funcionario: Funcionario): void {
     this.db.run(`
       INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, rut, telefono, email, password, esp_id) 
@@ -465,6 +434,11 @@ VALUES
     this.loadPacientes();
   }
 
+  /**
+   * Obtiene un paciente por su RUT
+   * @param rut RUT del paciente (sin puntos ni guión)
+   * @returns Paciente si se encuentra, null si no existe
+   */
   public getPacienteByRut(rut: string): Paciente | null {
     const result = this.db.exec(`SELECT * FROM PAC_PACIENTE WHERE rut = ?`, [rut.replace(/\./g, '').replace('-', '')]);
     if (result.length > 0 && result[0].values.length > 0) {
@@ -604,6 +578,12 @@ VALUES
     return result.length > 0 ? result[0].values.map((row: any) => row[0]) : [];
   }
 
+  /**
+   * Verifica si un funcionario tiene un rol específico
+   * @param funId ID del funcionario
+   * @param rolNombre Nombre del rol a verificar
+   * @returns boolean indicando si el funcionario tiene el rol
+   */
   public hasRole(funId: number, rolNombre: string): boolean {
     const result = this.db.exec(`
       SELECT 1 
@@ -615,6 +595,11 @@ VALUES
     return result.length > 0 && result[0].values.length > 0;
   }
 
+  /**
+   * Obtiene un funcionario por su RUT
+   * @param rut RUT del funcionario (sin puntos ni guión)
+   * @returns Funcionario si se encuentra, null si no existe
+   */
   public getFuncionarioByRut(rut: string): Funcionario | null {
     const result = this.db.exec(`
       SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
@@ -634,6 +619,12 @@ VALUES
     } as Funcionario : null;
   }
 
+  /**
+   * Asigna un segmento horario a un paciente
+   * @param pacId ID del paciente
+   * @param sghId ID del segmento horario
+   * @description Marca el segmento como no disponible y crea una cita
+   */
   public assignSegmentoToPaciente(pacId: number, sghId: number): void {
     this.db.run('UPDATE SGH_SEGMENTO_HORARIO SET free = 0 WHERE id = ?', [sghId]);
     this.db.run('INSERT INTO CIT_CITA (pac_id, cup_id) VALUES (?, ?)', [pacId, sghId]);
@@ -647,4 +638,98 @@ VALUES
       [newPassword, id]
     );
   }
+}
+
+/**
+ * Interfaz que representa una especialidad médica
+ */
+export interface Especialidad {
+  id: number;
+  nombre: string;
+}
+
+/**
+ * Interfaz que representa un funcionario del hospital
+ */
+export interface Funcionario {
+  id: number;
+  nombres: string;
+  apellidos: string;
+  rut: string;
+  telefono: string;
+  email: string;
+  password: string;
+  esp_id: number;
+  especialidad?: string; // Solo para UI
+}
+
+/**
+ * Interfaz que representa un paciente
+ */
+export interface Paciente {
+  id: number;
+  nombres: string;
+  apellidos: string;
+  rut: string;
+  telefono: string;
+  email: string;
+  fecha_nacimiento: string;
+  genero: string;
+  direccion: string;
+}
+
+/**
+ * Interfaz que representa un segmento horario de atención
+ */
+export interface SegmentoHorario {
+  id: number;
+  nombre: string;
+  fecha_hora_inicio: string;
+  fecha_hora_fin: string;
+  fun_id: number;
+  free: boolean;
+}
+
+/**
+ * Enum que representa el estado de un cupo
+ */
+enum Estado {
+  DISPONIBLE = '0',
+  OCUPADO = '1'
+}
+
+/**
+ * Interfaz que representa un cupo de atención
+ */
+export interface Cupo {
+  id: number;
+  estado: Estado;
+  fecha_hora_inicio: string;
+  fecha_hora_fin: string;
+  duracion: number; // En minutos
+}
+
+/**
+ * Interfaz que representa una cita médica
+ */
+export interface Cita {
+  id: number;
+  cup_id: number;
+  pac_id: number;
+}
+
+/**
+ * Interfaz que representa un rol de usuario
+ */
+export interface Rol {
+  id: number;
+  nombre: string;
+}
+
+/**
+ * Interfaz que representa la relación entre un rol y un funcionario
+ */
+export interface RolFuncionario {
+  rol_id: number;
+  fun_id: number;
 }

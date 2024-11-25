@@ -6,6 +6,10 @@ import { ToastComponent } from './components/toast/toast.component';
 import { DatabaseService, Especialidad, Funcionario, Paciente, SegmentoHorario, Cupo, Cita } from './services/database.service';
 import { Subscription } from 'rxjs';
 
+/**
+ * Componente principal de la aplicación
+ * @description Maneja la inicialización de la base de datos y la gestión de datos globales
+ */
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -14,15 +18,26 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  /** Lista de especialidades médicas */
   especialidades: Especialidad[] = [];
+  /** Lista de funcionarios del hospital */
   funcionarios: Funcionario[] = [];
+  /** Lista de pacientes registrados */
   pacientes: Paciente[] = [];
+  /** Lista de segmentos horarios */
   segmentosHorario: SegmentoHorario[] = [];
+  /** Lista de cupos disponibles */
   cupos: Cupo[] = [];
+  /** Lista de citas médicas */
   citas: Cita[] = [];
+  /** Título para nueva especialidad */
   newEspecialidadTitle: string = '';
+  /** Indica si la aplicación está cargando */
   loading: boolean = true;
+  /** Mensaje de error si existe */
   error: string | null = null;
+
+  /** Suscripciones a los observables de la base de datos */
   private especialidadesSubscription: Subscription;
   private funcionariosSubscription: Subscription;
   private pacientesSubscription: Subscription;
@@ -30,6 +45,11 @@ export class AppComponent implements OnInit, OnDestroy {
   private cuposSubscription: Subscription;
   private citasSubscription: Subscription;
 
+  /**
+   * Constructor del componente
+   * @param dbService Servicio de base de datos
+   * @description Inicializa las suscripciones a los observables de la base de datos
+   */
   constructor(private dbService: DatabaseService) {
     this.especialidadesSubscription = this.dbService.especialidades$.subscribe(
       especialidades => this.especialidades = especialidades
@@ -51,6 +71,10 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Inicializa el componente
+   * @description Inicializa la base de datos y carga los datos iniciales
+   */
   async ngOnInit() {
     try {
       await this.dbService.initializeDatabase();
@@ -63,6 +87,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Limpia las suscripciones al destruir el componente
+   * @description Evita memory leaks cancelando todas las suscripciones
+   */
   ngOnDestroy() {
     if (this.especialidadesSubscription) {
       this.especialidadesSubscription.unsubscribe();

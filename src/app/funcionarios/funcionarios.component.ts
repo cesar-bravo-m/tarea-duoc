@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatabaseService, Funcionario } from '../services/database.service';
 
+/**
+ * Componente que maneja la gestión de funcionarios
+ * @description Permite buscar, crear, editar y eliminar funcionarios del sistema
+ */
 @Component({
   selector: 'app-funcionarios',
   standalone: true,
@@ -304,16 +308,27 @@ import { DatabaseService, Funcionario } from '../services/database.service';
   `]
 })
 export class FuncionariosComponent implements OnInit {
+  /** Formulario reactivo para la gestión de funcionarios */
   funcionarioForm: FormGroup;
+  /** Lista completa de funcionarios */
   funcionarios: Funcionario[] = [];
+  /** Lista de especialidades disponibles */
   especialidades: any[] = [];
+  /** Lista filtrada de funcionarios según búsqueda */
   filteredFuncionarios: Funcionario[] = [];
+  /** Funcionario seleccionado para edición */
   selectedFuncionario: Funcionario | null = null;
+  /** Término de búsqueda */
   searchTerm: string = '';
+  /** Indica si hay un error que mostrar */
   showError = false;
+  /** Indica si hay un mensaje de éxito que mostrar */
   showSuccess = false;
+  /** Mensaje de error */
   errorMessage = '';
+  /** Mensaje de éxito */
   successMessage = '';
+  /** Indica si hay una operación en curso */
   isLoading = false;
 
   constructor(
@@ -346,11 +361,19 @@ export class FuncionariosComponent implements OnInit {
     );
   }
 
+  /**
+   * Inicializa el componente
+   * @description Carga los funcionarios y especialidades
+   */
   ngOnInit() {
     this.dbService.loadFuncionarios();
     this.dbService.loadEspecialidades();
   }
 
+  /**
+   * Filtra funcionarios según término de búsqueda
+   * @description Actualiza filteredFuncionarios basado en searchTerm
+   */
   searchFuncionarios() {
     if (!this.searchTerm.trim()) {
       this.filteredFuncionarios = [];
@@ -364,11 +387,21 @@ export class FuncionariosComponent implements OnInit {
     );
   }
 
+  /**
+   * Obtiene el nombre de una especialidad por su ID
+   * @param esp_id ID de la especialidad
+   * @returns Nombre de la especialidad
+   */
   getEspecialidadNombre(esp_id: number): string {
     const especialidad = this.especialidades.find(esp => esp.id === esp_id);
     return especialidad ? especialidad.nombre : '';
   }
 
+  /**
+   * Selecciona un funcionario para edición
+   * @param funcionario Funcionario a editar
+   * @description Carga los datos del funcionario en el formulario
+   */
   selectFuncionario(funcionario: Funcionario) {
     this.selectedFuncionario = funcionario;
     
@@ -385,11 +418,21 @@ export class FuncionariosComponent implements OnInit {
     this.funcionarioForm.markAsUntouched();
   }
 
+  /**
+   * Verifica si un campo del formulario es inválido
+   * @param fieldName Nombre del campo a verificar
+   * @returns boolean indicando si el campo es inválido y ha sido tocado
+   */
   isFieldInvalid(fieldName: string): boolean {
     const field = this.funcionarioForm.get(fieldName);
     return field ? (field.invalid && (field.dirty || field.touched)) : false;
   }
 
+  /**
+   * Obtiene el mensaje de error para un campo
+   * @param fieldName Nombre del campo
+   * @returns Mensaje de error correspondiente al tipo de error
+   */
   getErrorMessage(fieldName: string): string {
     const control = this.funcionarioForm.get(fieldName);
     if (control?.errors) {
@@ -404,6 +447,10 @@ export class FuncionariosComponent implements OnInit {
     return '';
   }
 
+  /**
+   * Maneja el envío del formulario
+   * @description Crea o actualiza un funcionario según el modo actual
+   */
   onSubmit() {
     if (this.funcionarioForm.invalid) {
       Object.keys(this.funcionarioForm.controls).forEach(key => {
@@ -440,6 +487,10 @@ export class FuncionariosComponent implements OnInit {
     }
   }
 
+  /**
+   * Elimina un funcionario
+   * @description Solicita confirmación antes de eliminar
+   */
   deleteFuncionario() {
     if (this.selectedFuncionario && confirm('¿Está seguro de eliminar este funcionario?')) {
       try {
@@ -455,6 +506,10 @@ export class FuncionariosComponent implements OnInit {
     }
   }
 
+  /**
+   * Reinicia el formulario
+   * @description Limpia todos los campos y mensajes
+   */
   resetForm() {
     this.funcionarioForm.reset();
     this.selectedFuncionario = null;

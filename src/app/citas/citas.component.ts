@@ -9,10 +9,10 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { ToastService } from '../services/toast.service';
 
-interface FuncionarioWithAvailability extends Funcionario {
-  hasAvailableSegments?: boolean;
-}
-
+/**
+ * Componente que maneja la asignación de citas médicas
+ * @description Permite asignar pacientes a segmentos horarios de funcionarios
+ */
 @Component({
   selector: 'app-citas',
   standalone: true,
@@ -21,22 +21,37 @@ interface FuncionarioWithAvailability extends Funcionario {
   styleUrls: ['./citas.component.css']
 })
 export class CitasComponent implements OnInit {
+  /** Referencia al componente de calendario */
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
   
+  /** Término de búsqueda para funcionarios */
   searchTerm: string = '';
+  /** RUT del paciente a buscar */
   searchRut: string = '';
+  /** Lista de funcionarios con información de disponibilidad */
   funcionarios: FuncionarioWithAvailability[] = [];
+  /** Lista filtrada de funcionarios */
   filteredFuncionarios: FuncionarioWithAvailability[] = [];
+  /** Funcionario seleccionado actualmente */
   selectedFuncionario: Funcionario | null = null;
+  /** Segmento horario seleccionado */
   selectedSegmento: SegmentoHorario | null = null;
+  /** Paciente seleccionado */
   selectedPaciente: Paciente | null = null;
+  /** Indica si se debe mostrar el modal de asignación */
   showAssignModal = false;
+  /** Indica si hay un error que mostrar */
   showError = false;
+  /** Indica si hay un mensaje de éxito que mostrar */
   showSuccess = false;
+  /** Mensaje de error */
   errorMessage = '';
+  /** Mensaje de éxito */
   successMessage = '';
+  /** Indica si la pantalla es pequeña */
   isSmallScreen: boolean = false;
 
+  /** Configuración del calendario */
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     initialView: window.innerWidth < 768 ? 'timeGridDay' : 'timeGridWeek',
@@ -53,6 +68,10 @@ export class CitasComponent implements OnInit {
     events: []
   };
 
+  /**
+   * Escucha cambios en el tamaño de la ventana
+   * @description Actualiza la vista del calendario según el tamaño de pantalla
+   */
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.checkScreenSize();
@@ -74,6 +93,11 @@ export class CitasComponent implements OnInit {
     this.checkScreenSize();
   }
 
+  /**
+   * Verifica el tamaño de la pantalla
+   * @description Actualiza isSmallScreen y la vista del calendario
+   * @private
+   */
   private checkScreenSize() {
     const wasSmallScreen = this.isSmallScreen;
     this.isSmallScreen = window.innerWidth < 768;
@@ -83,6 +107,11 @@ export class CitasComponent implements OnInit {
     }
   }
 
+  /**
+   * Actualiza la vista del calendario
+   * @description Cambia entre vista diaria y semanal según el tamaño de pantalla
+   * @private
+   */
   private updateCalendarView() {
     if (this.calendarComponent) {
       const calendarApi = this.calendarComponent.getApi();
@@ -114,6 +143,12 @@ export class CitasComponent implements OnInit {
     this.dbService.loadFuncionarios();
   }
 
+  /**
+   * Verifica la disponibilidad de un funcionario
+   * @param funcionarioId ID del funcionario
+   * @returns boolean indicando si tiene segmentos disponibles esta semana
+   * @private
+   */
   private checkFuncionarioAvailability(funcionarioId: number): boolean {
     const segmentos = this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
     const today = new Date();
@@ -130,6 +165,10 @@ export class CitasComponent implements OnInit {
     });
   }
 
+  /**
+   * Filtra funcionarios según término de búsqueda
+   * @description Actualiza filteredFuncionarios basado en searchTerm
+   */
   searchFuncionarios() {
     if (!this.searchTerm.trim()) {
       this.filteredFuncionarios = this.funcionarios;
@@ -143,6 +182,10 @@ export class CitasComponent implements OnInit {
     );
   }
 
+  /**
+   * Selecciona un funcionario y carga sus segmentos
+   * @param funcionario Funcionario seleccionado
+   */
   selectFuncionario(funcionario: Funcionario) {
     this.selectedFuncionario = funcionario;
     this.loadSegmentos(funcionario.id);
@@ -152,6 +195,10 @@ export class CitasComponent implements OnInit {
     }, 0);
   }
 
+  /**
+   * Carga los segmentos de un funcionario en el calendario
+   * @param funcionarioId ID del funcionario
+   */
   loadSegmentos(funcionarioId: number) {
     const segmentos = this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
     const events: EventInput[] = segmentos.map(segmento => ({
@@ -169,6 +216,11 @@ export class CitasComponent implements OnInit {
     this.calendarOptions.events = events;
   }
 
+  /**
+   * Maneja el clic en un evento del calendario
+   * @param clickInfo Información del evento clickeado
+   * @description Abre el modal de asignación si el segmento está disponible
+   */
   handleEventClick(clickInfo: any) {
     const segmento = clickInfo.event.extendedProps.segmento as SegmentoHorario;
     if (segmento.free) {
@@ -179,6 +231,11 @@ export class CitasComponent implements OnInit {
     }
   }
 
+  /**
+   * Formatea el RUT mientras el usuario escribe
+   * @param event Evento de input
+   * @description Agrega puntos y guión al RUT
+   */
   onRutInput(event: any) {
     const input = event.target;
     let rut = input.value.replace(/\./g, '').replace(/-/g, '');
@@ -193,6 +250,10 @@ export class CitasComponent implements OnInit {
     }
   }
 
+  /**
+   * Busca un paciente por RUT
+   * @description Actualiza selectedPaciente y muestra mensajes de éxito/error
+   */
   searchPaciente() {
     if (!this.searchRut) {
       this.showError = true;
@@ -212,6 +273,10 @@ export class CitasComponent implements OnInit {
     }
   }
 
+  /**
+   * Asigna un paciente a un segmento horario
+   * @description Marca el segmento como ocupado y muestra mensaje de éxito
+   */
   assignPaciente() {
     if (!this.selectedSegmento || !this.selectedPaciente) return;
 
@@ -236,6 +301,10 @@ export class CitasComponent implements OnInit {
     }
   }
 
+  /**
+   * Cierra el modal de asignación
+   * @description Limpia las selecciones actuales
+   */
   closeAssignModal() {
     this.showAssignModal = false;
     this.selectedSegmento = null;
@@ -243,6 +312,10 @@ export class CitasComponent implements OnInit {
     this.searchRut = '';
   }
 
+  /**
+   * Alterna la visibilidad de la sección de búsqueda
+   * @description Limpia la selección actual si está colapsada
+   */
   toggleSearch() {
     if (this.selectedFuncionario) {
       this.selectedFuncionario = null;
@@ -251,4 +324,12 @@ export class CitasComponent implements OnInit {
       this.calendarOptions.events = [];
     }
   }
+}
+
+/**
+ * Interfaz que extiende Funcionario con información de disponibilidad
+ */
+interface FuncionarioWithAvailability extends Funcionario {
+  /** Indica si el funcionario tiene segmentos disponibles esta semana */
+  hasAvailableSegments?: boolean;
 }

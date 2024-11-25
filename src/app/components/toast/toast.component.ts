@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ToastService } from '../../services/toast.service';
 import { Subscription } from 'rxjs';
 
+/**
+ * Componente que muestra mensajes toast en la aplicación
+ * @description Muestra notificaciones temporales en la esquina inferior derecha
+ */
 @Component({
   selector: 'app-toast',
   standalone: true,
@@ -50,15 +54,26 @@ import { Subscription } from 'rxjs';
   `]
 })
 export class ToastComponent implements OnDestroy {
+  /** Toast actual que se está mostrando */
   toast: any = null;
+  /** Suscripción al servicio de toast */
   private subscription: Subscription;
 
+  /**
+   * Constructor del componente
+   * @param toastService Servicio que maneja los mensajes toast
+   * @description Inicializa la suscripción al servicio de toast
+   */
   constructor(private toastService: ToastService) {
     this.subscription = this.toastService.toast$.subscribe(
       toast => this.toast = toast
     );
   }
 
+  /**
+   * Limpia la suscripción al destruir el componente
+   * @description Evita memory leaks cancelando la suscripción
+   */
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
