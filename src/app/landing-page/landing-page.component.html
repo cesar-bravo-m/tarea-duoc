@@ -14,12 +14,12 @@
       <h1>Gestión de Citas Médicas</h1>
       <p>Sistema integral para la administración de citas y horarios médicos</p>
       <div class="cta-buttons">
-        <a routerLink="/register" class="cta-primary">Comenzar Ahora</a>
-        <a routerLink="/about" class="cta-secondary">Saber Más</a>
+        <a (click)="toggleRegisterModal()" class="cta-primary" style="cursor: pointer;">Comenzar Ahora</a>
+        <a (click)="scrollToFeatures()" class="cta-secondary" style="cursor: pointer;">Saber Más</a>
       </div>
     </section>
 
-    <section class="features">
+    <section class="features" id="features">
       <h2>Características Principales</h2>
       <div class="feature-grid">
         <div class="feature-card">

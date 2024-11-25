@@ -10,55 +10,10 @@ import { Subscription } from 'rxjs';
   selector: 'app-login-modal',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  template: `
-    <div class="modal-backdrop" (click)="closeModal()">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <h2>Iniciar Sesión</h2>
-          <button class="close-button" (click)="closeModal()">×</button>
-        </div>
-        <div class="modal-body">
-          <form (submit)="handleSubmit($event)">
-            <div class="form-group">
-              <label for="login-email">Correo Electrónico</label>
-              <input 
-                type="email" 
-                id="login-email" 
-                [(ngModel)]="email" 
-                name="email" 
-                required
-                placeholder="ejemplo@correo.com"
-                [class.error]="showError"
-              >
-            </div>
-            <div class="form-group">
-              <label for="login-password">Contraseña</label>
-              <input 
-                type="password" 
-                id="login-password" 
-                [(ngModel)]="password" 
-                name="password" 
-                required
-                placeholder="••••••••"
-                [class.error]="showError"
-              >
-            </div>
-            <div class="error-message" *ngIf="showError">
-              Correo electrónico o contraseña incorrectos
-            </div>
-            <div class="form-footer">
-              <button type="submit" class="login-button" [disabled]="isLoading">
-                {{ isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  `,
+  templateUrl: './login-modal.component.html',
   styles: [`
-    #email, #password {
-      width: 330px;
+    .login-input {
+      max-width: 330px !important;
     }
     .modal-backdrop {
       position: fixed;
