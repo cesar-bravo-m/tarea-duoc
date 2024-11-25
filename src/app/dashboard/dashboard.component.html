@@ -15,21 +15,17 @@
           </a>
         </nav>
       </div>
-      <!-- <div class="header-right">
-        <div class="user-menu">
-          <div class="user-info">
-            <span class="user-name">{{ currentUser.nombres }} {{ currentUser.apellidos }}</span>
-            <span class="user-role">{{ currentUser.especialidad }}</span>
-          </div>
-          <div class="avatar">
-            {{ currentUser.nombres?.[0] }}{{ currentUser.apellidos?.[0] }}
-          </div>
+      <div class="user-menu" [class.show]="showUserMenu">
+        <div class="user-circle" (click)="toggleUserMenu()">
+          {{ getUserInitials() }}
+        </div>
+        <div class="dropdown-menu" *ngIf="showUserMenu">
           <button class="logout-btn" (click)="logout()">
             <span class="icon">🚪</span>
-            <span class="label">Salir</span>
+            <span>Cerrar Sesión</span>
           </button>
         </div>
-      </div> -->
+      </div>
     </div>
   </header>
 

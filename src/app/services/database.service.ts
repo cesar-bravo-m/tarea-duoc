@@ -65,6 +65,16 @@ export interface Cita {
   pac_id: number;
 }
 
+export interface Rol {
+  id: number;
+  nombre: string;
+}
+
+export interface RolFuncionario {
+  rol_id: number;
+  fun_id: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -76,12 +86,16 @@ export class DatabaseService {
   private segmentosHorarioSubject = new BehaviorSubject<SegmentoHorario[]>([]);
   private cuposSubject = new BehaviorSubject<Cupo[]>([]);
   private citasSubject = new BehaviorSubject<Cita[]>([]);
+  private rolesSubject = new BehaviorSubject<Rol[]>([]);
+  private rolesFuncionarioSubject = new BehaviorSubject<RolFuncionario[]>([]);
   especialidades$ = this.especialidadesSubject.asObservable();
   funcionarios$ = this.funcionariosSubject.asObservable();
   pacientes$ = this.pacientesSubject.asObservable();
   segmentosHorario$ = this.segmentosHorarioSubject.asObservable();
   cupos$ = this.cuposSubject.asObservable();
   citas$ = this.citasSubject.asObservable();
+  roles$ = this.rolesSubject.asObservable();
+  rolesFuncionario$ = this.rolesFuncionarioSubject.asObservable();
 
   async initializeDatabase(): Promise<void> {
     try {
@@ -161,6 +175,25 @@ export class DatabaseService {
         )
       `);
 
+      // Create roles table
+      this.db.run(`
+        CREATE TABLE IF NOT EXISTS ROL_ROLES (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          nombre TEXT NOT NULL UNIQUE
+        )
+      `);
+
+      // Create role-funcionario relationship table
+      this.db.run(`
+        CREATE TABLE IF NOT EXISTS RL_ROL_FUN (
+          rol_id INTEGER,
+          fun_id INTEGER,
+          PRIMARY KEY (rol_id, fun_id),
+          FOREIGN KEY (rol_id) REFERENCES ROL_ROLES(id),
+          FOREIGN KEY (fun_id) REFERENCES FUN_FUNCIONARIO(id)
+        )
+      `);
+
       this.seedDatabase();
       this.loadEspecialidades();
       this.loadFuncionarios();
@@ -168,6 +201,9 @@ export class DatabaseService {
       this.loadSegmentosHorario();
       this.loadCupos();
       this.loadCitas();
+      this.seedRoles();
+      this.loadRoles();
+      this.loadRolesFuncionario();
     } catch (err) {
       throw new Error('Failed to initialize database');
     }
@@ -204,6 +240,28 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
 INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('101010101', 'Camila', 'Reyes', '555-2010', 'camila.reyes@ejemplo.com', '1991-01-28', 'F', 'Avenida Décima 951');
     `;
     this.db.run(script);
+  }
+
+  private seedRoles(): void {
+    const roles = [
+      'USA_CITAS',
+      'USA_AGENDA',
+      'USA_INSCRIPCION'
+    ];
+
+    roles.forEach(rol => {
+      try {
+        this.db.run('INSERT OR IGNORE INTO ROL_ROLES (nombre) VALUES (?)', [rol]);
+      } catch (error) {
+        console.error(`Error seeding role ${rol}:`, error);
+      }
+    });
+    // Add all roles to funcionarios 1 to 10 
+    for (let i = 1; i <= 10; i++) {
+      this.db.run('INSERT OR IGNORE INTO RL_ROL_FUN (rol_id, fun_id) VALUES (?, ?)', [1, i]);
+      this.db.run('INSERT OR IGNORE INTO RL_ROL_FUN (rol_id, fun_id) VALUES (?, ?)', [2, i]);
+      this.db.run('INSERT OR IGNORE INTO RL_ROL_FUN (rol_id, fun_id) VALUES (?, ?)', [3, i]);
+    }
   }
 
   public loadEspecialidades(): void {
@@ -279,6 +337,26 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
     }
   }
 
+  public loadRoles(): void {
+    const result = this.db.exec('SELECT * FROM ROL_ROLES');
+    if (result.length > 0) {
+      this.rolesSubject.next(result[0].values.map((row: any) => ({
+        id: row[0],
+        nombre: row[1]
+      })));
+    }
+  }
+
+  public loadRolesFuncionario(): void {
+    const result = this.db.exec('SELECT * FROM RL_ROL_FUN');
+    if (result.length > 0) {
+      this.rolesFuncionarioSubject.next(result[0].values.map((row: any) => ({
+        rol_id: row[0],
+        fun_id: row[1]
+      })));
+    }
+  }
+
   public tryLogin(email: string, password: string): boolean {
     const result = this.db.exec(`SELECT * FROM FUN_FUNCIONARIO WHERE email = ? AND password = ?`, [email, password]);
     return result.length > 0 && result[0].values.length > 0;
@@ -316,8 +394,14 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
   }
 
   public addFuncionario(funcionario: Funcionario): void {
-    this.db.run(`INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES (?, ?, ?, ?, ?, ?)`, [funcionario.nombres, funcionario.apellidos, funcionario.telefono, funcionario.email, funcionario.password, funcionario.esp_id]);
+    this.db.run(`INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, rut, telefono, email, password, esp_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [funcionario.nombres, funcionario.apellidos, funcionario.rut, funcionario.telefono, funcionario.email, funcionario.password, funcionario.esp_id]);
+    // Add INSCRIPCION role to funcionario
+    this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (1, ?)', [funcionario.id]);
+    this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (2, ?)', [funcionario.id]);
+    this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (3, ?)', [funcionario.id]);
     this.loadFuncionarios();
+    this.loadRolesFuncionario();
   }
 
   public addPaciente(paciente: Paciente): void {
@@ -451,5 +535,62 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
   public deleteFuncionario(id: number): void {
     this.db.run(`DELETE FROM FUN_FUNCIONARIO WHERE id = ?`, [id]);
     this.loadFuncionarios();
+  }
+
+  public assignRolToFuncionario(rolId: number, funId: number): void {
+    this.db.run(
+      'INSERT OR IGNORE INTO RL_ROL_FUN (rol_id, fun_id) VALUES (?, ?)',
+      [rolId, funId]
+    );
+    this.loadRolesFuncionario();
+  }
+
+  public removeRolFromFuncionario(rolId: number, funId: number): void {
+    this.db.run(
+      'DELETE FROM RL_ROL_FUN WHERE rol_id = ? AND fun_id = ?',
+      [rolId, funId]
+    );
+    this.loadRolesFuncionario();
+  }
+
+  public getFuncionarioRoles(funId: number): string[] {
+    const result = this.db.exec(`
+      SELECT r.nombre 
+      FROM ROL_ROLES r 
+      JOIN RL_ROL_FUN rf ON r.id = rf.rol_id 
+      WHERE rf.fun_id = ?
+    `, [funId]);
+
+    return result.length > 0 ? result[0].values.map((row: any) => row[0]) : [];
+  }
+
+  public hasRole(funId: number, rolNombre: string): boolean {
+    const result = this.db.exec(`
+      SELECT 1 
+      FROM ROL_ROLES r 
+      JOIN RL_ROL_FUN rf ON r.id = rf.rol_id 
+      WHERE rf.fun_id = ? AND r.nombre = ?
+    `, [funId, rolNombre]);
+
+    return result.length > 0 && result[0].values.length > 0;
+  }
+
+  public getFuncionarioByRut(rut: string): Funcionario | null {
+    const result = this.db.exec(`
+      SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
+      FROM FUN_FUNCIONARIO
+      LEFT JOIN ESP_ESPECIALIDAD ON FUN_FUNCIONARIO.esp_id = ESP_ESPECIALIDAD.id
+      WHERE rut = ?`, [rut.replace(/\./g, '').replace('-', '')]);
+    return result.length > 0 && result[0].values.length > 0 ? {
+      id: result[0].values[0][0],
+      nombres: result[0].values[0][1],
+      apellidos: result[0].values[0][2],
+      rut: result[0].values[0][3],
+      telefono: result[0].values[0][4],
+      email: result[0].values[0][5],
+      password: result[0].values[0][6],
+      esp_id: result[0].values[0][7],
+      especialidad: result[0].values[0][8]
+    } as Funcionario : null;
   }
 }

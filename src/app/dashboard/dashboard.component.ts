@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
@@ -17,6 +17,7 @@ interface NavItem {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+  showUserMenu = false;
   currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
   navItems: NavItem[] = [
@@ -48,8 +49,25 @@ export class DashboardComponent {
 
   constructor(private router: Router) {}
 
+  getUserInitials(): string {
+    return `${this.currentUser.nombres?.[0] || ''}${this.currentUser.apellidos?.[0] || ''}`;
+  }
+
+  toggleUserMenu() {
+    this.showUserMenu = !this.showUserMenu;
+  }
+
   logout() {
     localStorage.removeItem('currentUser');
     this.router.navigate(['/']);
+  }
+
+  // Add click outside handler to close menu
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const userMenu = document.querySelector('.user-menu');
+    if (userMenu && !userMenu.contains(event.target as Node)) {
+      this.showUserMenu = false;
+    }
   }
 }

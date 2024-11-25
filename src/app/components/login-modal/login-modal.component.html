@@ -7,36 +7,41 @@
     <div class="modal-body">
         <form (submit)="handleSubmit($event)">
         <div class="form-group">
-            <label for="login-email">Correo Electrónico</label>
+            <label for="rut">RUT</label>
             <input 
-            type="email" 
-            class="login-input"
-            id="login-email" 
-            [(ngModel)]="email" 
-            name="email" 
+            id="rut" 
+            type="text" 
+            [(ngModel)]="rut" 
+            name="rut"
             required
-            placeholder="ejemplo@correo.com"
+            placeholder="12.345.678-9"
+            (input)="onRutInput($event)"
             [class.error]="showError"
             >
         </div>
+
         <div class="form-group">
-            <label for="login-password">Contraseña</label>
+            <label for="password">Contraseña</label>
             <input 
-            class="login-input"
+            id="password" 
             type="password" 
-            id="login-password" 
             [(ngModel)]="password" 
-            name="password" 
+            name="password"
             required
-            placeholder="••••••••"
             [class.error]="showError"
             >
         </div>
+
         <div class="error-message" *ngIf="showError">
-            Correo electrónico o contraseña incorrectos
+            RUT o contraseña incorrectos
         </div>
+
         <div class="form-footer">
-            <button type="submit" class="login-button" [disabled]="isLoading">
+            <button 
+            type="submit" 
+            class="login-button"
+            [disabled]="isLoading"
+            >
             {{ isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
             </button>
         </div>
