@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatabaseService, Funcionario, SegmentoHorario } from '../services/database.service';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
-import { FullCalendarModule } from '@fullcalendar/angular';
+import { FullCalendarModule, FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -15,36 +15,46 @@ import { SegmentoModalComponent } from './segmento-modal/segmento-modal.componen
   imports: [CommonModule, FormsModule, FullCalendarModule, SegmentoModalComponent],
   template: `
     <div class="agenda-container">
-      <div class="search-section">
-        <h2>Seleccionar Funcionario</h2>
-        <div class="search-box">
-          <input 
-            type="text" 
-            [(ngModel)]="searchTerm" 
-            placeholder="Buscar por nombre o especialidad"
-            class="search-input"
-            (input)="searchFuncionarios()"
-          >
+      <div class="search-section" [class.collapsed]="selectedFuncionario">
+        <div class="search-header" (click)="toggleSearch()">
+          <div class="header-content">
+            <h2>{{ selectedFuncionario ? selectedFuncionario.nombres + ' ' + selectedFuncionario.apellidos : 'Seleccionar Funcionario' }}</h2>
+            <span class="specialty" *ngIf="selectedFuncionario">{{ selectedFuncionario.especialidad }}</span>
+          </div>
+          <button class="toggle-btn">
+            {{ selectedFuncionario ? '▼' : '▲' }}
+          </button>
         </div>
 
-        <div class="funcionarios-list" *ngIf="filteredFuncionarios.length > 0">
-          <div 
-            *ngFor="let funcionario of filteredFuncionarios" 
-            class="funcionario-card"
-            [class.selected]="selectedFuncionario?.id === funcionario.id"
-            (click)="selectFuncionario(funcionario)"
-          >
-            <div class="funcionario-info">
-              <h3>{{ funcionario.nombres }} {{ funcionario.apellidos }}</h3>
-              <p>{{ funcionario.especialidad }}</p>
+        <div class="search-content" [class.hidden]="selectedFuncionario">
+          <div class="search-box">
+            <input 
+              type="text" 
+              [(ngModel)]="searchTerm" 
+              placeholder="Buscar por nombre o especialidad"
+              class="search-input"
+              (input)="searchFuncionarios()"
+            >
+          </div>
+
+          <div class="funcionarios-list" *ngIf="filteredFuncionarios.length > 0">
+            <div 
+              *ngFor="let funcionario of filteredFuncionarios" 
+              class="funcionario-card"
+              [class.selected]="selectedFuncionario?.id === funcionario.id"
+              (click)="selectFuncionario(funcionario)"
+            >
+              <div class="funcionario-info">
+                <h3>{{ funcionario.nombres }} {{ funcionario.apellidos }}</h3>
+                <p>{{ funcionario.especialidad }}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="calendar-section" *ngIf="selectedFuncionario">
-        <h2>Agenda de {{ selectedFuncionario.nombres }} {{ selectedFuncionario.apellidos }}</h2>
-        <full-calendar [options]="calendarOptions"></full-calendar>
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
       </div>
 
       <app-segmento-modal
@@ -71,11 +81,59 @@ import { SegmentoModalComponent } from './segmento-modal/segmento-modal.componen
       border-radius: 8px;
       margin-bottom: 2rem;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
     }
 
-    .search-section h2 {
-      margin: 0 0 1rem 0;
+    .search-section.collapsed {
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .search-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .header-content {
+      flex: 1;
+    }
+
+    .header-content h2 {
+      margin: 0;
       color: #2d3748;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .specialty {
+      font-size: 0.9rem;
+      color: #718096;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: #4a5568;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      transition: transform 0.3s ease;
+      margin-left: 1rem;
+    }
+
+    .search-content {
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+      max-height: 500px;
+      overflow: hidden;
+    }
+
+    .search-content.hidden {
+      margin-top: 0;
+      max-height: 0;
+      opacity: 0;
     }
 
     .search-box {
@@ -180,11 +238,11 @@ export class AgendaComponent implements OnInit {
   selectedFuncionario: Funcionario | null = null;
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-    initialView: 'timeGridWeek',
+    initialView: window.innerWidth < 768 ? 'timeGridDay' : 'timeGridWeek',
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      right: window.innerWidth < 768 ? 'today' : 'dayGridMonth,timeGridWeek,timeGridDay'
     },
     slotMinTime: '07:00:00',
     slotMaxTime: '24:00:00',
@@ -201,6 +259,13 @@ export class AgendaComponent implements OnInit {
   showSegmentoModal = false;
   selectedDate: Date | null = null;
   selectedSegmento: SegmentoHorario | null = null;
+  isSmallScreen: boolean = false;
+  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+  }
 
   constructor(private dbService: DatabaseService) {
     this.dbService.funcionarios$.subscribe(
@@ -209,6 +274,44 @@ export class AgendaComponent implements OnInit {
         this.filteredFuncionarios = funcionarios;
       }
     );
+    this.checkScreenSize();
+  }
+
+  private checkScreenSize() {
+    const wasSmallScreen = this.isSmallScreen;
+    this.isSmallScreen = window.innerWidth < 768;
+
+    // Only update calendar if screen size category changed
+    if (wasSmallScreen !== this.isSmallScreen) {
+      this.updateCalendarView();
+    }
+  }
+
+  private updateCalendarView() {
+    if (this.calendarComponent) {
+      const calendarApi = this.calendarComponent.getApi();
+      if (this.isSmallScreen) {
+        calendarApi.changeView('timeGridDay');
+        this.calendarOptions = {
+          ...this.calendarOptions,
+          headerToolbar: {
+            left: 'prev,next',
+            center: 'title',
+            right: 'today'
+          }
+        };
+      } else {
+        calendarApi.changeView('timeGridWeek');
+        this.calendarOptions = {
+          ...this.calendarOptions,
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          }
+        };
+      }
+    }
   }
 
   ngOnInit() {
@@ -231,8 +334,12 @@ export class AgendaComponent implements OnInit {
 
   selectFuncionario(funcionario: Funcionario) {
     this.selectedFuncionario = funcionario;
-    // Load shifts for the selected funcionario
     this.loadShifts(funcionario.id);
+    
+    // Ensure correct view is set after loading shifts
+    setTimeout(() => {
+      this.updateCalendarView();
+    }, 0);
   }
 
   loadShifts(funcionarioId: number) {
@@ -294,6 +401,14 @@ export class AgendaComponent implements OnInit {
     if (segmento) {
       this.selectedSegmento = segmento;
       this.showSegmentoModal = true;
+    }
+  }
+
+  toggleSearch() {
+    if (this.selectedFuncionario) {
+      this.selectedFuncionario = null;
+      this.searchTerm = '';
+      this.searchFuncionarios();
     }
   }
 }

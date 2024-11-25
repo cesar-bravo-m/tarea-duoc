@@ -234,8 +234,13 @@
   .logout-btn .label {
     display: none;
   }
+
+  .main-content {
+    padding: 4rem 1rem 1rem;
+  }
 }
 
+/* Mobile */
 @media (max-width: 576px) {
   .nav-link {
     padding: 0.4rem;
@@ -247,5 +252,9 @@
 
   .main-nav {
     justify-content: space-around;
+  }
+
+  .main-content {
+    padding: 3.5rem 0.5rem 0.5rem !important;
   }
 }
