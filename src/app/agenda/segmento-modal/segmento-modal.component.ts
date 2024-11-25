@@ -64,7 +64,8 @@ export class SegmentoModalComponent implements OnInit {
         nombre: formValue.nombre,
         fecha_hora_inicio: startDate.toISOString(),
         fecha_hora_fin: endDate.toISOString(),
-        fun_id: this.funcionario.id
+        fun_id: this.funcionario.id,
+        free: true
       };
       
       this.submit.emit(segmento);

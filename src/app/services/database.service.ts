@@ -43,6 +43,7 @@ export interface SegmentoHorario {
   fecha_hora_inicio: string;
   fecha_hora_fin: string;
   fun_id: number;
+  free: boolean;
 }
 
 enum Estado {
@@ -132,6 +133,7 @@ export class DatabaseService {
           fecha_hora_inicio TEXT NOT NULL,
           fecha_hora_fin TEXT NOT NULL,
           fun_id INTEGER,
+          free BOOLEAN NOT NULL,
           FOREIGN KEY (fun_id) REFERENCES FUN_FUNCIONARIO(id)
         )
       `);
@@ -360,7 +362,7 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
     if (!segmentoHorario.nombre || !segmentoHorario.fecha_hora_inicio || !segmentoHorario.fecha_hora_fin || !segmentoHorario.fun_id) {
       return;
     }
-    this.db.run(`INSERT INTO SGH_SEGMENTO_HORARIO (nombre, fecha_hora_inicio, fecha_hora_fin, fun_id) VALUES (?, ?, ?, ?)`, [segmentoHorario.nombre, segmentoHorario.fecha_hora_inicio, segmentoHorario.fecha_hora_fin, segmentoHorario.fun_id]);
+    this.db.run(`INSERT INTO SGH_SEGMENTO_HORARIO (nombre, fecha_hora_inicio, fecha_hora_fin, fun_id, free) VALUES (?, ?, ?, ?, ?)`, [segmentoHorario.nombre, segmentoHorario.fecha_hora_inicio, segmentoHorario.fecha_hora_fin, segmentoHorario.fun_id, segmentoHorario.free]);
     const result = this.db.exec(`SELECT id FROM SGH_SEGMENTO_HORARIO WHERE nombre = ? AND fecha_hora_inicio = ? AND fecha_hora_fin = ? AND fun_id = ?`, [segmentoHorario.nombre, segmentoHorario.fecha_hora_inicio, segmentoHorario.fecha_hora_fin, segmentoHorario.fun_id]);
     const id = result.length > 0 && result[0].values.length > 0 ? result[0].values[0][0] : null;
     const duration = (new Date(segmentoHorario.fecha_hora_fin).getTime() - new Date(segmentoHorario.fecha_hora_inicio).getTime()) / (30*60000);
@@ -377,7 +379,8 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
       nombre: row[1],
       fecha_hora_inicio: row[2],
       fecha_hora_fin: row[3],
-      fun_id: row[4]
+      fun_id: row[4],
+      free: row[5]
     })) : [];
   }
 
@@ -395,7 +398,8 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
         nombre: row[1],
         fecha_hora_inicio: row[2],
         fecha_hora_fin: row[3],
-        fun_id: row[4]
+        fun_id: row[4],
+        free: row[5]
       } as SegmentoHorario;
     }
     return null;
@@ -407,13 +411,14 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
     }
     this.db.run(`
       UPDATE SGH_SEGMENTO_HORARIO 
-      SET nombre = ?, fecha_hora_inicio = ?, fecha_hora_fin = ? 
+      SET nombre = ?, fecha_hora_inicio = ?, fecha_hora_fin = ?, free = ?
       WHERE id = ?
     `, [
       segmentoHorario.nombre,
       segmentoHorario.fecha_hora_inicio,
       segmentoHorario.fecha_hora_fin,
-      segmentoHorario.id
+      segmentoHorario.id,
+      segmentoHorario.free
     ]);
 
     // Update associated cupos
@@ -442,5 +447,9 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
     }
 
     this.loadSegmentosHorario();
+  }
+  public deleteFuncionario(id: number): void {
+    this.db.run(`DELETE FROM FUN_FUNCIONARIO WHERE id = ?`, [id]);
+    this.loadFuncionarios();
   }
 }

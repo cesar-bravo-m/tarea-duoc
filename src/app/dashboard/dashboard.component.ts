@@ -32,12 +32,12 @@ export class DashboardComponent {
       label: 'Agenda',
       description: 'Administra los horarios y citas'
     },
-    {
-      path: 'funcionarios',
-      icon: '👥',
-      label: 'Funcionarios',
-      description: 'Gestiona el personal médico'
-    },
+    // {
+    //   path: 'funcionarios',
+    //   icon: '👥',
+    //   label: 'Funcionarios',
+    //   description: 'Gestiona el personal médico'
+    // },
     {
       path: 'citas',
       icon: '🕒',
