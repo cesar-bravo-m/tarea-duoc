@@ -48,11 +48,13 @@ import { SegmentoModalComponent } from './segmento-modal/segmento-modal.componen
       </div>
 
       <app-segmento-modal
-        *ngIf="showSegmentoModal && selectedDate"
-        [startDate]="selectedDate"
+        *ngIf="showSegmentoModal"
+        [startDate]="selectedDate!"
         [funcionario]="selectedFuncionario!"
+        [segmentoToEdit]="selectedSegmento"
         (close)="showSegmentoModal = false"
         (submit)="handleSegmentoSubmit($event)"
+        (delete)="handleSegmentoDelete($event)"
       ></app-segmento-modal>
     </div>
   `,
@@ -184,8 +186,8 @@ export class AgendaComponent implements OnInit {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
-    slotMinTime: '08:00:00',
-    slotMaxTime: '20:00:00',
+    slotMinTime: '07:00:00',
+    slotMaxTime: '24:00:00',
     allDaySlot: false,
     editable: true,
     selectable: true,
@@ -198,6 +200,7 @@ export class AgendaComponent implements OnInit {
   };
   showSegmentoModal = false;
   selectedDate: Date | null = null;
+  selectedSegmento: SegmentoHorario | null = null;
 
   constructor(private dbService: DatabaseService) {
     this.dbService.funcionarios$.subscribe(
@@ -235,6 +238,7 @@ export class AgendaComponent implements OnInit {
   loadShifts(funcionarioId: number) {
     const segmentos = this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
     const events: EventInput[] = segmentos.map(segmento => ({
+      id: segmento.id.toString(),
       title: segmento.nombre,
       start: segmento.fecha_hora_inicio,
       end: segmento.fecha_hora_fin,
@@ -258,19 +262,38 @@ export class AgendaComponent implements OnInit {
 
   handleSegmentoSubmit(segmento: SegmentoHorario) {
     try {
-      this.dbService.addSegmentoHorario(segmento);
+      if (segmento.id === 0) {
+        console.log("### creating", segmento);
+        this.dbService.addSegmentoHorario(segmento);
+      } else {
+        console.log("### updating", segmento);
+        this.dbService.updateSegmentoHorario(segmento);
+      }
       this.loadShifts(this.selectedFuncionario!.id);
     } catch (error) {
-      console.error('Error creating segmento:', error);
-      alert('Error al crear el segmento horario');
+      console.error('Error saving segmento:', error);
+      alert('Error al guardar el segmento horario');
     }
     this.showSegmentoModal = false;
-    this.selectedDate = null;
+    this.selectedSegmento = null;
+  }
+
+  handleSegmentoDelete(id: number) {
+    try {
+      this.dbService.deleteSegmentoHorario(id);
+      this.loadShifts(this.selectedFuncionario!.id);
+    } catch (error) {
+      console.error('Error deleting segmento:', error);
+      alert('Error al eliminar el segmento horario');
+    }
   }
 
   handleEventClick(clickInfo: any) {
-    if (confirm('¿Desea eliminar este segmento horario?')) {
-      clickInfo.event.remove();
+    console.log("### clickInfo", clickInfo);
+    const segmento = this.dbService.getSegmentoHorarioById(clickInfo.event.id);
+    if (segmento) {
+      this.selectedSegmento = segmento;
+      this.showSegmentoModal = true;
     }
   }
 }

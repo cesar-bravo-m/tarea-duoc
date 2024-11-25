@@ -356,6 +356,10 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
   }
 
   public addSegmentoHorario(segmentoHorario: SegmentoHorario): void {
+    console.log("### segmentoHorario: ", segmentoHorario);
+    if (!segmentoHorario.nombre || !segmentoHorario.fecha_hora_inicio || !segmentoHorario.fecha_hora_fin || !segmentoHorario.fun_id) {
+      return;
+    }
     this.db.run(`INSERT INTO SGH_SEGMENTO_HORARIO (nombre, fecha_hora_inicio, fecha_hora_fin, fun_id) VALUES (?, ?, ?, ?)`, [segmentoHorario.nombre, segmentoHorario.fecha_hora_inicio, segmentoHorario.fecha_hora_fin, segmentoHorario.fun_id]);
     const result = this.db.exec(`SELECT id FROM SGH_SEGMENTO_HORARIO WHERE nombre = ? AND fecha_hora_inicio = ? AND fecha_hora_fin = ? AND fun_id = ?`, [segmentoHorario.nombre, segmentoHorario.fecha_hora_inicio, segmentoHorario.fecha_hora_fin, segmentoHorario.fun_id]);
     const id = result.length > 0 && result[0].values.length > 0 ? result[0].values[0][0] : null;
@@ -375,5 +379,68 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
       fecha_hora_fin: row[3],
       fun_id: row[4]
     })) : [];
+  }
+
+  public deleteSegmentoHorario(id: number): void {
+    this.db.run(`DELETE FROM SGH_SEGMENTO_HORARIO WHERE id = ?`, [id]);
+    this.loadSegmentosHorario();
+  }
+
+  public getSegmentoHorarioById(id: number): SegmentoHorario | null {
+    const result = this.db.exec(`SELECT * FROM SGH_SEGMENTO_HORARIO WHERE id = ?`, [id]);
+    if (result.length > 0 && result[0].values.length > 0) {
+      const row = result[0].values[0];
+      return {
+        id: row[0],
+        nombre: row[1],
+        fecha_hora_inicio: row[2],
+        fecha_hora_fin: row[3],
+        fun_id: row[4]
+      } as SegmentoHorario;
+    }
+    return null;
+  }
+
+  public updateSegmentoHorario(segmentoHorario: SegmentoHorario): void {
+    if (!segmentoHorario.nombre || !segmentoHorario.fecha_hora_inicio || !segmentoHorario.fecha_hora_fin || !segmentoHorario.id) {
+      return;
+    }
+    this.db.run(`
+      UPDATE SGH_SEGMENTO_HORARIO 
+      SET nombre = ?, fecha_hora_inicio = ?, fecha_hora_fin = ? 
+      WHERE id = ?
+    `, [
+      segmentoHorario.nombre,
+      segmentoHorario.fecha_hora_inicio,
+      segmentoHorario.fecha_hora_fin,
+      segmentoHorario.id
+    ]);
+
+    // Update associated cupos
+    const duration = (new Date(segmentoHorario.fecha_hora_fin).getTime() - new Date(segmentoHorario.fecha_hora_inicio).getTime()) / (30*60000);
+    
+    // First, delete existing cupos
+    this.db.run(`DELETE FROM CUP_CUPO WHERE sgh_id = ?`, [segmentoHorario.id]);
+
+    // Then, create new cupos
+    for (let i = 0; i < duration; i++) {
+      const cupoStart = new Date(segmentoHorario.fecha_hora_inicio);
+      cupoStart.setMinutes(cupoStart.getMinutes() + (i * 30));
+      const cupoEnd = new Date(cupoStart);
+      cupoEnd.setMinutes(cupoEnd.getMinutes() + 30);
+
+      this.db.run(`
+        INSERT INTO CUP_CUPO (estado, fecha_hora_inicio, fecha_hora_fin, duracion, sgh_id) 
+        VALUES (?, ?, ?, ?, ?)
+      `, [
+        'Disponible',
+        cupoStart.toISOString(),
+        cupoEnd.toISOString(),
+        30,
+        segmentoHorario.id
+      ]);
+    }
+
+    this.loadSegmentosHorario();
   }
 }

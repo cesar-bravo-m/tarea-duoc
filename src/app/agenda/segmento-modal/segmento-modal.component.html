@@ -1,7 +1,7 @@
 <div class="modal-backdrop" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
     <div class="modal-header">
-        <h2>Crear Segmento Horario</h2>
+        <h2>{{ isEditMode ? 'Editar' : 'Crear' }} Segmento Horario</h2>
         <button class="close-button" (click)="closeModal()">×</button>
     </div>
     <div class="modal-body">
@@ -14,26 +14,60 @@
             >
                 <option value="">Seleccione un tipo de segmento</option>
                 <option value="Atención general">Atención general</option>
-                <option value="Especialidad">Especialidad</option>
-                <option value="Reservado">Reservado</option>
+                <option value="Otro">Otro</option>
             </select>
+            <div class="error-message" *ngIf="segmentoForm.get('nombre')?.invalid && segmentoForm.get('nombre')?.touched">
+                El nombre es requerido
+            </div>
         </div>
 
-        <div class="form-group" style="width: 330px;">
+        <div class="form-group">
             <label for="cupos">Número de Cupos (30 min c/u)</label>
             <input 
-            id="cupos" 
-            type="number" 
-            formControlName="cupos"
-            min="1"
-            max="48"
+                id="cupos" 
+                type="number" 
+                formControlName="cupos"
+                min="1"
+                max="48"
+                [class.error]="segmentoForm.get('cupos')?.invalid && segmentoForm.get('cupos')?.touched"
             >
+            <div class="error-message" *ngIf="segmentoForm.get('cupos')?.invalid && segmentoForm.get('cupos')?.touched">
+                <span *ngIf="segmentoForm.get('cupos')?.errors?.['required']">El número de cupos es requerido</span>
+                <span *ngIf="segmentoForm.get('cupos')?.errors?.['min']">Mínimo 1 cupo</span>
+                <span *ngIf="segmentoForm.get('cupos')?.errors?.['max']">Máximo 48 cupos</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Fecha y Hora de Inicio</label>
+            <div class="datetime-display">
+                {{ (segmentoToEdit ? segmentoToEdit.fecha_hora_inicio : startDate) | date:'dd/MM/yyyy HH:mm' }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Duración Total</label>
+            <div class="duration-display">
+                {{ segmentoForm.get('cupos')?.value * 30 }} minutos
+            </div>
         </div>
 
         <div class="form-footer">
+            <button 
+                *ngIf="isEditMode" 
+                type="button" 
+                class="delete-btn" 
+                (click)="onDelete()"
+            >
+                Eliminar
+            </button>
             <button type="button" class="cancel-btn" (click)="closeModal()">Cancelar</button>
-            <button type="submit" class="submit-btn" [disabled]="segmentoForm.invalid">
-            Crear Segmento
+            <button 
+                type="submit" 
+                class="submit-btn" 
+                [disabled]="segmentoForm.invalid"
+            >
+                {{ isEditMode ? 'Guardar Cambios' : 'Crear Segmento' }}
             </button>
         </div>
         </form>

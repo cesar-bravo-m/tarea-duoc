@@ -17,10 +17,22 @@
     width: 90%;
     max-width: 400px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .modal-header {
-    padding: 1rem;
+    padding: 1.5rem;
     border-bottom: 1px solid #e2e8f0;
     display: flex;
     justify-content: space-between;
@@ -29,8 +41,8 @@
 
 .modal-header h2 {
     margin: 0;
-    font-size: 1.25rem;
     color: #2d3748;
+    font-size: 1.5rem;
 }
 
 .close-button {
@@ -39,14 +51,21 @@
     font-size: 1.5rem;
     color: #718096;
     cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.close-button:hover {
+    color: #2d3748;
 }
 
 .modal-body {
-    padding: 1rem;
+    padding: 1.5rem;
 }
 
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .form-group label {
@@ -58,34 +77,73 @@
 
 .form-group input {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.75rem;
     border: 1px solid #e2e8f0;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.form-group input.error {
+    border-color: #e53e3e;
+}
+
+.error-message {
+    color: #e53e3e;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.datetime-display,
+.duration-display {
+    padding: 0.75rem;
+    background-color: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    color: #4a5568;
 }
 
 .form-footer {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 2rem;
 }
 
 .cancel-btn {
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.5rem;
     background-color: #e2e8f0;
     color: #4a5568;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-weight: 500;
     cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cancel-btn:hover {
+    background-color: #cbd5e0;
 }
 
 .submit-btn {
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.5rem;
     background-color: #4299e1;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-weight: 500;
     cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #3182ce;
 }
 
 .submit-btn:disabled {
