@@ -17,10 +17,12 @@ export interface Funcionario {
   id: number;
   nombres: string;
   apellidos: string;
+  rut: string;
   telefono: string;
   email: string;
   password: string;
   esp_id: number;
+  especialidad?: string; // UI
 }
 
 export interface Paciente {
@@ -97,6 +99,7 @@ export class DatabaseService {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           nombres TEXT NOT NULL,
           apellidos TEXT NOT NULL,
+          rut TEXT NOT NULL,
           telefono TEXT NOT NULL,
           email TEXT NOT NULL,
           password TEXT NOT NULL,
@@ -173,16 +176,16 @@ INSERT INTO ESP_ESPECIALIDAD (nombre) VALUES ('Pediatría');
 INSERT INTO ESP_ESPECIALIDAD (nombre) VALUES ('Dermatología');
 INSERT INTO ESP_ESPECIALIDAD (nombre) VALUES ('Oncología');
 
-INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('María', 'González', '555-1001', 'maria.gonzalez@ejemplo.com', 'contraseña123', 1);
-INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('José', 'Rodríguez', '555-1002', 'jose.rodriguez@ejemplo.com', 'contraseña123', 2);
-INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('Carmen', 'López', '555-1003', 'carmen.lopez@ejemplo.com', 'contraseña123', 3);
-INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('Luis', 'Martínez', '555-1004', 'luis.martinez@ejemplo.com', 'contraseña123', 4);
-INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('Ana', 'García', '555-1005', 'ana.garcia@ejemplo.com', 'contraseña123', 5);
-INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('Juan', 'Sánchez', '555-1006', 'juan.sanchez@ejemplo.com', 'contraseña123', 1);
-INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('Laura', 'Pérez', '555-1007', 'laura.perez@ejemplo.com', 'contraseña123', 2);
-INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('Carlos', 'Torres', '555-1008', 'carlos.torres@ejemplo.com', 'contraseña123', 3);
-INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('Isabel', 'Ramírez', '555-1009', 'isabel.ramirez@ejemplo.com', 'contraseña123', 4);
-INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('Miguel', 'Flores', '555-1010', 'miguel.flores@ejemplo.com', 'contraseña123', 5);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('196450963', 'María', 'González', '555-1001', 'maria.gonzalez@ejemplo.com', 'contraseña123', 1);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('13538951k', 'José', 'Rodríguez', '555-1002', 'jose.rodriguez@ejemplo.com', 'contraseña123', 2);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('145092035', 'Carmen', 'López', '555-1003', 'carmen.lopez@ejemplo.com', 'contraseña123', 3);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('199072412', 'Luis', 'Martínez', '555-1004', 'luis.martinez@ejemplo.com', 'contraseña123', 4);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('151205682', 'Ana', 'García', '555-1005', 'ana.garcia@ejemplo.com', 'contraseña123', 5);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('195174571', 'Juan', 'Sánchez', '555-1006', 'juan.sanchez@ejemplo.com', 'contraseña123', 1);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('116726459', 'Laura', 'Pérez', '555-1007', 'laura.perez@ejemplo.com', 'contraseña123', 2);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('170401697', 'Carlos', 'Torres', '555-1008', 'carlos.torres@ejemplo.com', 'contraseña123', 3);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('171939747', 'Isabel', 'Ramírez', '555-1009', 'isabel.ramirez@ejemplo.com', 'contraseña123', 4);
+INSERT INTO FUN_FUNCIONARIO (rut, nombres, apellidos, telefono, email, password, esp_id) VALUES ('198848395', 'Miguel', 'Flores', '555-1010', 'miguel.flores@ejemplo.com', 'contraseña123', 5);
 
 INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('111111111', 'Diego', 'Castro', '555-2001', 'diego.castro@ejemplo.com', '1990-05-14', 'M', 'Calle Principal 123');
 INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('222222222', 'Lucía', 'Morales', '555-2002', 'lucia.morales@ejemplo.com', '1985-08-23', 'F', 'Avenida Secundaria 456');
@@ -211,12 +214,20 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
   }
 
   public loadFuncionarios(): void {
-    const result = this.db.exec('SELECT * FROM FUN_FUNCIONARIO');
+    const result = this.db.exec(`
+      SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
+      FROM FUN_FUNCIONARIO
+      LEFT JOIN ESP_ESPECIALIDAD ON FUN_FUNCIONARIO.esp_id = ESP_ESPECIALIDAD.id
+    `);
     if (result.length > 0) {
       this.funcionariosSubject.next(result[0].values.map((row: any) => ({
         id: row[0],
         nombres: row[1],
         apellidos: row[2],
+        rut: row[3],
+        telefono: row[4],
+        email: row[5],
+        especialidad: row[8]
       })));
     }
   }
@@ -268,11 +279,30 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
     return result.length > 0 && result[0].values.length > 0;
   }
 
+  // public getFuncionarioByName(name: string): Funcionario | null {
+  //   const result = this.db.exec(`
+  //     SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
+  //     FROM FUN_FUNCIONARIO
+  //     LEFT JOIN ESP_ESPECIALIDAD ON FUN_FUNCIONARIO.esp_id = ESP_ESPECIALIDAD.id
+  //     WHERE nombres LIKE ? OR apellidos LIKE ?`, [`%${name}%`, `%${name}%`]);
+  //   return result.length > 0 && result[0].values.length > 0 ? result[0].values[0] : null;
+  // }
+
   public getFuncionario(email: string): Funcionario | null {
-    const result = this.db.exec(`SELECT * FROM FUN_FUNCIONARIO WHERE email = ?`, [email]);
+    // Get funcionario with especialidad name
+    const result = this.db.exec(`
+      SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
+      FROM FUN_FUNCIONARIO
+      LEFT JOIN ESP_ESPECIALIDAD ON FUN_FUNCIONARIO.esp_id = ESP_ESPECIALIDAD.id
+      WHERE email = ?`, [email]);
     const funcionario: Funcionario | null = result.length > 0 && result[0].values.length > 0 ? result[0].values[0] : null;
     return funcionario;
   }
+
+  // public getFuncionarioByRut(rut: string): Funcionario | null {
+  //   const result = this.db.exec(`SELECT * FROM FUN_FUNCIONARIO WHERE rut = ?`, [rut]);
+  //   return result.length > 0 && result[0].values.length > 0 ? result[0].values[0] : null;
+  // }
 
   public addFuncionario(funcionario: Funcionario): void {
     this.db.run(`INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES (?, ?, ?, ?, ?, ?)`, [funcionario.nombres, funcionario.apellidos, funcionario.telefono, funcionario.email, funcionario.password, funcionario.esp_id]);

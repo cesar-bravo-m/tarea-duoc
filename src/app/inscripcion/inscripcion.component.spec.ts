@@ -120,7 +120,7 @@ describe('InscripcionComponent', () => {
       expect(component.showError).toBeTrue();
       expect(component.message).toBe('Paciente no encontrado');
     });
-
+n
     it('should validate RUT before search', () => {
       component.searchRut = 'invalid-rut';
       component.searchPaciente();
