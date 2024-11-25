@@ -394,12 +394,38 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
   }
 
   public addFuncionario(funcionario: Funcionario): void {
-    this.db.run(`INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, rut, telefono, email, password, esp_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [funcionario.nombres, funcionario.apellidos, funcionario.rut, funcionario.telefono, funcionario.email, funcionario.password, funcionario.esp_id]);
-    // Add INSCRIPCION role to funcionario
-    this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (1, ?)', [funcionario.id]);
-    this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (2, ?)', [funcionario.id]);
-    this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (3, ?)', [funcionario.id]);
+    // First add the funcionario
+    this.db.run(`
+      INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, rut, telefono, email, password, esp_id) 
+      VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        funcionario.nombres,
+        funcionario.apellidos,
+        funcionario.rut,
+        funcionario.telefono,
+        funcionario.email,
+        funcionario.password,
+        funcionario.esp_id
+      ]
+    );
+
+    // Get the id of the newly inserted funcionario
+    const result = this.db.exec(`
+      SELECT id FROM FUN_FUNCIONARIO 
+      WHERE rut = ?`, 
+      [funcionario.rut]
+    );
+
+    if (result.length > 0 && result[0].values.length > 0) {
+      const funId = result[0].values[0][0];
+      
+      // Add all roles to the new funcionario
+      this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (1, ?)', [funId]);
+      this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (2, ?)', [funId]);
+      this.db.run('INSERT INTO RL_ROL_FUN (rol_id, fun_id) VALUES (3, ?)', [funId]);
+    }
+
+    // Reload data
     this.loadFuncionarios();
     this.loadRolesFuncionario();
   }

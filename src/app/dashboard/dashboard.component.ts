@@ -53,6 +53,14 @@ export class DashboardComponent {
     return `${this.currentUser.nombres?.[0] || ''}${this.currentUser.apellidos?.[0] || ''}`;
   }
 
+  getUserName(): string {
+    return `${this.currentUser.nombres} ${this.currentUser.apellidos}`;
+  }
+
+  getUserSpeciality(): string {
+    return this.currentUser.especialidad;
+  }
+
   toggleUserMenu() {
     this.showUserMenu = !this.showUserMenu;
   }

@@ -47,21 +47,25 @@ export class LoginModalComponent {
     this.isLoading = true;
 
     try {
-      // Query the database for the funcionario with matching RUT
-      const funcionario = this.dbService.getFuncionarioByRut(this.rut.replace(/\./g, '').replace(/-/g, ''));
-      console.log("### funcionario", funcionario);
+      // Clean RUT format before querying
+      const cleanRut = this.rut.replace(/\./g, '').replace('-', '');
+      const funcionario = this.dbService.getFuncionarioByRut(cleanRut);
 
       if (funcionario && funcionario.password === this.password) {
-        // Login successful
-        console.log("### login successful");
-        localStorage.setItem('currentUser', JSON.stringify(funcionario));
-        console.log("### setItem", localStorage.getItem('currentUser'));
+        // Store only necessary user data
+        const userData = {
+          id: funcionario.id,
+          nombres: funcionario.nombres,
+          apellidos: funcionario.apellidos,
+          rut: funcionario.rut,
+          esp_id: funcionario.esp_id,
+          especialidad: funcionario.especialidad
+        };
+        
+        localStorage.setItem('currentUser', JSON.stringify(userData));
         this.closeModal();
-        console.log("### navigating to dashboard");
-        this.router.navigate(['/dashboard']);
-        console.log("### navigation done");
+        await this.router.navigate(['/dashboard']);
       } else {
-        // Login failed
         this.showError = true;
       }
     } catch (error) {

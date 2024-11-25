@@ -292,3 +292,12 @@
   min-width: 150px;
   z-index: 100;
 }
+
+.user-speciality {
+  font-size: 0.8rem;
+  color: #718096;
+}
+
+.user-info {
+  text-align: center;
+}
