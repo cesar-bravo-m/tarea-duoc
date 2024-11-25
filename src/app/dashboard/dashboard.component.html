@@ -1,60 +1,37 @@
 <div class="dashboard">
-  <nav class="sidebar">
-    <div class="sidebar-header">
-      <div class="logo">Hospital Scheduler</div>
-    </div>
-    
-    <div class="user-info">
-      <div class="avatar">
-        {{ currentUser.nombres?.[0] }}{{ currentUser.apellidos?.[0] }}
+  <header class="main-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="app-title">Hospital Scheduler</h1>
+        <nav class="main-nav">
+          <a *ngFor="let item of navItems" 
+             [routerLink]="item.path"
+             routerLinkActive="active"
+             class="nav-link">
+            <span class="nav-icon">{{ item.icon }}</span>
+            {{ item.label }}
+          </a>
+        </nav>
       </div>
-      <div class="user-details">
-        <div class="user-name">{{ currentUser.nombres }} {{ currentUser.apellidos }}</div>
-        <div class="user-role">{{ currentUser.especialidad }}</div>
+      <div class="header-right">
+        <div class="user-menu">
+          <div class="user-info">
+            <span class="user-name">{{ currentUser.nombres }} {{ currentUser.apellidos }}</span>
+            <span class="user-role">{{ currentUser.especialidad }}</span>
+          </div>
+          <div class="avatar">
+            {{ currentUser.nombres?.[0] }}{{ currentUser.apellidos?.[0] }}
+          </div>
+          <button class="logout-btn" (click)="logout()">
+            <span class="icon">🚪</span>
+            <span>Salir</span>
+          </button>
+        </div>
       </div>
     </div>
-
-    <div class="nav-links">
-      <a routerLink="inscripcion" routerLinkActive="active" class="nav-link">
-        <i class="icon">📝</i>
-        <span>Inscripción</span>
-      </a>
-      <a routerLink="agenda" routerLinkActive="active" class="nav-link">
-        <i class="icon">📅</i>
-        <span>Agenda</span>
-      </a>
-      <a routerLink="funcionarios" routerLinkActive="active" class="nav-link">
-        <i class="icon">👥</i>
-        <span>Funcionarios</span>
-      </a>
-      <a routerLink="citas" routerLinkActive="active" class="nav-link">
-        <i class="icon">🕒</i>
-        <span>Citas</span>
-      </a>
-    </div>
-
-    <div class="sidebar-footer">
-      <button class="logout-btn" (click)="logout()">
-        <i class="icon">🚪</i>
-        <span>Cerrar Sesión</span>
-      </button>
-    </div>
-  </nav>
+  </header>
 
   <main class="main-content">
-    <header class="content-header">
-      <div class="breadcrumb">
-        Dashboard
-      </div>
-      <div class="header-actions">
-        <button class="notifications-btn">
-          <i class="icon">🔔</i>
-        </button>
-      </div>
-    </header>
-
-    <div class="content">
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </main>
 </div>
