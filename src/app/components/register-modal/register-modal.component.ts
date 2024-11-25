@@ -73,7 +73,7 @@ export class RegisterModalComponent {
       const formValue = this.registerForm.value;
       
       // Check if email already exists
-      const existingUser = this.dbService.getFuncionario(formValue.email);
+      const existingUser = this.dbService.getFuncionarioByEmail(formValue.email);
       if (existingUser) {
         this.showError = true;
         this.errorMessage = 'Este correo electrónico ya está registrado';

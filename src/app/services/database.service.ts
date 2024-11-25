@@ -40,6 +40,9 @@ export interface Paciente {
 export interface SegmentoHorario {
   id: number;
   nombre: string;
+  fecha_hora_inicio: string;
+  fecha_hora_fin: string;
+  fun_id: number;
 }
 
 enum Estado {
@@ -279,16 +282,27 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
     return result.length > 0 && result[0].values.length > 0;
   }
 
-  // public getFuncionarioByName(name: string): Funcionario | null {
-  //   const result = this.db.exec(`
-  //     SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
-  //     FROM FUN_FUNCIONARIO
-  //     LEFT JOIN ESP_ESPECIALIDAD ON FUN_FUNCIONARIO.esp_id = ESP_ESPECIALIDAD.id
-  //     WHERE nombres LIKE ? OR apellidos LIKE ?`, [`%${name}%`, `%${name}%`]);
-  //   return result.length > 0 && result[0].values.length > 0 ? result[0].values[0] : null;
-  // }
+  public getFuncionarioByName(name: string): Funcionario | null {
+    const result = this.db.exec(`
+      SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
+      FROM FUN_FUNCIONARIO
+      LEFT JOIN ESP_ESPECIALIDAD ON FUN_FUNCIONARIO.esp_id = ESP_ESPECIALIDAD.id
+      WHERE nombres LIKE ? OR apellidos LIKE ?`, [`%${name}%`, `%${name}%`]);
+    return result.length > 0 && result[0].values.length > 0 ? result[0].values[0] : null;
+  }
 
-  public getFuncionario(email: string): Funcionario | null {
+  public getFuncionarioById(id: number): Funcionario | null {
+    // Get funcionario with especialidad name
+    const result = this.db.exec(`
+      SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
+      FROM FUN_FUNCIONARIO
+      LEFT JOIN ESP_ESPECIALIDAD ON FUN_FUNCIONARIO.esp_id = ESP_ESPECIALIDAD.id
+      WHERE id = ?`, [id]);
+    const funcionario: Funcionario | null = result.length > 0 && result[0].values.length > 0 ? result[0].values[0] : null;
+    return funcionario;
+  }
+
+  public getFuncionarioByEmail(email: string): Funcionario | null {
     // Get funcionario with especialidad name
     const result = this.db.exec(`
       SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
@@ -298,11 +312,6 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
     const funcionario: Funcionario | null = result.length > 0 && result[0].values.length > 0 ? result[0].values[0] : null;
     return funcionario;
   }
-
-  // public getFuncionarioByRut(rut: string): Funcionario | null {
-  //   const result = this.db.exec(`SELECT * FROM FUN_FUNCIONARIO WHERE rut = ?`, [rut]);
-  //   return result.length > 0 && result[0].values.length > 0 ? result[0].values[0] : null;
-  // }
 
   public addFuncionario(funcionario: Funcionario): void {
     this.db.run(`INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES (?, ?, ?, ?, ?, ?)`, [funcionario.nombres, funcionario.apellidos, funcionario.telefono, funcionario.email, funcionario.password, funcionario.esp_id]);
@@ -345,4 +354,26 @@ INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimi
     }
     return null;
   }
-} 
+
+  public addSegmentoHorario(segmentoHorario: SegmentoHorario): void {
+    this.db.run(`INSERT INTO SGH_SEGMENTO_HORARIO (nombre, fecha_hora_inicio, fecha_hora_fin, fun_id) VALUES (?, ?, ?, ?)`, [segmentoHorario.nombre, segmentoHorario.fecha_hora_inicio, segmentoHorario.fecha_hora_fin, segmentoHorario.fun_id]);
+    const result = this.db.exec(`SELECT id FROM SGH_SEGMENTO_HORARIO WHERE nombre = ? AND fecha_hora_inicio = ? AND fecha_hora_fin = ? AND fun_id = ?`, [segmentoHorario.nombre, segmentoHorario.fecha_hora_inicio, segmentoHorario.fecha_hora_fin, segmentoHorario.fun_id]);
+    const id = result.length > 0 && result[0].values.length > 0 ? result[0].values[0][0] : null;
+    const duration = (new Date(segmentoHorario.fecha_hora_fin).getTime() - new Date(segmentoHorario.fecha_hora_inicio).getTime()) / (30*60000);
+    for (let i = 0; i < duration; i++) {
+      this.db.run(`INSERT INTO CUP_CUPO (estado, fecha_hora_inicio, fecha_hora_fin, duracion, sgh_id) VALUES (?, ?, ?, ?, ?)`, ['Disponible', segmentoHorario.fecha_hora_inicio, segmentoHorario.fecha_hora_fin, duration, id]);
+    }
+    this.loadSegmentosHorario();
+  }
+
+  public getSegmentosHorarioByFuncionarioId(funcionarioId: number): SegmentoHorario[] {
+    const result = this.db.exec(`SELECT * FROM SGH_SEGMENTO_HORARIO WHERE fun_id = ?`, [funcionarioId]);
+    return result.length > 0 && result[0].values.length > 0 ? result[0].values.map((row: any) => ({
+      id: row[0],
+      nombre: row[1],
+      fecha_hora_inicio: row[2],
+      fecha_hora_fin: row[3],
+      fun_id: row[4]
+    })) : [];
+  }
+}

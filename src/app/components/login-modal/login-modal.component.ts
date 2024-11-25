@@ -178,7 +178,7 @@ export class LoginModalComponent {
 
       if (result) {
         // Login successful
-        const funcionario = this.dbService.getFuncionario(this.email);
+        const funcionario = this.dbService.getFuncionarioByEmail(this.email);
         if (funcionario) {
           localStorage.setItem('currentUser', JSON.stringify(funcionario));
           this.closeModal();

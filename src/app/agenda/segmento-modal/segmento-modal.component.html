@@ -1,0 +1,42 @@
+<div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+        <h2>Crear Segmento Horario</h2>
+        <button class="close-button" (click)="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="segmentoForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="nombre">Nombre del Segmento</label>
+            <select
+                id="nombre"
+                formControlName="nombre"
+            >
+                <option value="">Seleccione un tipo de segmento</option>
+                <option value="Atención general">Atención general</option>
+                <option value="Especialidad">Especialidad</option>
+                <option value="Reservado">Reservado</option>
+            </select>
+        </div>
+
+        <div class="form-group" style="width: 330px;">
+            <label for="cupos">Número de Cupos (30 min c/u)</label>
+            <input 
+            id="cupos" 
+            type="number" 
+            formControlName="cupos"
+            min="1"
+            max="48"
+            >
+        </div>
+
+        <div class="form-footer">
+            <button type="button" class="cancel-btn" (click)="closeModal()">Cancelar</button>
+            <button type="submit" class="submit-btn" [disabled]="segmentoForm.invalid">
+            Crear Segmento
+            </button>
+        </div>
+        </form>
+    </div>
+    </div>
+</div>

@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DatabaseService, Funcionario } from '../services/database.service';
+import { DatabaseService, Funcionario, SegmentoHorario } from '../services/database.service';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { SegmentoModalComponent } from './segmento-modal/segmento-modal.component';
 
 @Component({
   selector: 'app-agenda',
   standalone: true,
-  imports: [CommonModule, FormsModule, FullCalendarModule],
+  imports: [CommonModule, FormsModule, FullCalendarModule, SegmentoModalComponent],
   template: `
     <div class="agenda-container">
       <div class="search-section">
@@ -45,6 +46,14 @@ import interactionPlugin from '@fullcalendar/interaction';
         <h2>Agenda de {{ selectedFuncionario.nombres }} {{ selectedFuncionario.apellidos }}</h2>
         <full-calendar [options]="calendarOptions"></full-calendar>
       </div>
+
+      <app-segmento-modal
+        *ngIf="showSegmentoModal && selectedDate"
+        [startDate]="selectedDate"
+        [funcionario]="selectedFuncionario!"
+        (close)="showSegmentoModal = false"
+        (submit)="handleSegmentoSubmit($event)"
+      ></app-segmento-modal>
     </div>
   `,
   styles: [`
@@ -187,6 +196,8 @@ export class AgendaComponent implements OnInit {
     eventClick: this.handleEventClick.bind(this),
     events: []
   };
+  showSegmentoModal = false;
+  selectedDate: Date | null = null;
 
   constructor(private dbService: DatabaseService) {
     this.dbService.funcionarios$.subscribe(
@@ -222,35 +233,43 @@ export class AgendaComponent implements OnInit {
   }
 
   loadShifts(funcionarioId: number) {
-    // Here you would load the shifts from your database service
-    // For now, we'll just set some example events
-    const events: EventInput[] = [
-      {
-        title: 'Turno mañana',
-        start: new Date().setHours(9, 0),
-        end: new Date().setHours(14, 0),
-      }
-    ];
+    const segmentos = this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
+    const events: EventInput[] = segmentos.map(segmento => ({
+      title: segmento.nombre,
+      start: segmento.fecha_hora_inicio,
+      end: segmento.fecha_hora_fin,
+      funcionarioId: segmento.fun_id
+    }));
 
     this.calendarOptions.events = events;
   }
 
   handleDateSelect(selectInfo: any) {
-    const title = prompt('Por favor ingrese un título para el turno:');
-    if (title) {
-      const calendarApi = selectInfo.view.calendar;
-      calendarApi.addEvent({
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        funcionarioId: this.selectedFuncionario?.id
-      });
+    if (!this.selectedFuncionario) {
+      alert('Por favor seleccione un funcionario primero');
+      selectInfo.view.calendar.unselect();
+      return;
     }
+
+    this.selectedDate = selectInfo.start;
+    this.showSegmentoModal = true;
     selectInfo.view.calendar.unselect();
   }
 
+  handleSegmentoSubmit(segmento: SegmentoHorario) {
+    try {
+      this.dbService.addSegmentoHorario(segmento);
+      this.loadShifts(this.selectedFuncionario!.id);
+    } catch (error) {
+      console.error('Error creating segmento:', error);
+      alert('Error al crear el segmento horario');
+    }
+    this.showSegmentoModal = false;
+    this.selectedDate = null;
+  }
+
   handleEventClick(clickInfo: any) {
-    if (confirm('¿Desea eliminar este turno?')) {
+    if (confirm('¿Desea eliminar este segmento horario?')) {
       clickInfo.event.remove();
     }
   }
