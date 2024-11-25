@@ -271,4 +271,9 @@ INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento,
     const funcionario: Funcionario | null = result.length > 0 && result[0].values.length > 0 ? result[0].values[0] : null;
     return funcionario;
   }
+
+  public addFuncionario(funcionario: Funcionario): void {
+    this.db.run(`INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES (?, ?, ?, ?, ?, ?)`, [funcionario.nombres, funcionario.apellidos, funcionario.telefono, funcionario.email, funcionario.password, funcionario.esp_id]);
+    this.loadFuncionarios();
+  }
 } 

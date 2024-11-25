@@ -4,7 +4,7 @@
       <div class="logo">Hospital Scheduler</div>
       <div class="nav-links">
         <a (click)="toggleLoginModal()" style="cursor: pointer;">Iniciar Sesión</a>
-        <a routerLink="/register" class="register-btn">Registrarse</a>
+        <a (click)="toggleRegisterModal()" style="cursor: pointer;" class="register-btn">Registrarse</a>
       </div>
     </nav>
   </header>
@@ -54,4 +54,9 @@
     *ngIf="showLoginModal" 
     (close)="toggleLoginModal()">
   </app-login-modal>
+
+  <app-register-modal 
+    *ngIf="showRegisterModal" 
+    (close)="toggleRegisterModal()">
+  </app-register-modal>
 </div>
