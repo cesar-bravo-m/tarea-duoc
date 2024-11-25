@@ -27,6 +27,7 @@ export interface Paciente {
   id: number;
   nombres: string;
   apellidos: string;
+  rut: string;
   telefono: string;
   email: string;
   fecha_nacimiento: string;
@@ -109,6 +110,7 @@ export class DatabaseService {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           nombres TEXT NOT NULL,
           apellidos TEXT NOT NULL,
+          rut TEXT NOT NULL,
           telefono TEXT NOT NULL,
           email TEXT NOT NULL,
           fecha_nacimiento TEXT NOT NULL,
@@ -182,16 +184,16 @@ INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_
 INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('Isabel', 'Ramírez', '555-1009', 'isabel.ramirez@ejemplo.com', 'contraseña123', 4);
 INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES ('Miguel', 'Flores', '555-1010', 'miguel.flores@ejemplo.com', 'contraseña123', 5);
 
-INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('Diego', 'Castro', '555-2001', 'diego.castro@ejemplo.com', '1990-05-14', 'M', 'Calle Principal 123');
-INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('Lucía', 'Morales', '555-2002', 'lucia.morales@ejemplo.com', '1985-08-23', 'F', 'Avenida Secundaria 456');
-INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('Antonio', 'Vargas', '555-2003', 'antonio.vargas@ejemplo.com', '1978-12-02', 'M', 'Calle Tercera 789');
-INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('Sofía', 'Ortega', '555-2004', 'sofia.ortega@ejemplo.com', '1992-07-19', 'F', 'Avenida Cuarta 321');
-INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('Pedro', 'Ramos', '555-2005', 'pedro.ramos@ejemplo.com', '1980-03-11', 'M', 'Calle Quinta 654');
-INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('Valentina', 'Mendoza', '555-2006', 'valentina.mendoza@ejemplo.com', '1995-09-30', 'F', 'Avenida Sexta 987');
-INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('Andrés', 'Silva', '555-2007', 'andres.silva@ejemplo.com', '1975-11-05', 'M', 'Calle Séptima 159');
-INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('Elena', 'Santos', '555-2008', 'elena.santos@ejemplo.com', '1988-04-22', 'F', 'Avenida Octava 753');
-INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('Jorge', 'Cruz', '555-2009', 'jorge.cruz@ejemplo.com', '1993-06-17', 'M', 'Calle Novena 852');
-INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('Camila', 'Reyes', '555-2010', 'camila.reyes@ejemplo.com', '1991-01-28', 'F', 'Avenida Décima 951');
+INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('111111111', 'Diego', 'Castro', '555-2001', 'diego.castro@ejemplo.com', '1990-05-14', 'M', 'Calle Principal 123');
+INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('222222222', 'Lucía', 'Morales', '555-2002', 'lucia.morales@ejemplo.com', '1985-08-23', 'F', 'Avenida Secundaria 456');
+INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('333333333', 'Antonio', 'Vargas', '555-2003', 'antonio.vargas@ejemplo.com', '1978-12-02', 'M', 'Calle Tercera 789');
+INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('444444444', 'Sofía', 'Ortega', '555-2004', 'sofia.ortega@ejemplo.com', '1992-07-19', 'F', 'Avenida Cuarta 321');
+INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('555555555', 'Pedro', 'Ramos', '555-2005', 'pedro.ramos@ejemplo.com', '1980-03-11', 'M', 'Calle Quinta 654');
+INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('666666666', 'Valentina', 'Mendoza', '555-2006', 'valentina.mendoza@ejemplo.com', '1995-09-30', 'F', 'Avenida Sexta 987');
+INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('777777777', 'Andrés', 'Silva', '555-2007', 'andres.silva@ejemplo.com', '1975-11-05', 'M', 'Calle Séptima 159');
+INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('888888888', 'Elena', 'Santos', '555-2008', 'elena.santos@ejemplo.com', '1988-04-22', 'F', 'Avenida Octava 753');
+INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('999999999', 'Jorge', 'Cruz', '555-2009', 'jorge.cruz@ejemplo.com', '1993-06-17', 'M', 'Calle Novena 852');
+INSERT INTO PAC_PACIENTE (rut, nombres, apellidos, telefono, email, fecha_nacimiento, genero, direccion) VALUES ('101010101', 'Camila', 'Reyes', '555-2010', 'camila.reyes@ejemplo.com', '1991-01-28', 'F', 'Avenida Décima 951');
     `;
     this.db.run(script);
   }
@@ -275,5 +277,42 @@ INSERT INTO PAC_PACIENTE (nombres, apellidos, telefono, email, fecha_nacimiento,
   public addFuncionario(funcionario: Funcionario): void {
     this.db.run(`INSERT INTO FUN_FUNCIONARIO (nombres, apellidos, telefono, email, password, esp_id) VALUES (?, ?, ?, ?, ?, ?)`, [funcionario.nombres, funcionario.apellidos, funcionario.telefono, funcionario.email, funcionario.password, funcionario.esp_id]);
     this.loadFuncionarios();
+  }
+
+  public addPaciente(paciente: Paciente): void {
+    this.db.run(
+      `INSERT INTO PAC_PACIENTE (nombres, apellidos, rut, telefono, email, fecha_nacimiento, genero, direccion) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, 
+      [
+        paciente.nombres,
+        paciente.apellidos,
+        paciente.rut.replace(/\./g, '').replace('-', ''),
+        paciente.telefono,
+        paciente.email,
+        paciente.fecha_nacimiento,
+        paciente.genero,
+        paciente.direccion
+      ]
+    );
+    this.loadPacientes();
+  }
+
+  public getPacienteByRut(rut: string): Paciente | null {
+    const result = this.db.exec(`SELECT * FROM PAC_PACIENTE WHERE rut = ?`, [rut.replace(/\./g, '').replace('-', '')]);
+    if (result.length > 0 && result[0].values.length > 0) {
+      const row = result[0].values[0];
+      return {
+        id: row[0],
+        nombres: row[1],
+        apellidos: row[2],
+        rut: row[3],
+        telefono: row[4],
+        email: row[5],
+        fecha_nacimiento: row[6],
+        genero: row[7],
+        direccion: row[8]
+      } as Paciente;
+    }
+    return null;
   }
 } 

@@ -1,1 +1,150 @@
-<h1>Inscripción</h1>
+<div class="inscripcion-container">
+  <div class="search-section">
+    <h2>Buscar Paciente</h2>
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchRut" 
+        placeholder="12.345.678-9"
+        class="search-input"
+        mask="00.000.000-0||00.000.000-K"
+        [validation]="true"
+        [dropSpecialCharacters]="false"
+        (input)="onRutInput($event)"
+      >
+      <button (click)="searchPaciente()" class="search-btn">Buscar</button>
+    </div>
+  </div>
+
+  <form [formGroup]="pacienteForm" (ngSubmit)="onSubmit()" class="patient-form">
+    <h2>{{ pacienteForm.get('id')?.value ? 'Actualizar' : 'Registrar' }} Paciente</h2>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="nombres">Nombres</label>
+        <input 
+          id="nombres" 
+          type="text" 
+          formControlName="nombres"
+          [class.error]="isFieldInvalid('nombres')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid('nombres')">
+          Nombres son requeridos
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="apellidos">Apellidos</label>
+        <input 
+          id="apellidos" 
+          type="text" 
+          formControlName="apellidos"
+          [class.error]="isFieldInvalid('apellidos')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid('apellidos')">
+          Apellidos son requeridos
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="rut">RUT</label>
+        <input 
+          id="rut" 
+          type="text" 
+          formControlName="rut"
+          placeholder="12345678-9"
+          [class.error]="isFieldInvalid('rut')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid('rut')">
+          RUT inválido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input 
+          id="telefono" 
+          type="tel" 
+          formControlName="telefono"
+          [class.error]="isFieldInvalid('telefono')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid('telefono')">
+          Teléfono inválido
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email">Correo Electrónico</label>
+        <input 
+          id="email" 
+          type="email" 
+          formControlName="email"
+          [class.error]="isFieldInvalid('email')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid('email')">
+          Correo electrónico inválido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+        <input 
+          id="fecha_nacimiento" 
+          type="date" 
+          formControlName="fecha_nacimiento"
+          [class.error]="isFieldInvalid('fecha_nacimiento')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid('fecha_nacimiento')">
+          Fecha de nacimiento requerida
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="genero">Género</label>
+        <select 
+          id="genero" 
+          formControlName="genero"
+          [class.error]="isFieldInvalid('genero')"
+        >
+          <option value="">Seleccione género</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+          <option value="O">Otro</option>
+        </select>
+        <div class="error-message" *ngIf="isFieldInvalid('genero')">
+          Género requerido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="direccion">Dirección</label>
+        <input 
+          id="direccion" 
+          type="text" 
+          formControlName="direccion"
+          [class.error]="isFieldInvalid('direccion')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid('direccion')">
+          Dirección requerida
+        </div>
+      </div>
+    </div>
+
+    <div class="message-container">
+      <div *ngIf="showError" class="error-alert">{{ message }}</div>
+      <div *ngIf="showSuccess" class="success-alert">{{ message }}</div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="isLoading || pacienteForm.invalid" class="submit-btn">
+        {{ isLoading ? 'Guardando...' : 'Guardar Paciente' }}
+      </button>
+    </div>
+  </form>
+</div>
