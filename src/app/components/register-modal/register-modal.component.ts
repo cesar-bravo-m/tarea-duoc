@@ -40,14 +40,15 @@ export class RegisterModalComponent {
     private toastService: ToastService
   ) {
     this.registerForm = this.fb.group({
-      nombres: ['', [Validators.required, Validators.minLength(2)]],
-      apellidos: ['', [Validators.required, Validators.minLength(2)]],
+      nombres: ['', [Validators.required, Validators.minLength(4)]],
+      apellidos: ['', [Validators.required, Validators.minLength(4)]],
       rut: ['', [Validators.required, this.rutValidator()]],
       telefono: ['(56) 9 ', [Validators.required, Validators.minLength(12)]],
       email: ['', [Validators.required, Validators.email, this.emailDomainValidator()]],
       password: ['', [
         Validators.required, 
         Validators.minLength(6),
+        Validators.maxLength(12),
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/)
       ]],
       confirmPassword: ['', [Validators.required]],

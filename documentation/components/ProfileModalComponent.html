@@ -120,6 +120,13 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente modal para la modificación del perfil de usuario</p>
+
+    </p>
 
 
     <p class="comment">
@@ -440,7 +447,7 @@
           &gt;
             {{ isLoading ? &#x27;Guardando...&#x27; : &#x27;Guardar Cambios&#x27; }}
           &lt;/button&gt;
-        n&lt;/div&gt;
+        &lt;/div&gt;
       &lt;/form&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -562,12 +569,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="290" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:290</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="299" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:299</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Constructor del componente</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -576,6 +585,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -590,6 +600,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>Servicio de formularios reactivos</p>
+
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>dbService</td>
@@ -602,6 +616,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>Servicio de base de datos</p>
+
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>toastService</td>
@@ -614,6 +632,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>Servicio de notificaciones</p>
+
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>router</td>
@@ -626,6 +648,8 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -654,9 +678,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="285" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:285</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="290" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:290</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Usuario actual cuyos datos se están modificando</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -678,9 +708,15 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="286" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:286</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="292" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:292</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Evento emitido para cerrar el modal</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -711,14 +747,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="366"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:366</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="407"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:407</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Cierra el modal</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -748,14 +786,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="350"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:350</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="384"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:384</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene el mensaje de error para un campo</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -766,6 +806,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -780,6 +821,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>Nombre del campo</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -789,7 +834,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>Mensaje de error correspondiente al tipo de error</p>
+
                             </div>
                 </td>
             </tr>
@@ -815,14 +861,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="345"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:345</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="374"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:374</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Verifica si un campo del formulario es inválido</p>
+</div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -833,6 +881,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -847,6 +896,10 @@
                                             </td>
 
 
+                                            <td>
+                                                    <p>Nombre del campo a verificar</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -856,7 +909,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>boolean indicando si el campo es inválido y ha sido tocado</p>
+
                             </div>
                 </td>
             </tr>
@@ -882,14 +936,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="316"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:316</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="336"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:336</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Inicializa el componente</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -919,14 +975,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="370"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:370</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="415"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:415</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Maneja el envío del formulario</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -956,19 +1014,25 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="327"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:327</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="351"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:351</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Validador personalizado para contraseñas coincidentes</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>    <code>(formGroup: FormGroup) &#x3D;&gt; { passwordMismatch: boolean; }</code>
 
                         </div>
+                            <div class="io-description">
+                                <p>ValidatorFn que verifica que las contraseñas coincidan</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1003,10 +1067,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="290" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:290</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="299" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:299</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Lista de especialidades disponibles</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1028,10 +1098,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="289" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:289</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="297" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:297</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si hay una operación en curso</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1054,10 +1130,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="288" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:288</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="295" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:295</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Formulario reactivo para la edición del perfil</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1075,6 +1157,10 @@ import { ToastService } from &#x27;../../services/toast.service&#x27;;
 import { NgxMaskDirective, provideNgxMask } from &#x27;ngx-mask&#x27;;
 import { Router } from &#x27;@angular/router&#x27;;
 
+/**
+ * Componente modal para la modificación del perfil de usuario
+ * @description Permite a los usuarios actualizar su información personal y contraseña
+ */
 @Component({
   selector: &#x27;app-profile-modal&#x27;,
   standalone: true,
@@ -1209,7 +1295,7 @@ import { Router } from &#x27;@angular/router&#x27;;
               &gt;
                 {{ isLoading ? &#x27;Guardando...&#x27; : &#x27;Guardar Cambios&#x27; }}
               &lt;/button&gt;
-            n&lt;/div&gt;
+            &lt;/div&gt;
           &lt;/form&gt;
         &lt;/div&gt;
       &lt;/div&gt;
@@ -1351,13 +1437,24 @@ import { Router } from &#x27;@angular/router&#x27;;
   &#x60;]
 })
 export class ProfileModalComponent implements OnInit {
+  /** Usuario actual cuyos datos se están modificando */
   @Input() currentUser!: any;
+  /** Evento emitido para cerrar el modal */
   @Output() close &#x3D; new EventEmitter&lt;void&gt;();
   
+  /** Formulario reactivo para la edición del perfil */
   profileForm: FormGroup;
+  /** Indica si hay una operación en curso */
   isLoading &#x3D; false;
+  /** Lista de especialidades disponibles */
   especialidades: any[] &#x3D; [];
 
+  /**
+   * Constructor del componente
+   * @param fb Servicio de formularios reactivos
+   * @param dbService Servicio de base de datos
+   * @param toastService Servicio de notificaciones
+   */
   constructor(
     private fb: FormBuilder,
     private dbService: DatabaseService,
@@ -1372,6 +1469,7 @@ export class ProfileModalComponent implements OnInit {
       telefono: [&#x27;(56) 9 &#x27;, [Validators.required, Validators.minLength(12)]],
       esp_id: [&#x27;&#x27;, Validators.required],
       password: [&#x27;&#x27;, [
+        Validators.pattern(/^[^\s]+$/),  // No spaces allowed
         Validators.pattern(/^(?&#x3D;.*[a-z])(?&#x3D;.*[A-Z])(?&#x3D;.*\d)[a-zA-Z\d]{6,}$/)
       ]],
       confirmPassword: [&#x27;&#x27;]
@@ -1382,6 +1480,10 @@ export class ProfileModalComponent implements OnInit {
     );
   }
 
+  /**
+   * Inicializa el componente
+   * @description Carga las especialidades y configura el formulario con los datos del usuario
+   */
   ngOnInit() {
     this.dbService.loadEspecialidades();
     this.profileForm.patchValue({
@@ -1393,6 +1495,10 @@ export class ProfileModalComponent implements OnInit {
     });
   }
 
+  /**
+   * Validador personalizado para contraseñas coincidentes
+   * @returns ValidatorFn que verifica que las contraseñas coincidan
+   */
   passwordMatchValidator() {
     return (formGroup: FormGroup) &#x3D;&gt; {
       const password &#x3D; formGroup.get(&#x27;password&#x27;);
@@ -1411,11 +1517,21 @@ export class ProfileModalComponent implements OnInit {
     };
   }
 
+  /**
+   * Verifica si un campo del formulario es inválido
+   * @param fieldName Nombre del campo a verificar
+   * @returns boolean indicando si el campo es inválido y ha sido tocado
+   */
   isFieldInvalid(fieldName: string): boolean {
     const field &#x3D; this.profileForm.get(fieldName);
     return field ? (field.invalid &amp;&amp; (field.dirty || field.touched)) : false;
   }
 
+  /**
+   * Obtiene el mensaje de error para un campo
+   * @param fieldName Nombre del campo
+   * @returns Mensaje de error correspondiente al tipo de error
+   */
   getErrorMessage(fieldName: string): string {
     const control &#x3D; this.profileForm.get(fieldName);
     if (control?.errors) {
@@ -1424,7 +1540,10 @@ export class ProfileModalComponent implements OnInit {
       if (control.errors[&#x27;email&#x27;]) return &#x27;Email inválido&#x27;;
       if (control.errors[&#x27;pattern&#x27;]) {
         if (fieldName &#x3D;&#x3D;&#x3D; &#x27;telefono&#x27;) return &#x27;Formato de teléfono inválido&#x27;;
-        if (fieldName &#x3D;&#x3D;&#x3D; &#x27;password&#x27;) return &#x27;La contraseña debe tener al menos una mayúscula, una minúscula y un número&#x27;;
+        if (fieldName &#x3D;&#x3D;&#x3D; &#x27;password&#x27;) {
+          if (control.value?.includes(&#x27; &#x27;)) return &#x27;No se permiten espacios&#x27;;
+          return &#x27;La contraseña debe tener al menos una mayúscula, una minúscula y un número&#x27;;
+        }
         return &#x27;Formato inválido&#x27;;
       }
       if (control.errors[&#x27;passwordMismatch&#x27;]) return &#x27;Las contraseñas no coinciden&#x27;;
@@ -1432,10 +1551,18 @@ export class ProfileModalComponent implements OnInit {
     return &#x27;&#x27;;
   }
 
+  /**
+   * Cierra el modal
+   * @description Emite el evento close
+   */
   closeModal() {
     this.close.emit();
   }
 
+  /**
+   * Maneja el envío del formulario
+   * @description Valida y actualiza la información del usuario
+   */
   onSubmit() {
     if (this.profileForm.invalid) {
       Object.keys(this.profileForm.controls).forEach(key &#x3D;&gt; {
@@ -1642,7 +1769,7 @@ export class ProfileModalComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="modal-backdrop" (click)="closeModal()">  <div class="modal-content" (click)="$event.stopPropagation()">    <div class="modal-header">      <h2>Modificar Perfil</h2>      <button class="close-button" (click)="closeModal()">×</button>    </div>    <div class="modal-body">      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">        <div class="form-row">          <div class="form-group">            <label for="nombres">Nombres</label>            <input              id="nombres"              type="text"              formControlName="nombres"              [class.error]="isFieldInvalid(\'nombres\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'nombres\')">              {{ getErrorMessage(\'nombres\') }}            </div>          </div>          <div class="form-group">            <label for="apellidos">Apellidos</label>            <input              id="apellidos"              type="text"              formControlName="apellidos"              [class.error]="isFieldInvalid(\'apellidos\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'apellidos\')">              {{ getErrorMessage(\'apellidos\') }}            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="email">Correo Electrónico</label>            <input              id="email"              type="email"              formControlName="email"              [class.error]="isFieldInvalid(\'email\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'email\')">              {{ getErrorMessage(\'email\') }}            </div>          </div>          <div class="form-group">            <label for="esp_id">Especialidad</label>            <select              id="esp_id"              formControlName="esp_id"              [class.error]="isFieldInvalid(\'esp_id\')"            >              <option value="">Seleccione una especialidad</option>              <option *ngFor="let esp of especialidades" [value]="esp.id">                {{ esp.nombre }}              </option>            </select>            <div class="error-message" *ngIf="isFieldInvalid(\'esp_id\')">              Especialidad es requerida            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="telefono">Teléfono</label>            <input              id="telefono"              type="text"              formControlName="telefono"              placeholder="(56) 9 1234 5678"              mask="(00) 0 0000 0000"              prefix="  "              [dropSpecialCharacters]="false"              [showMaskTyped]="true"              [clearIfNotMatch]="false"              [class.error]="isFieldInvalid(\'telefono\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'telefono\')">              {{ getErrorMessage(\'telefono\') }}            </div>          </div>          <div class="form-group">            <label for="password">Nueva Contraseña (opcional)</label>            <input              id="password"              type="password"              formControlName="password"              [class.error]="isFieldInvalid(\'password\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'password\')">              {{ getErrorMessage(\'password\') }}            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="confirmPassword">Confirmar Nueva Contraseña</label>            <input              id="confirmPassword"              type="password"              formControlName="confirmPassword"              [class.error]="isFieldInvalid(\'confirmPassword\')"            >            <div class="error-message" *ngIf="profileForm.errors?.[\'passwordMismatch\']">              Las contraseñas no coinciden            </div>          </div>        </div>        <div class="form-actions">          <button type="button" class="cancel-btn" (click)="closeModal()">            Cancelar          </button>          <button            type="submit"            class="submit-btn"            [disabled]="profileForm.invalid || isLoading"          >            {{ isLoading ? \'Guardando...\' : \'Guardar Cambios\' }}          </button>        n</div>      </form>    </div>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="modal-backdrop" (click)="closeModal()">  <div class="modal-content" (click)="$event.stopPropagation()">    <div class="modal-header">      <h2>Modificar Perfil</h2>      <button class="close-button" (click)="closeModal()">×</button>    </div>    <div class="modal-body">      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">        <div class="form-row">          <div class="form-group">            <label for="nombres">Nombres</label>            <input              id="nombres"              type="text"              formControlName="nombres"              [class.error]="isFieldInvalid(\'nombres\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'nombres\')">              {{ getErrorMessage(\'nombres\') }}            </div>          </div>          <div class="form-group">            <label for="apellidos">Apellidos</label>            <input              id="apellidos"              type="text"              formControlName="apellidos"              [class.error]="isFieldInvalid(\'apellidos\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'apellidos\')">              {{ getErrorMessage(\'apellidos\') }}            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="email">Correo Electrónico</label>            <input              id="email"              type="email"              formControlName="email"              [class.error]="isFieldInvalid(\'email\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'email\')">              {{ getErrorMessage(\'email\') }}            </div>          </div>          <div class="form-group">            <label for="esp_id">Especialidad</label>            <select              id="esp_id"              formControlName="esp_id"              [class.error]="isFieldInvalid(\'esp_id\')"            >              <option value="">Seleccione una especialidad</option>              <option *ngFor="let esp of especialidades" [value]="esp.id">                {{ esp.nombre }}              </option>            </select>            <div class="error-message" *ngIf="isFieldInvalid(\'esp_id\')">              Especialidad es requerida            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="telefono">Teléfono</label>            <input              id="telefono"              type="text"              formControlName="telefono"              placeholder="(56) 9 1234 5678"              mask="(00) 0 0000 0000"              prefix="  "              [dropSpecialCharacters]="false"              [showMaskTyped]="true"              [clearIfNotMatch]="false"              [class.error]="isFieldInvalid(\'telefono\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'telefono\')">              {{ getErrorMessage(\'telefono\') }}            </div>          </div>          <div class="form-group">            <label for="password">Nueva Contraseña (opcional)</label>            <input              id="password"              type="password"              formControlName="password"              [class.error]="isFieldInvalid(\'password\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'password\')">              {{ getErrorMessage(\'password\') }}            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="confirmPassword">Confirmar Nueva Contraseña</label>            <input              id="confirmPassword"              type="password"              formControlName="confirmPassword"              [class.error]="isFieldInvalid(\'confirmPassword\')"            >            <div class="error-message" *ngIf="profileForm.errors?.[\'passwordMismatch\']">              Las contraseñas no coinciden            </div>          </div>        </div>        <div class="form-actions">          <button type="button" class="cancel-btn" (click)="closeModal()">            Cancelar          </button>          <button            type="submit"            class="submit-btn"            [disabled]="profileForm.invalid || isLoading"          >            {{ isLoading ? \'Guardando...\' : \'Guardar Cambios\' }}          </button>        </div>      </form>    </div>  </div></div></div>'
     var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'FuncionariosComponent', 'selector': 'app-funcionarios'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'ProfileModalComponent'};

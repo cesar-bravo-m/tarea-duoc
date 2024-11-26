@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { DatabaseService, Funcionario } from '../../services/database.service';
 import { ToastService } from '../../services/toast.service';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
@@ -312,12 +312,14 @@ export class ProfileModalComponent implements OnInit {
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     this.profileForm = this.fb.group({
-      nombres: ['', [Validators.required, Validators.minLength(2)]],
-      apellidos: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
+      nombres: ['', [Validators.required, Validators.minLength(4)]],
+      apellidos: ['', [Validators.required, Validators.minLength(4)]],
+      email: ['', [Validators.required, this.emailDomainValidator()]],
       telefono: ['(56) 9 ', [Validators.required, Validators.minLength(12)]],
       esp_id: ['', Validators.required],
       password: ['', [
+        Validators.minLength(6),
+        Validators.maxLength(12),
         Validators.pattern(/^[^\s]+$/),  // No spaces allowed
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/)
       ]],
@@ -327,6 +329,32 @@ export class ProfileModalComponent implements OnInit {
     this.dbService.especialidades$.subscribe(
       esp => this.especialidades = esp
     );
+  }
+
+  /**
+   * Validador personalizado para el dominio del email
+   * @returns ValidatorFn para validar que el email tenga un dominio válido
+   */
+  emailDomainValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const email = control.value;
+      if (!email) return null;
+      
+      if (!email.includes('@')) return { invalidEmail: true };
+
+      const [localPart, domain] = email.split('@');
+      
+      if (!domain || !domain.includes('.')) return { invalidDomain: true };
+
+      const parts = domain.split('.');
+      const tld = parts[parts.length - 1];
+      
+      if (tld.length < 2 || !/^[a-zA-Z]+$/.test(tld)) {
+        return { invalidTld: true };
+      }
+
+      return null;
+    };
   }
 
   /**
@@ -386,7 +414,9 @@ export class ProfileModalComponent implements OnInit {
     if (control?.errors) {
       if (control.errors['required']) return 'Este campo es requerido';
       if (control.errors['minlength']) return `Mínimo ${control.errors['minlength'].requiredLength} caracteres`;
-      if (control.errors['email']) return 'Email inválido';
+      if (control.errors['invalidEmail']) return 'Email inválido';
+      if (control.errors['invalidDomain']) return 'Dominio de email inválido';
+      if (control.errors['invalidTld']) return 'TLD de dominio de email inválido';
       if (control.errors['pattern']) {
         if (fieldName === 'telefono') return 'Formato de teléfono inválido';
         if (fieldName === 'password') {

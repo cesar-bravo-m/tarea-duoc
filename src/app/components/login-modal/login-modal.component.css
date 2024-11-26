@@ -158,6 +158,6 @@
   background-color: #cbd5e0;
 }
 
-#rut, #password, #recoveryRut, #recoveryCode {
+#rut, #password, #recoveryRut, #recoveryCode, #newPassword, #confirmPassword {
   width: 95%;
 }

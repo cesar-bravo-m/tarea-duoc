@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatabaseService } from '../../services/database.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
@@ -12,7 +12,7 @@ import { ToastService } from '../../services/toast.service';
 @Component({
   selector: 'app-login-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './login-modal.component.html',
   styleUrls: ['./login-modal.component.css']
 })
@@ -47,11 +47,69 @@ export class LoginModalComponent {
   /** Mensaje de error para mostrar al usuario */
   errorMessage: string = 'RUT o contraseña incorrectos';
 
+  /** Formulario para recuperación de contraseña */
+  recoveryForm: FormGroup;
+
   constructor(
+    private fb: FormBuilder,
     private dbService: DatabaseService,
     private router: Router,
     private toastService: ToastService
-  ) {}
+  ) {
+    this.recoveryForm = this.fb.group({
+      recoveryRut: ['', [Validators.required]],
+      recoveryCode: [''],
+      newPassword: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(12),
+        Validators.pattern(/^[^\s]+$/),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/)
+      ]],
+      confirmPassword: ['', [Validators.required]]
+    }, { validator: this.passwordMatchValidator() });
+  }
+
+  passwordMatchValidator() {
+    return (formGroup: FormGroup) => {
+      const password = formGroup.get('newPassword');
+      const confirmPassword = formGroup.get('confirmPassword');
+
+      if (password?.value || confirmPassword?.value) {
+        if (password?.value !== confirmPassword?.value) {
+          confirmPassword?.setErrors({ passwordMismatch: true });
+          return { passwordMismatch: true };
+        } else {
+          confirmPassword?.setErrors(null);
+          return null;
+        }
+      }
+      return null;
+    };
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.recoveryForm.get(fieldName);
+    return field ? (field.invalid && (field.dirty || field.touched)) : false;
+  }
+
+  getErrorMessage(fieldName: string): string {
+    const control = this.recoveryForm.get(fieldName);
+    if (control?.errors) {
+      if (control.errors['required']) return 'Este campo es requerido';
+      if (control.errors['minlength']) return `Mínimo ${control.errors['minlength'].requiredLength} caracteres`;
+      if (control.errors['maxlength']) return `Máximo ${control.errors['maxlength'].requiredLength} caracteres`;
+      if (control.errors['pattern']) {
+        if (fieldName === 'newPassword') {
+          if (control.value?.includes(' ')) return 'No se permiten espacios';
+          return 'La contraseña debe tener al menos una mayúscula, una minúscula y un número';
+        }
+        return 'Formato inválido';
+      }
+      if (control.errors['passwordMismatch']) return 'Las contraseñas no coinciden';
+    }
+    return '';
+  }
 
   /**
    * Cierra el modal de inicio de sesión
@@ -98,7 +156,7 @@ export class LoginModalComponent {
 
     try {
       if (!this.recoveryCodeSent) {
-        const funcionario = this.dbService.getFuncionarioByRut(this.recoveryRut);
+        const funcionario = this.dbService.getFuncionarioByRut(this.recoveryForm.get('recoveryRut')?.value);
         if (!funcionario) {
           this.showError = true;
           this.errorMessage = 'RUT no encontrado';
@@ -112,7 +170,7 @@ export class LoginModalComponent {
         this.errorMessage = '';
       } 
       else if (!this.recoveryCodeVerified) {
-        if (this.recoveryCode !== this.generatedCode) {
+        if (this.recoveryForm.get('recoveryCode')?.value !== this.generatedCode) {
           this.showError = true;
           this.errorMessage = 'Código inválido';
           return;
@@ -122,15 +180,20 @@ export class LoginModalComponent {
         this.errorMessage = '';
       } 
       else {
-        if (this.newPassword.length < 6) {
-          this.showError = true;
-          this.errorMessage = 'La contraseña debe tener al menos 6 caracteres';
+        if (this.recoveryForm.invalid) {
+          Object.keys(this.recoveryForm.controls).forEach(key => {
+            const control = this.recoveryForm.get(key);
+            if (control?.invalid) {
+              control.markAsTouched();
+            }
+          });
           return;
         }
 
-        const funcionario = this.dbService.getFuncionarioByRut(this.recoveryRut);
+        const funcionario = this.dbService.getFuncionarioByRut(this.recoveryForm.get('recoveryRut')?.value);
         if (funcionario) {
-          this.dbService.updateFuncionarioPassword(funcionario.id, this.newPassword);
+          this.dbService.updateFuncionarioPassword(funcionario.id, this.recoveryForm.get('newPassword')?.value);
+          this.toastService.show('Contraseña actualizada', 'success');
           this.closeModal();
         }
       }
