@@ -21,6 +21,14 @@
           {{ getUserInitials() }}
         </div>
         <div class="dropdown-menu" *ngIf="showUserMenu">
+          <!-- <div class="user-info">
+            <span class="user-name">{{ getUserFullName() }}</span>
+            <span class="user-role">{{ getUserSpecialty() }}</span>
+          </div> -->
+          <button class="profile-btn" (click)="openProfileModal()">
+            <span class="icon">🔧</span>
+            <span>Modificar Perfil</span>
+          </button>
           <button class="logout-btn" (click)="logout()">
             <span class="icon">🚪</span>
             <span>Cerrar Sesión</span>
@@ -31,6 +39,7 @@
   </header>
 
   <main class="main-content">
+    <app-profile-modal *ngIf="showProfileModal" (close)="closeProfileModal()"></app-profile-modal>
     <router-outlet></router-outlet>
   </main>
 </div>

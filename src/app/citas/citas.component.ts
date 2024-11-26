@@ -50,6 +50,8 @@ export class CitasComponent implements OnInit {
   successMessage = '';
   /** Indica si la pantalla es pequeña */
   isSmallScreen: boolean = false;
+  /** Lista de pacientes */
+  pacientes: Paciente[] = [];
 
   /** Configuración del calendario */
   calendarOptions: CalendarOptions = {
@@ -90,6 +92,12 @@ export class CitasComponent implements OnInit {
         this.filteredFuncionarios = this.funcionarios;
       }
     );
+
+    // Subscribe to pacientes
+    this.dbService.pacientes$.subscribe(
+      pacientes => this.pacientes = pacientes
+    );
+
     this.checkScreenSize();
   }
 
@@ -141,6 +149,7 @@ export class CitasComponent implements OnInit {
 
   ngOnInit() {
     this.dbService.loadFuncionarios();
+    this.dbService.loadPacientes();  // Load pacientes
   }
 
   /**
@@ -281,6 +290,7 @@ export class CitasComponent implements OnInit {
     if (!this.selectedSegmento || !this.selectedPaciente) return;
 
     try {
+      
       this.dbService.assignSegmentoToPaciente(this.selectedPaciente.id, this.selectedSegmento.id);
       
       this.toastService.show('Cita creada exitosamente', 'success');
@@ -299,6 +309,10 @@ export class CitasComponent implements OnInit {
       this.errorMessage = 'Error al asignar la cita';
       console.error(error);
     }
+    this.funcionarios = this.funcionarios.map(f => ({
+      ...f,
+      hasAvailableSegments: this.checkFuncionarioAvailability(f.id)
+    }));
   }
 
   /**

@@ -1,0 +1,653 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>tarea-duoc documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">tarea-duoc documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  FuncionarioWithAvailability</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/citas/citas.component.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interfaz que extiende Funcionario con información de disponibilidad</p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="../interfaces/Funcionario.html" target="_self" >Funcionario</a></code>
+            </p>
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#hasAvailableSegments" 
+>
+                                            hasAvailableSegments
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="hasAvailableSegments"></a>
+                                        <span class="name "><b>hasAvailableSegments</b>
+                                            <a href="#hasAvailableSegments">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>hasAvailableSegments:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Indica si el funcionario tiene segmentos disponibles esta semana</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, ViewChild, HostListener } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { DatabaseService, Funcionario, SegmentoHorario, Paciente } from &#x27;../services/database.service&#x27;;
+import { CalendarOptions, EventInput } from &#x27;@fullcalendar/core&#x27;;
+import { FullCalendarModule, FullCalendarComponent } from &#x27;@fullcalendar/angular&#x27;;
+import dayGridPlugin from &#x27;@fullcalendar/daygrid&#x27;;
+import timeGridPlugin from &#x27;@fullcalendar/timegrid&#x27;;
+import interactionPlugin from &#x27;@fullcalendar/interaction&#x27;;
+import { ToastService } from &#x27;../services/toast.service&#x27;;
+
+/**
+ * Componente que maneja la asignación de citas médicas
+ * @description Permite asignar pacientes a segmentos horarios de funcionarios
+ */
+@Component({
+  selector: &#x27;app-citas&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule, FullCalendarModule],
+  templateUrl: &#x27;./citas.component.html&#x27;,
+  styleUrls: [&#x27;./citas.component.css&#x27;]
+})
+export class CitasComponent implements OnInit {
+  /** Referencia al componente de calendario */
+  @ViewChild(&#x27;calendar&#x27;) calendarComponent!: FullCalendarComponent;
+  
+  /** Término de búsqueda para funcionarios */
+  searchTerm: string &#x3D; &#x27;&#x27;;
+  /** RUT del paciente a buscar */
+  searchRut: string &#x3D; &#x27;&#x27;;
+  /** Lista de funcionarios con información de disponibilidad */
+  funcionarios: FuncionarioWithAvailability[] &#x3D; [];
+  /** Lista filtrada de funcionarios */
+  filteredFuncionarios: FuncionarioWithAvailability[] &#x3D; [];
+  /** Funcionario seleccionado actualmente */
+  selectedFuncionario: Funcionario | null &#x3D; null;
+  /** Segmento horario seleccionado */
+  selectedSegmento: SegmentoHorario | null &#x3D; null;
+  /** Paciente seleccionado */
+  selectedPaciente: Paciente | null &#x3D; null;
+  /** Indica si se debe mostrar el modal de asignación */
+  showAssignModal &#x3D; false;
+  /** Indica si hay un error que mostrar */
+  showError &#x3D; false;
+  /** Indica si hay un mensaje de éxito que mostrar */
+  showSuccess &#x3D; false;
+  /** Mensaje de error */
+  errorMessage &#x3D; &#x27;&#x27;;
+  /** Mensaje de éxito */
+  successMessage &#x3D; &#x27;&#x27;;
+  /** Indica si la pantalla es pequeña */
+  isSmallScreen: boolean &#x3D; false;
+  /** Lista de pacientes */
+  pacientes: Paciente[] &#x3D; [];
+
+  /** Configuración del calendario */
+  calendarOptions: CalendarOptions &#x3D; {
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    initialView: window.innerWidth &lt; 768 ? &#x27;timeGridDay&#x27; : &#x27;timeGridWeek&#x27;,
+    headerToolbar: {
+      left: &#x27;prev,next today&#x27;,
+      center: &#x27;title&#x27;,
+      right: window.innerWidth &lt; 768 ? &#x27;today&#x27; : &#x27;timeGridWeek,timeGridDay&#x27;
+    },
+    slotMinTime: &#x27;07:00:00&#x27;,
+    slotMaxTime: &#x27;20:00:00&#x27;,
+    allDaySlot: false,
+    weekends: true,
+    eventClick: this.handleEventClick.bind(this),
+    events: []
+  };
+
+  /**
+   * Escucha cambios en el tamaño de la ventana
+   * @description Actualiza la vista del calendario según el tamaño de pantalla
+   */
+  @HostListener(&#x27;window:resize&#x27;, [&#x27;$event&#x27;])
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  constructor(
+    private dbService: DatabaseService,
+    private toastService: ToastService
+  ) {
+    this.dbService.funcionarios$.subscribe(
+      funcionarios &#x3D;&gt; {
+        this.funcionarios &#x3D; funcionarios.map(f &#x3D;&gt; ({
+          ...f,
+          hasAvailableSegments: this.checkFuncionarioAvailability(f.id)
+        }));
+        this.filteredFuncionarios &#x3D; this.funcionarios;
+      }
+    );
+
+    // Subscribe to pacientes
+    this.dbService.pacientes$.subscribe(
+      pacientes &#x3D;&gt; this.pacientes &#x3D; pacientes
+    );
+
+    this.checkScreenSize();
+  }
+
+  /**
+   * Verifica el tamaño de la pantalla
+   * @description Actualiza isSmallScreen y la vista del calendario
+   * @private
+   */
+  private checkScreenSize() {
+    const wasSmallScreen &#x3D; this.isSmallScreen;
+    this.isSmallScreen &#x3D; window.innerWidth &lt; 768;
+
+    if (wasSmallScreen !&#x3D;&#x3D; this.isSmallScreen) {
+      this.updateCalendarView();
+    }
+  }
+
+  /**
+   * Actualiza la vista del calendario
+   * @description Cambia entre vista diaria y semanal según el tamaño de pantalla
+   * @private
+   */
+  private updateCalendarView() {
+    if (this.calendarComponent) {
+      const calendarApi &#x3D; this.calendarComponent.getApi();
+      if (this.isSmallScreen) {
+        calendarApi.changeView(&#x27;timeGridDay&#x27;);
+        this.calendarOptions &#x3D; {
+          ...this.calendarOptions,
+          headerToolbar: {
+            left: &#x27;prev,next&#x27;,
+            center: &#x27;title&#x27;,
+            right: &#x27;today&#x27;
+          }
+        };
+      } else {
+        calendarApi.changeView(&#x27;timeGridWeek&#x27;);
+        this.calendarOptions &#x3D; {
+          ...this.calendarOptions,
+          headerToolbar: {
+            left: &#x27;prev,next today&#x27;,
+            center: &#x27;title&#x27;,
+            right: &#x27;timeGridWeek,timeGridDay&#x27;
+          }
+        };
+      }
+    }
+  }
+
+  ngOnInit() {
+    this.dbService.loadFuncionarios();
+    this.dbService.loadPacientes();  // Load pacientes
+  }
+
+  /**
+   * Verifica la disponibilidad de un funcionario
+   * @param funcionarioId ID del funcionario
+   * @returns boolean indicando si tiene segmentos disponibles esta semana
+   * @private
+   */
+  private checkFuncionarioAvailability(funcionarioId: number): boolean {
+    const segmentos &#x3D; this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
+    const today &#x3D; new Date();
+    const startOfWeek &#x3D; new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+    const endOfWeek &#x3D; new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+    return segmentos.some(segmento &#x3D;&gt; {
+      const segmentoDate &#x3D; new Date(segmento.fecha_hora_inicio);
+      return segmento.free &amp;&amp; 
+             segmentoDate &gt;&#x3D; startOfWeek &amp;&amp; 
+             segmentoDate &lt; endOfWeek;
+    });
+  }
+
+  /**
+   * Filtra funcionarios según término de búsqueda
+   * @description Actualiza filteredFuncionarios basado en searchTerm
+   */
+  searchFuncionarios() {
+    if (!this.searchTerm.trim()) {
+      this.filteredFuncionarios &#x3D; this.funcionarios;
+      return;
+    }
+
+    const searchTermLower &#x3D; this.searchTerm.toLowerCase();
+    this.filteredFuncionarios &#x3D; this.funcionarios.filter(funcionario &#x3D;&gt; 
+      funcionario.nombres.toLowerCase().includes(searchTermLower) ||
+      funcionario.apellidos.toLowerCase().includes(searchTermLower)
+    );
+  }
+
+  /**
+   * Selecciona un funcionario y carga sus segmentos
+   * @param funcionario Funcionario seleccionado
+   */
+  selectFuncionario(funcionario: Funcionario) {
+    this.selectedFuncionario &#x3D; funcionario;
+    this.loadSegmentos(funcionario.id);
+    
+    setTimeout(() &#x3D;&gt; {
+      this.updateCalendarView();
+    }, 0);
+  }
+
+  /**
+   * Carga los segmentos de un funcionario en el calendario
+   * @param funcionarioId ID del funcionario
+   */
+  loadSegmentos(funcionarioId: number) {
+    const segmentos &#x3D; this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
+    const events: EventInput[] &#x3D; segmentos.map(segmento &#x3D;&gt; ({
+      id: segmento.id.toString(),
+      title: segmento.nombre,
+      start: segmento.fecha_hora_inicio,
+      end: segmento.fecha_hora_fin,
+      backgroundColor: segmento.free ? &#x27;#48bb78&#x27; : &#x27;#fc8181&#x27;,
+      borderColor: segmento.free ? &#x27;#38a169&#x27; : &#x27;#f56565&#x27;,
+      extendedProps: {
+        segmento: segmento
+      }
+    }));
+
+    this.calendarOptions.events &#x3D; events;
+  }
+
+  /**
+   * Maneja el clic en un evento del calendario
+   * @param clickInfo Información del evento clickeado
+   * @description Abre el modal de asignación si el segmento está disponible
+   */
+  handleEventClick(clickInfo: any) {
+    const segmento &#x3D; clickInfo.event.extendedProps.segmento as SegmentoHorario;
+    if (segmento.free) {
+      this.selectedSegmento &#x3D; segmento;
+      this.showAssignModal &#x3D; true;
+    } else {
+      alert(&#x27;Este horario ya está ocupado&#x27;);
+    }
+  }
+
+  /**
+   * Formatea el RUT mientras el usuario escribe
+   * @param event Evento de input
+   * @description Agrega puntos y guión al RUT
+   */
+  onRutInput(event: any) {
+    const input &#x3D; event.target;
+    let rut &#x3D; input.value.replace(/\./g, &#x27;&#x27;).replace(/-/g, &#x27;&#x27;);
+    rut &#x3D; rut.replace(/[^0-9kK]/g, &#x27;&#x27;);
+    
+    if (rut.length &gt; 0) {
+      let result &#x3D; rut;
+      if (rut.length &gt; 1) {
+        result &#x3D; rut.slice(0, -1).replace(/(\d)(?&#x3D;(\d{3})+(?!\d))/g, &#x27;$1.&#x27;) + &#x27;-&#x27; + rut.slice(-1);
+      }
+      input.value &#x3D; result;
+    }
+  }
+
+  /**
+   * Busca un paciente por RUT
+   * @description Actualiza selectedPaciente y muestra mensajes de éxito/error
+   */
+  searchPaciente() {
+    if (!this.searchRut) {
+      this.showError &#x3D; true;
+      this.errorMessage &#x3D; &#x27;Ingrese un RUT para buscar&#x27;;
+      return;
+    }
+
+    const paciente &#x3D; this.dbService.getPacienteByRut(this.searchRut);
+    if (paciente) {
+      this.selectedPaciente &#x3D; paciente;
+      this.showSuccess &#x3D; true;
+      this.successMessage &#x3D; &#x27;Paciente encontrado&#x27;;
+    } else {
+      this.showError &#x3D; true;
+      this.errorMessage &#x3D; &#x27;Paciente no encontrado&#x27;;
+      this.selectedPaciente &#x3D; null;
+    }
+  }
+
+  /**
+   * Asigna un paciente a un segmento horario
+   * @description Marca el segmento como ocupado y muestra mensaje de éxito
+   */
+  assignPaciente() {
+    if (!this.selectedSegmento || !this.selectedPaciente) return;
+
+    try {
+      
+      this.dbService.assignSegmentoToPaciente(this.selectedPaciente.id, this.selectedSegmento.id);
+      
+      this.toastService.show(&#x27;Cita creada exitosamente&#x27;, &#x27;success&#x27;);
+      
+      this.selectedSegmento &#x3D; null;
+      this.selectedPaciente &#x3D; null;
+      this.searchRut &#x3D; &#x27;&#x27;;
+      
+      if (this.selectedFuncionario) {
+        this.loadSegmentos(this.selectedFuncionario.id);
+      }
+      
+      this.closeAssignModal();
+    } catch (error) {
+      this.showError &#x3D; true;
+      this.errorMessage &#x3D; &#x27;Error al asignar la cita&#x27;;
+      console.error(error);
+    }
+    this.funcionarios &#x3D; this.funcionarios.map(f &#x3D;&gt; ({
+      ...f,
+      hasAvailableSegments: this.checkFuncionarioAvailability(f.id)
+    }));
+  }
+
+  /**
+   * Cierra el modal de asignación
+   * @description Limpia las selecciones actuales
+   */
+  closeAssignModal() {
+    this.showAssignModal &#x3D; false;
+    this.selectedSegmento &#x3D; null;
+    this.selectedPaciente &#x3D; null;
+    this.searchRut &#x3D; &#x27;&#x27;;
+  }
+
+  /**
+   * Alterna la visibilidad de la sección de búsqueda
+   * @description Limpia la selección actual si está colapsada
+   */
+  toggleSearch() {
+    if (this.selectedFuncionario) {
+      this.selectedFuncionario &#x3D; null;
+      this.searchTerm &#x3D; &#x27;&#x27;;
+      this.filteredFuncionarios &#x3D; this.funcionarios;
+      this.calendarOptions.events &#x3D; [];
+    }
+  }
+}
+
+/**
+ * Interfaz que extiende Funcionario con información de disponibilidad
+ */
+interface FuncionarioWithAvailability extends Funcionario {
+  /** Indica si el funcionario tiene segmentos disponibles esta semana */
+  hasAvailableSegments?: boolean;
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'FuncionarioWithAvailability.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, ValidatorFn, V
 import { DatabaseService, Funcionario } from '../../services/database.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 /**
  * Componente que maneja el modal de registro de funcionarios
@@ -12,7 +13,8 @@ import { ToastService } from '../../services/toast.service';
 @Component({
   selector: 'app-register-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgxMaskDirective],
+  providers: [provideNgxMask()],
   templateUrl: './register-modal.component.html',
   styleUrls: ['./register-modal.component.css']
 })
@@ -41,7 +43,7 @@ export class RegisterModalComponent {
       nombres: ['', [Validators.required, Validators.minLength(2)]],
       apellidos: ['', [Validators.required, Validators.minLength(2)]],
       rut: ['', [Validators.required, this.rutValidator()]],
-      telefono: ['', [Validators.required, Validators.pattern(/^[0-9\-\+]{9,}$/)]],
+      telefono: ['(56) 9 ', [Validators.required, Validators.minLength(12)]],
       email: ['', [Validators.required, Validators.email, this.emailDomainValidator()]],
       password: ['', [
         Validators.required, 

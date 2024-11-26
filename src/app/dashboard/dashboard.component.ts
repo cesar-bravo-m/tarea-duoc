@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { DatabaseService } from '../services/database.service';
 import { ToastService } from '../services/toast.service';
+import { ProfileModalComponent } from '../components/profile-modal/profile-modal.component';
 
 /**
  * Interfaz que define la estructura de un elemento de navegación
@@ -27,7 +28,7 @@ interface NavItem {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet],
+  imports: [CommonModule, RouterLink, RouterOutlet, ProfileModalComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -36,6 +37,7 @@ export class DashboardComponent {
   currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
   /** Indica si el menú de usuario está visible */
   showUserMenu = false;
+  showProfileModal = false;
 
   /** Lista de elementos de navegación con sus permisos */
   navItems: NavItem[] = [
@@ -112,5 +114,21 @@ export class DashboardComponent {
     this.toastService.show(`Cierre de sesión exitoso @ ${timeStr}`, 'success');
     
     this.router.navigate(['/']);
+  }
+
+  getUserFullName(): string {
+    return `${this.currentUser.nombres} ${this.currentUser.apellidos}`;
+  }
+
+  getUserSpecialty(): string {
+    return this.currentUser.especialidad;
+  }
+
+  openProfileModal() {
+    this.showProfileModal = true;
+  }
+
+  closeProfileModal() {
+    this.showProfileModal = false;
   }
 }

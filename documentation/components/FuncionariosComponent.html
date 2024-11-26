@@ -1,0 +1,2330 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>tarea-duoc documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">tarea-duoc documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  FuncionariosComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/funcionarios/funcionarios.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente que maneja la gestión de funcionarios</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-funcionarios</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>ReactiveFormsModule</code>
+                            <code>FormsModule</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">styles</td>
+                <td class="col-md-9"><code>
+    .funcionarios-container {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .search-section, .form-section {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .search-box {
+      margin-bottom: 1.5rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .funcionarios-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .funcionario-card {
+      padding: 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .funcionario-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .funcionario-card.selected {
+      border-color: #4299e1;
+      background-color: #ebf8ff;
+    }
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #4a5568;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .form-group input.error,
+    .form-group select.error {
+      border-color: #fc8181;
+    }
+
+    .error-message {
+      color: #e53e3e;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .submit-btn, .cancel-btn, .delete-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+    }
+
+    .submit-btn {
+      background-color: #4299e1;
+      color: white;
+    }
+
+    .cancel-btn {
+      background-color: #e2e8f0;
+      color: #4a5568;
+    }
+
+    .delete-btn {
+      background-color: #fc8181;
+      color: white;
+    }
+
+    .submit-btn:disabled {
+      background-color: #a0aec0;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">template</td>
+                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;funcionarios-container&quot;&gt;
+  &lt;div class&#x3D;&quot;search-section&quot;&gt;
+    &lt;h2&gt;Buscar Funcionario&lt;/h2&gt;
+    &lt;div class&#x3D;&quot;search-box&quot;&gt;
+      &lt;input
+        type&#x3D;&quot;text&quot;
+        [(ngModel)]&#x3D;&quot;searchTerm&quot;
+        placeholder&#x3D;&quot;Buscar por nombre&quot;
+        class&#x3D;&quot;search-input&quot;
+        (input)&#x3D;&quot;searchFuncionarios()&quot;
+      &gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;funcionarios-list&quot; *ngIf&#x3D;&quot;filteredFuncionarios.length &gt; 0&quot;&gt;
+      &lt;div
+        *ngFor&#x3D;&quot;let funcionario of filteredFuncionarios&quot;
+        class&#x3D;&quot;funcionario-card&quot;
+        [class.selected]&#x3D;&quot;selectedFuncionario?.id &#x3D;&#x3D;&#x3D; funcionario.id&quot;
+        (click)&#x3D;&quot;selectFuncionario(funcionario)&quot;
+      &gt;
+        &lt;div class&#x3D;&quot;funcionario-info&quot;&gt;
+          &lt;h3&gt;{{ funcionario.nombres }} {{ funcionario.apellidos }}&lt;/h3&gt;
+          &lt;p class&#x3D;&quot;especialidad&quot;&gt;{{ funcionario.especialidad }}&lt;/p&gt;
+          &lt;p class&#x3D;&quot;email&quot;&gt;{{ funcionario.email }}&lt;/p&gt;
+          &lt;p class&#x3D;&quot;telefono&quot;&gt;{{ funcionario.telefono }}&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div *ngIf&#x3D;&quot;searchTerm &amp;&amp; filteredFuncionarios.length &#x3D;&#x3D;&#x3D; 0&quot; class&#x3D;&quot;no-results&quot;&gt;
+      No se encontraron funcionarios
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;form-section&quot;&gt;
+    &lt;div class&#x3D;&quot;form-header&quot;&gt;
+      &lt;h2&gt;{{ selectedFuncionario ? &#x27;Editar&#x27; : &#x27;Nuevo&#x27; }} Funcionario&lt;/h2&gt;
+      &lt;button
+        *ngIf&#x3D;&quot;selectedFuncionario&quot;
+        type&#x3D;&quot;button&quot;
+        class&#x3D;&quot;delete-btn&quot;
+        (click)&#x3D;&quot;deleteFuncionario()&quot;
+      &gt;
+        Eliminar
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;form [formGroup]&#x3D;&quot;funcionarioForm&quot; (ngSubmit)&#x3D;&quot;onSubmit()&quot;&gt;
+      &lt;div class&#x3D;&quot;form-row&quot;&gt;
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label for&#x3D;&quot;nombres&quot;&gt;Nombres&lt;/label&gt;
+          &lt;input
+            id&#x3D;&quot;nombres&quot;
+            type&#x3D;&quot;text&quot;
+            formControlName&#x3D;&quot;nombres&quot;
+            [class.error]&#x3D;&quot;isFieldInvalid(&#x27;nombres&#x27;)&quot;
+          &gt;
+          &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;nombres&#x27;)&quot;&gt;
+            {{ getErrorMessage(&#x27;nombres&#x27;) }}
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label for&#x3D;&quot;apellidos&quot;&gt;Apellidos&lt;/label&gt;
+          &lt;input
+            id&#x3D;&quot;apellidos&quot;
+            type&#x3D;&quot;text&quot;
+            formControlName&#x3D;&quot;apellidos&quot;
+            [class.error]&#x3D;&quot;isFieldInvalid(&#x27;apellidos&#x27;)&quot;
+          &gt;
+          &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;apellidos&#x27;)&quot;&gt;
+            {{ getErrorMessage(&#x27;apellidos&#x27;) }}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;form-row&quot;&gt;
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label for&#x3D;&quot;email&quot;&gt;Correo Electrónico&lt;/label&gt;
+          &lt;input
+            id&#x3D;&quot;email&quot;
+            type&#x3D;&quot;email&quot;
+            formControlName&#x3D;&quot;email&quot;
+            [class.error]&#x3D;&quot;isFieldInvalid(&#x27;email&#x27;)&quot;
+          &gt;
+          &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;email&#x27;)&quot;&gt;
+            {{ getErrorMessage(&#x27;email&#x27;) }}
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label for&#x3D;&quot;telefono&quot;&gt;Teléfono&lt;/label&gt;
+          &lt;input
+            id&#x3D;&quot;telefono&quot;
+            type&#x3D;&quot;tel&quot;
+            formControlName&#x3D;&quot;telefono&quot;
+            [class.error]&#x3D;&quot;isFieldInvalid(&#x27;telefono&#x27;)&quot;
+          &gt;
+          &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;telefono&#x27;)&quot;&gt;
+            {{ getErrorMessage(&#x27;telefono&#x27;) }}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;form-row&quot;&gt;
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label for&#x3D;&quot;esp_id&quot;&gt;Especialidad&lt;/label&gt;
+          &lt;select
+            id&#x3D;&quot;esp_id&quot;
+            formControlName&#x3D;&quot;esp_id&quot;
+            [class.error]&#x3D;&quot;isFieldInvalid(&#x27;esp_id&#x27;)&quot;
+          &gt;
+            &lt;option value&#x3D;&quot;&quot;&gt;Seleccione una especialidad&lt;/option&gt;
+            &lt;option *ngFor&#x3D;&quot;let esp of especialidades&quot; [value]&#x3D;&quot;esp.id&quot;&gt;
+              {{ esp.nombre }}
+            &lt;/option&gt;
+          &lt;/select&gt;
+          &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;esp_id&#x27;)&quot;&gt;
+            {{ getErrorMessage(&#x27;esp_id&#x27;) }}
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label for&#x3D;&quot;password&quot;&gt;Contraseña&lt;/label&gt;
+          &lt;input
+            id&#x3D;&quot;password&quot;
+            type&#x3D;&quot;password&quot;
+            formControlName&#x3D;&quot;password&quot;
+            [class.error]&#x3D;&quot;isFieldInvalid(&#x27;password&#x27;)&quot;
+          &gt;
+          &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;password&#x27;)&quot;&gt;
+            {{ getErrorMessage(&#x27;password&#x27;) }}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;message-container&quot;&gt;
+        &lt;div *ngIf&#x3D;&quot;showError&quot; class&#x3D;&quot;error-alert&quot;&gt;{{ errorMessage }}&lt;/div&gt;
+        &lt;div *ngIf&#x3D;&quot;showSuccess&quot; class&#x3D;&quot;success-alert&quot;&gt;{{ successMessage }}&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;form-actions&quot;&gt;
+        &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;cancel-btn&quot; (click)&#x3D;&quot;resetForm()&quot;&gt;
+          Cancelar
+        &lt;/button&gt;
+        &lt;button
+          type&#x3D;&quot;submit&quot;
+          class&#x3D;&quot;submit-btn&quot;
+          [disabled]&#x3D;&quot;funcionarioForm.invalid || isLoading&quot;
+        &gt;
+          {{ isLoading ? &#x27;Guardando...&#x27; : (selectedFuncionario ? &#x27;Actualizar&#x27; : &#x27;Guardar&#x27;) }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#errorMessage" >errorMessage</a>
+                            </li>
+                            <li>
+                                <a href="#especialidades" >especialidades</a>
+                            </li>
+                            <li>
+                                <a href="#filteredFuncionarios" >filteredFuncionarios</a>
+                            </li>
+                            <li>
+                                <a href="#funcionarioForm" >funcionarioForm</a>
+                            </li>
+                            <li>
+                                <a href="#funcionarios" >funcionarios</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                <a href="#searchTerm" >searchTerm</a>
+                            </li>
+                            <li>
+                                <a href="#selectedFuncionario" >selectedFuncionario</a>
+                            </li>
+                            <li>
+                                <a href="#showError" >showError</a>
+                            </li>
+                            <li>
+                                <a href="#showSuccess" >showSuccess</a>
+                            </li>
+                            <li>
+                                <a href="#successMessage" >successMessage</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#deleteFuncionario" >deleteFuncionario</a>
+                            </li>
+                            <li>
+                                <a href="#getErrorMessage" >getErrorMessage</a>
+                            </li>
+                            <li>
+                                <a href="#getEspecialidadNombre" >getEspecialidadNombre</a>
+                            </li>
+                            <li>
+                                <a href="#isFieldInvalid" >isFieldInvalid</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onSubmit" >onSubmit</a>
+                            </li>
+                            <li>
+                                <a href="#resetForm" >resetForm</a>
+                            </li>
+                            <li>
+                                <a href="#searchFuncionarios" >searchFuncionarios</a>
+                            </li>
+                            <li>
+                                <a href="#selectFuncionario" >selectFuncionario</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(fb: FormBuilder, dbService: <a href="../injectables/DatabaseService.html" target="_self">DatabaseService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="332" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:332</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>fb</td>
+                                                  
+                                                        <td>
+                                                                    <code>FormBuilder</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dbService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteFuncionario"></a>
+                    <span class="name">
+                        <span ><b>deleteFuncionario</b></span>
+                        <a href="#deleteFuncionario"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteFuncionario()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="494"
+                                    class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:494</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Elimina un funcionario</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getErrorMessage"></a>
+                    <span class="name">
+                        <span ><b>getErrorMessage</b></span>
+                        <a href="#getErrorMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getErrorMessage(fieldName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="436"
+                                    class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:436</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene el mensaje de error para un campo</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fieldName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Nombre del campo</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Mensaje de error correspondiente al tipo de error</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEspecialidadNombre"></a>
+                    <span class="name">
+                        <span ><b>getEspecialidadNombre</b></span>
+                        <a href="#getEspecialidadNombre"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEspecialidadNombre(esp_id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="395"
+                                    class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:395</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene el nombre de una especialidad por su ID</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>esp_id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>ID de la especialidad</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Nombre de la especialidad</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isFieldInvalid"></a>
+                    <span class="name">
+                        <span ><b>isFieldInvalid</b></span>
+                        <a href="#isFieldInvalid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isFieldInvalid(fieldName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="426"
+                                    class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:426</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Verifica si un campo del formulario es inválido</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fieldName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Nombre del campo a verificar</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>boolean indicando si el campo es inválido y ha sido tocado</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="368"
+                                    class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:368</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicializa el componente</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmit"></a>
+                    <span class="name">
+                        <span ><b>onSubmit</b></span>
+                        <a href="#onSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSubmit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="454"
+                                    class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:454</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Maneja el envío del formulario</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetForm"></a>
+                    <span class="name">
+                        <span ><b>resetForm</b></span>
+                        <a href="#resetForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetForm()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="513"
+                                    class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:513</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Reinicia el formulario</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchFuncionarios"></a>
+                    <span class="name">
+                        <span ><b>searchFuncionarios</b></span>
+                        <a href="#searchFuncionarios"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>searchFuncionarios()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="377"
+                                    class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:377</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Filtra funcionarios según término de búsqueda</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectFuncionario"></a>
+                    <span class="name">
+                        <span ><b>selectFuncionario</b></span>
+                        <a href="#selectFuncionario"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectFuncionario(funcionario: <a href="../interfaces/Funcionario.html" target="_self">Funcionario</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="405"
+                                    class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:405</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Selecciona un funcionario para edición</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>funcionario</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Funcionario.html" target="_self" >Funcionario</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Funcionario a editar</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="errorMessage"></a>
+                    <span class="name">
+                        <span ><b>errorMessage</b></span>
+                        <a href="#errorMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="328" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:328</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Mensaje de error</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="especialidades"></a>
+                    <span class="name">
+                        <span ><b>especialidades</b></span>
+                        <a href="#especialidades"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="316" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:316</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Lista de especialidades disponibles</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filteredFuncionarios"></a>
+                    <span class="name">
+                        <span ><b>filteredFuncionarios</b></span>
+                        <a href="#filteredFuncionarios"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Funcionario.html" target="_self" >Funcionario[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="318" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:318</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Lista filtrada de funcionarios según búsqueda</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="funcionarioForm"></a>
+                    <span class="name">
+                        <span ><b>funcionarioForm</b></span>
+                        <a href="#funcionarioForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FormGroup</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="312" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:312</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Formulario reactivo para la gestión de funcionarios</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="funcionarios"></a>
+                    <span class="name">
+                        <span ><b>funcionarios</b></span>
+                        <a href="#funcionarios"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Funcionario.html" target="_self" >Funcionario[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="314" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:314</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Lista completa de funcionarios</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                        <span ><b>isLoading</b></span>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="332" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:332</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si hay una operación en curso</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchTerm"></a>
+                    <span class="name">
+                        <span ><b>searchTerm</b></span>
+                        <a href="#searchTerm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="322" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:322</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Término de búsqueda</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedFuncionario"></a>
+                    <span class="name">
+                        <span ><b>selectedFuncionario</b></span>
+                        <a href="#selectedFuncionario"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Funcionario.html" target="_self" >Funcionario | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="320" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:320</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Funcionario seleccionado para edición</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showError"></a>
+                    <span class="name">
+                        <span ><b>showError</b></span>
+                        <a href="#showError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="324" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:324</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si hay un error que mostrar</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showSuccess"></a>
+                    <span class="name">
+                        <span ><b>showSuccess</b></span>
+                        <a href="#showSuccess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="326" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:326</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si hay un mensaje de éxito que mostrar</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="successMessage"></a>
+                    <span class="name">
+                        <span ><b>successMessage</b></span>
+                        <a href="#successMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="330" class="link-to-prism">src/app/funcionarios/funcionarios.component.ts:330</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Mensaje de éxito</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from &#x27;@angular/forms&#x27;;
+import { DatabaseService, Funcionario } from &#x27;../services/database.service&#x27;;
+
+/**
+ * Componente que maneja la gestión de funcionarios
+ * @description Permite buscar, crear, editar y eliminar funcionarios del sistema
+ */
+@Component({
+  selector: &#x27;app-funcionarios&#x27;,
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  template: &#x60;
+    &lt;div class&#x3D;&quot;funcionarios-container&quot;&gt;
+      &lt;div class&#x3D;&quot;search-section&quot;&gt;
+        &lt;h2&gt;Buscar Funcionario&lt;/h2&gt;
+        &lt;div class&#x3D;&quot;search-box&quot;&gt;
+          &lt;input 
+            type&#x3D;&quot;text&quot; 
+            [(ngModel)]&#x3D;&quot;searchTerm&quot; 
+            placeholder&#x3D;&quot;Buscar por nombre&quot;
+            class&#x3D;&quot;search-input&quot;
+            (input)&#x3D;&quot;searchFuncionarios()&quot;
+          &gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;funcionarios-list&quot; *ngIf&#x3D;&quot;filteredFuncionarios.length &gt; 0&quot;&gt;
+          &lt;div 
+            *ngFor&#x3D;&quot;let funcionario of filteredFuncionarios&quot; 
+            class&#x3D;&quot;funcionario-card&quot;
+            [class.selected]&#x3D;&quot;selectedFuncionario?.id &#x3D;&#x3D;&#x3D; funcionario.id&quot;
+            (click)&#x3D;&quot;selectFuncionario(funcionario)&quot;
+          &gt;
+            &lt;div class&#x3D;&quot;funcionario-info&quot;&gt;
+              &lt;h3&gt;{{ funcionario.nombres }} {{ funcionario.apellidos }}&lt;/h3&gt;
+              &lt;p class&#x3D;&quot;especialidad&quot;&gt;{{ funcionario.especialidad }}&lt;/p&gt;
+              &lt;p class&#x3D;&quot;email&quot;&gt;{{ funcionario.email }}&lt;/p&gt;
+              &lt;p class&#x3D;&quot;telefono&quot;&gt;{{ funcionario.telefono }}&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div *ngIf&#x3D;&quot;searchTerm &amp;&amp; filteredFuncionarios.length &#x3D;&#x3D;&#x3D; 0&quot; class&#x3D;&quot;no-results&quot;&gt;
+          No se encontraron funcionarios
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;form-section&quot;&gt;
+        &lt;div class&#x3D;&quot;form-header&quot;&gt;
+          &lt;h2&gt;{{ selectedFuncionario ? &#x27;Editar&#x27; : &#x27;Nuevo&#x27; }} Funcionario&lt;/h2&gt;
+          &lt;button 
+            *ngIf&#x3D;&quot;selectedFuncionario&quot; 
+            type&#x3D;&quot;button&quot;
+            class&#x3D;&quot;delete-btn&quot; 
+            (click)&#x3D;&quot;deleteFuncionario()&quot;
+          &gt;
+            Eliminar
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;form [formGroup]&#x3D;&quot;funcionarioForm&quot; (ngSubmit)&#x3D;&quot;onSubmit()&quot;&gt;
+          &lt;div class&#x3D;&quot;form-row&quot;&gt;
+            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+              &lt;label for&#x3D;&quot;nombres&quot;&gt;Nombres&lt;/label&gt;
+              &lt;input 
+                id&#x3D;&quot;nombres&quot; 
+                type&#x3D;&quot;text&quot; 
+                formControlName&#x3D;&quot;nombres&quot;
+                [class.error]&#x3D;&quot;isFieldInvalid(&#x27;nombres&#x27;)&quot;
+              &gt;
+              &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;nombres&#x27;)&quot;&gt;
+                {{ getErrorMessage(&#x27;nombres&#x27;) }}
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+              &lt;label for&#x3D;&quot;apellidos&quot;&gt;Apellidos&lt;/label&gt;
+              &lt;input 
+                id&#x3D;&quot;apellidos&quot; 
+                type&#x3D;&quot;text&quot; 
+                formControlName&#x3D;&quot;apellidos&quot;
+                [class.error]&#x3D;&quot;isFieldInvalid(&#x27;apellidos&#x27;)&quot;
+              &gt;
+              &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;apellidos&#x27;)&quot;&gt;
+                {{ getErrorMessage(&#x27;apellidos&#x27;) }}
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;form-row&quot;&gt;
+            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+              &lt;label for&#x3D;&quot;email&quot;&gt;Correo Electrónico&lt;/label&gt;
+              &lt;input 
+                id&#x3D;&quot;email&quot; 
+                type&#x3D;&quot;email&quot; 
+                formControlName&#x3D;&quot;email&quot;
+                [class.error]&#x3D;&quot;isFieldInvalid(&#x27;email&#x27;)&quot;
+              &gt;
+              &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;email&#x27;)&quot;&gt;
+                {{ getErrorMessage(&#x27;email&#x27;) }}
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+              &lt;label for&#x3D;&quot;telefono&quot;&gt;Teléfono&lt;/label&gt;
+              &lt;input 
+                id&#x3D;&quot;telefono&quot; 
+                type&#x3D;&quot;tel&quot; 
+                formControlName&#x3D;&quot;telefono&quot;
+                [class.error]&#x3D;&quot;isFieldInvalid(&#x27;telefono&#x27;)&quot;
+              &gt;
+              &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;telefono&#x27;)&quot;&gt;
+                {{ getErrorMessage(&#x27;telefono&#x27;) }}
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;form-row&quot;&gt;
+            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+              &lt;label for&#x3D;&quot;esp_id&quot;&gt;Especialidad&lt;/label&gt;
+              &lt;select 
+                id&#x3D;&quot;esp_id&quot; 
+                formControlName&#x3D;&quot;esp_id&quot;
+                [class.error]&#x3D;&quot;isFieldInvalid(&#x27;esp_id&#x27;)&quot;
+              &gt;
+                &lt;option value&#x3D;&quot;&quot;&gt;Seleccione una especialidad&lt;/option&gt;
+                &lt;option *ngFor&#x3D;&quot;let esp of especialidades&quot; [value]&#x3D;&quot;esp.id&quot;&gt;
+                  {{ esp.nombre }}
+                &lt;/option&gt;
+              &lt;/select&gt;
+              &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;esp_id&#x27;)&quot;&gt;
+                {{ getErrorMessage(&#x27;esp_id&#x27;) }}
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+              &lt;label for&#x3D;&quot;password&quot;&gt;Contraseña&lt;/label&gt;
+              &lt;input 
+                id&#x3D;&quot;password&quot; 
+                type&#x3D;&quot;password&quot; 
+                formControlName&#x3D;&quot;password&quot;
+                [class.error]&#x3D;&quot;isFieldInvalid(&#x27;password&#x27;)&quot;
+              &gt;
+              &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;password&#x27;)&quot;&gt;
+                {{ getErrorMessage(&#x27;password&#x27;) }}
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;message-container&quot;&gt;
+            &lt;div *ngIf&#x3D;&quot;showError&quot; class&#x3D;&quot;error-alert&quot;&gt;{{ errorMessage }}&lt;/div&gt;
+            &lt;div *ngIf&#x3D;&quot;showSuccess&quot; class&#x3D;&quot;success-alert&quot;&gt;{{ successMessage }}&lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;form-actions&quot;&gt;
+            &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;cancel-btn&quot; (click)&#x3D;&quot;resetForm()&quot;&gt;
+              Cancelar
+            &lt;/button&gt;
+            &lt;button 
+              type&#x3D;&quot;submit&quot; 
+              class&#x3D;&quot;submit-btn&quot; 
+              [disabled]&#x3D;&quot;funcionarioForm.invalid || isLoading&quot;
+            &gt;
+              {{ isLoading ? &#x27;Guardando...&#x27; : (selectedFuncionario ? &#x27;Actualizar&#x27; : &#x27;Guardar&#x27;) }}
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/form&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &#x60;,
+  styles: [&#x60;
+    .funcionarios-container {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .search-section, .form-section {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .search-box {
+      margin-bottom: 1.5rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .funcionarios-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .funcionario-card {
+      padding: 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .funcionario-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .funcionario-card.selected {
+      border-color: #4299e1;
+      background-color: #ebf8ff;
+    }
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #4a5568;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .form-group input.error,
+    .form-group select.error {
+      border-color: #fc8181;
+    }
+
+    .error-message {
+      color: #e53e3e;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .submit-btn, .cancel-btn, .delete-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+    }
+
+    .submit-btn {
+      background-color: #4299e1;
+      color: white;
+    }
+
+    .cancel-btn {
+      background-color: #e2e8f0;
+      color: #4a5568;
+    }
+
+    .delete-btn {
+      background-color: #fc8181;
+      color: white;
+    }
+
+    .submit-btn:disabled {
+      background-color: #a0aec0;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  &#x60;]
+})
+export class FuncionariosComponent implements OnInit {
+  /** Formulario reactivo para la gestión de funcionarios */
+  funcionarioForm: FormGroup;
+  /** Lista completa de funcionarios */
+  funcionarios: Funcionario[] &#x3D; [];
+  /** Lista de especialidades disponibles */
+  especialidades: any[] &#x3D; [];
+  /** Lista filtrada de funcionarios según búsqueda */
+  filteredFuncionarios: Funcionario[] &#x3D; [];
+  /** Funcionario seleccionado para edición */
+  selectedFuncionario: Funcionario | null &#x3D; null;
+  /** Término de búsqueda */
+  searchTerm: string &#x3D; &#x27;&#x27;;
+  /** Indica si hay un error que mostrar */
+  showError &#x3D; false;
+  /** Indica si hay un mensaje de éxito que mostrar */
+  showSuccess &#x3D; false;
+  /** Mensaje de error */
+  errorMessage &#x3D; &#x27;&#x27;;
+  /** Mensaje de éxito */
+  successMessage &#x3D; &#x27;&#x27;;
+  /** Indica si hay una operación en curso */
+  isLoading &#x3D; false;
+
+  constructor(
+    private fb: FormBuilder,
+    private dbService: DatabaseService
+  ) {
+    this.funcionarioForm &#x3D; this.fb.group({
+      nombres: [&#x27;&#x27;, [Validators.required, Validators.minLength(2)]],
+      apellidos: [&#x27;&#x27;, [Validators.required, Validators.minLength(2)]],
+      email: [&#x27;&#x27;, [Validators.required, Validators.email]],
+      telefono: [&#x27;&#x27;, [Validators.required, Validators.pattern(/^[0-9\-\+]{9,}$/)]],
+      password: [&#x27;&#x27;, [Validators.required, Validators.minLength(6)]],
+      esp_id: [&#x27;&#x27;, Validators.required]
+    });
+
+    this.dbService.funcionarios$.subscribe(
+      funcionarios &#x3D;&gt; {
+        this.funcionarios &#x3D; funcionarios.map(funcionario &#x3D;&gt; ({
+          ...funcionario,
+          especialidad: this.getEspecialidadNombre(funcionario.esp_id)
+        }));
+        this.searchFuncionarios();
+      }
+    );
+
+    this.dbService.especialidades$.subscribe(
+      especialidades &#x3D;&gt; {
+        this.especialidades &#x3D; especialidades;
+      }
+    );
+  }
+
+  /**
+   * Inicializa el componente
+   * @description Carga los funcionarios y especialidades
+   */
+  ngOnInit() {
+    this.dbService.loadFuncionarios();
+    this.dbService.loadEspecialidades();
+  }
+
+  /**
+   * Filtra funcionarios según término de búsqueda
+   * @description Actualiza filteredFuncionarios basado en searchTerm
+   */
+  searchFuncionarios() {
+    if (!this.searchTerm.trim()) {
+      this.filteredFuncionarios &#x3D; [];
+      return;
+    }
+
+    const searchTermLower &#x3D; this.searchTerm.toLowerCase();
+    this.filteredFuncionarios &#x3D; this.funcionarios.filter(funcionario &#x3D;&gt; 
+      funcionario.nombres.toLowerCase().includes(searchTermLower) ||
+      funcionario.apellidos.toLowerCase().includes(searchTermLower)
+    );
+  }
+
+  /**
+   * Obtiene el nombre de una especialidad por su ID
+   * @param esp_id ID de la especialidad
+   * @returns Nombre de la especialidad
+   */
+  getEspecialidadNombre(esp_id: number): string {
+    const especialidad &#x3D; this.especialidades.find(esp &#x3D;&gt; esp.id &#x3D;&#x3D;&#x3D; esp_id);
+    return especialidad ? especialidad.nombre : &#x27;&#x27;;
+  }
+
+  /**
+   * Selecciona un funcionario para edición
+   * @param funcionario Funcionario a editar
+   * @description Carga los datos del funcionario en el formulario
+   */
+  selectFuncionario(funcionario: Funcionario) {
+    this.selectedFuncionario &#x3D; funcionario;
+    
+    this.funcionarioForm.setValue({
+      nombres: funcionario.nombres || &#x27;&#x27;,
+      apellidos: funcionario.apellidos || &#x27;&#x27;,
+      email: funcionario.email || &#x27;&#x27;,
+      telefono: funcionario.telefono || &#x27;&#x27;,
+      esp_id: funcionario.esp_id || &#x27;&#x27;,
+      password: &#x27;&#x27;
+    });
+
+    this.funcionarioForm.markAsPristine();
+    this.funcionarioForm.markAsUntouched();
+  }
+
+  /**
+   * Verifica si un campo del formulario es inválido
+   * @param fieldName Nombre del campo a verificar
+   * @returns boolean indicando si el campo es inválido y ha sido tocado
+   */
+  isFieldInvalid(fieldName: string): boolean {
+    const field &#x3D; this.funcionarioForm.get(fieldName);
+    return field ? (field.invalid &amp;&amp; (field.dirty || field.touched)) : false;
+  }
+
+  /**
+   * Obtiene el mensaje de error para un campo
+   * @param fieldName Nombre del campo
+   * @returns Mensaje de error correspondiente al tipo de error
+   */
+  getErrorMessage(fieldName: string): string {
+    const control &#x3D; this.funcionarioForm.get(fieldName);
+    if (control?.errors) {
+      if (control.errors[&#x27;required&#x27;]) return &#x27;Este campo es requerido&#x27;;
+      if (control.errors[&#x27;minlength&#x27;]) return &#x60;Mínimo ${control.errors[&#x27;minlength&#x27;].requiredLength} caracteres&#x60;;
+      if (control.errors[&#x27;email&#x27;]) return &#x27;Email inválido&#x27;;
+      if (control.errors[&#x27;pattern&#x27;]) {
+        if (fieldName &#x3D;&#x3D;&#x3D; &#x27;telefono&#x27;) return &#x27;Formato de teléfono inválido&#x27;;
+        return &#x27;Formato inválido&#x27;;
+      }
+    }
+    return &#x27;&#x27;;
+  }
+
+  /**
+   * Maneja el envío del formulario
+   * @description Crea o actualiza un funcionario según el modo actual
+   */
+  onSubmit() {
+    if (this.funcionarioForm.invalid) {
+      Object.keys(this.funcionarioForm.controls).forEach(key &#x3D;&gt; {
+        const control &#x3D; this.funcionarioForm.get(key);
+        if (control?.invalid) {
+          control.markAsTouched();
+        }
+      });
+      return;
+    }
+
+    this.isLoading &#x3D; true;
+    this.showError &#x3D; false;
+    this.showSuccess &#x3D; false;
+
+    try {
+      const formValue &#x3D; this.funcionarioForm.value;
+      const funcionario &#x3D; {
+        ...formValue,
+        id: this.selectedFuncionario?.id || 0,
+        esp_id: parseInt(formValue.esp_id)
+      } as Funcionario;
+
+      this.dbService.addFuncionario(funcionario);
+      this.showSuccess &#x3D; true;
+      this.successMessage &#x3D; &#x60;Funcionario ${this.selectedFuncionario ? &#x27;actualizado&#x27; : &#x27;guardado&#x27;} exitosamente&#x60;;
+      this.resetForm();
+    } catch (error) {
+      this.showError &#x3D; true;
+      this.errorMessage &#x3D; &#x27;Error al guardar funcionario&#x27;;
+      console.error(error);
+    } finally {
+      this.isLoading &#x3D; false;
+    }
+  }
+
+  /**
+   * Elimina un funcionario
+   * @description Solicita confirmación antes de eliminar
+   */
+  deleteFuncionario() {
+    if (this.selectedFuncionario &amp;&amp; confirm(&#x27;¿Está seguro de eliminar este funcionario?&#x27;)) {
+      try {
+        this.dbService.deleteFuncionario(this.selectedFuncionario.id);
+        this.showSuccess &#x3D; true;
+        this.successMessage &#x3D; &#x27;Funcionario eliminado exitosamente&#x27;;
+        this.resetForm();
+      } catch (error) {
+        this.showError &#x3D; true;
+        this.errorMessage &#x3D; &#x27;Error al eliminar funcionario&#x27;;
+        console.error(error);
+      }
+    }
+  }
+
+  /**
+   * Reinicia el formulario
+   * @description Limpia todos los campos y mensajes
+   */
+  resetForm() {
+    this.funcionarioForm.reset();
+    this.selectedFuncionario &#x3D; null;
+    this.showError &#x3D; false;
+    this.showSuccess &#x3D; false;
+    this.errorMessage &#x3D; &#x27;&#x27;;
+    this.successMessage &#x3D; &#x27;&#x27;;
+  }
+}
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="styleData">
+            <pre class="line-numbers"><code class="language-scss">
+    .funcionarios-container {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .search-section, .form-section {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .search-box {
+      margin-bottom: 1.5rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .funcionarios-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .funcionario-card {
+      padding: 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .funcionario-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .funcionario-card.selected {
+      border-color: #4299e1;
+      background-color: #ebf8ff;
+    }
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #4a5568;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .form-group input.error,
+    .form-group select.error {
+      border-color: #fc8181;
+    }
+
+    .error-message {
+      color: #e53e3e;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .submit-btn, .cancel-btn, .delete-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+    }
+
+    .submit-btn {
+      background-color: #4299e1;
+      color: white;
+    }
+
+    .cancel-btn {
+      background-color: #e2e8f0;
+      color: #4a5568;
+    }
+
+    .delete-btn {
+      background-color: #fc8181;
+      color: white;
+    }
+
+    .submit-btn:disabled {
+      background-color: #a0aec0;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="funcionarios-container">  <div class="search-section">    <h2>Buscar Funcionario</h2>    <div class="search-box">      <input        type="text"        [(ngModel)]="searchTerm"        placeholder="Buscar por nombre"        class="search-input"        (input)="searchFuncionarios()"      >    </div>    <div class="funcionarios-list" *ngIf="filteredFuncionarios.length > 0">      <div        *ngFor="let funcionario of filteredFuncionarios"        class="funcionario-card"        [class.selected]="selectedFuncionario?.id === funcionario.id"        (click)="selectFuncionario(funcionario)"      >        <div class="funcionario-info">          <h3>{{ funcionario.nombres }} {{ funcionario.apellidos }}</h3>          <p class="especialidad">{{ funcionario.especialidad }}</p>          <p class="email">{{ funcionario.email }}</p>          <p class="telefono">{{ funcionario.telefono }}</p>        </div>      </div>    </div>    <div *ngIf="searchTerm && filteredFuncionarios.length === 0" class="no-results">      No se encontraron funcionarios    </div>  </div>  <div class="form-section">    <div class="form-header">      <h2>{{ selectedFuncionario ? \'Editar\' : \'Nuevo\' }} Funcionario</h2>      <button        *ngIf="selectedFuncionario"        type="button"        class="delete-btn"        (click)="deleteFuncionario()"      >        Eliminar      </button>    </div>    <form [formGroup]="funcionarioForm" (ngSubmit)="onSubmit()">      <div class="form-row">        <div class="form-group">          <label for="nombres">Nombres</label>          <input            id="nombres"            type="text"            formControlName="nombres"            [class.error]="isFieldInvalid(\'nombres\')"          >          <div class="error-message" *ngIf="isFieldInvalid(\'nombres\')">            {{ getErrorMessage(\'nombres\') }}          </div>        </div>        <div class="form-group">          <label for="apellidos">Apellidos</label>          <input            id="apellidos"            type="text"            formControlName="apellidos"            [class.error]="isFieldInvalid(\'apellidos\')"          >          <div class="error-message" *ngIf="isFieldInvalid(\'apellidos\')">            {{ getErrorMessage(\'apellidos\') }}          </div>        </div>      </div>      <div class="form-row">        <div class="form-group">          <label for="email">Correo Electrónico</label>          <input            id="email"            type="email"            formControlName="email"            [class.error]="isFieldInvalid(\'email\')"          >          <div class="error-message" *ngIf="isFieldInvalid(\'email\')">            {{ getErrorMessage(\'email\') }}          </div>        </div>        <div class="form-group">          <label for="telefono">Teléfono</label>          <input            id="telefono"            type="tel"            formControlName="telefono"            [class.error]="isFieldInvalid(\'telefono\')"          >          <div class="error-message" *ngIf="isFieldInvalid(\'telefono\')">            {{ getErrorMessage(\'telefono\') }}          </div>        </div>      </div>      <div class="form-row">        <div class="form-group">          <label for="esp_id">Especialidad</label>          <select            id="esp_id"            formControlName="esp_id"            [class.error]="isFieldInvalid(\'esp_id\')"          >            <option value="">Seleccione una especialidad</option>            <option *ngFor="let esp of especialidades" [value]="esp.id">              {{ esp.nombre }}            </option>          </select>          <div class="error-message" *ngIf="isFieldInvalid(\'esp_id\')">            {{ getErrorMessage(\'esp_id\') }}          </div>        </div>        <div class="form-group">          <label for="password">Contraseña</label>          <input            id="password"            type="password"            formControlName="password"            [class.error]="isFieldInvalid(\'password\')"          >          <div class="error-message" *ngIf="isFieldInvalid(\'password\')">            {{ getErrorMessage(\'password\') }}          </div>        </div>      </div>      <div class="message-container">        <div *ngIf="showError" class="error-alert">{{ errorMessage }}</div>        <div *ngIf="showSuccess" class="success-alert">{{ successMessage }}</div>      </div>      <div class="form-actions">        <button type="button" class="cancel-btn" (click)="resetForm()">          Cancelar        </button>        <button          type="submit"          class="submit-btn"          [disabled]="funcionarioForm.invalid || isLoading"        >          {{ isLoading ? \'Guardando...\' : (selectedFuncionario ? \'Actualizar\' : \'Guardar\') }}        </button>      </div>    </form>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'FuncionariosComponent', 'selector': 'app-funcionarios'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'FuncionariosComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'FuncionariosComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

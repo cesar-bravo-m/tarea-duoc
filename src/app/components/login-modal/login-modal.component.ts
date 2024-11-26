@@ -183,7 +183,10 @@ export class LoginModalComponent {
           apellidos: funcionario.apellidos,
           rut: funcionario.rut,
           esp_id: funcionario.esp_id,
-          especialidad: funcionario.especialidad
+          especialidad: funcionario.especialidad,
+          password: funcionario.password,
+          email: funcionario.email,
+          telefono: funcionario.telefono
         };
         
         localStorage.setItem('currentUser', JSON.stringify(userData));

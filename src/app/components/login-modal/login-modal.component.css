@@ -157,3 +157,7 @@
 .cancel-btn:hover {
   background-color: #cbd5e0;
 }
+
+#rut, #password, #recoveryRut, #recoveryCode {
+  width: 95%;
+}

@@ -48,6 +48,7 @@ export class DatabaseService {
    * @throws Error si la inicialización de la base de datos falla
    */
   async initializeDatabase(): Promise<void> {
+    console.log("### initializeDatabase");
     try {
       const SQL = await initSqlJs({
         locateFile: file => `https://sql.js.org/dist/${file}`
@@ -163,6 +164,7 @@ export class DatabaseService {
    * @private
    */
   private async seedDatabase(): Promise<void> {
+    console.log("### THIS IS BEING RUN");
     const script = `
 INSERT INTO ESP_ESPECIALIDAD (nombre) VALUES ('Cardiología');
 INSERT INTO ESP_ESPECIALIDAD (nombre) VALUES ('Neurología');
@@ -285,11 +287,20 @@ VALUES
   public loadPacientes(): void {
     const result = this.db.exec('SELECT * FROM PAC_PACIENTE');
     if (result.length > 0) {
-      this.pacientesSubject.next(result[0].values.map((row: any) => ({
+      const pacientes = result[0].values.map((row: any) => ({
         id: row[0],
         nombres: row[1],
         apellidos: row[2],
-      })));
+        rut: row[3],
+        telefono: row[4],
+        email: row[5],
+        fecha_nacimiento: row[6],
+        genero: row[7],
+        direccion: row[8]
+      }));
+      this.pacientesSubject.next(pacientes);
+    } else {
+      this.pacientesSubject.next([]);
     }
   }
 
@@ -359,12 +370,15 @@ VALUES
   }
 
   public getFuncionarioById(id: number): Funcionario | null {
+    console.log("### -- 1");
     const result = this.db.exec(`
       SELECT FUN_FUNCIONARIO.*, ESP_ESPECIALIDAD.nombre AS especialidad
       FROM FUN_FUNCIONARIO
       LEFT JOIN ESP_ESPECIALIDAD ON FUN_FUNCIONARIO.esp_id = ESP_ESPECIALIDAD.id
-      WHERE id = ?`, [id]);
+      WHERE FUN_FUNCIONARIO.id = ?`, [id]);
+    console.log("### -- 2");
     const funcionario: Funcionario | null = result.length > 0 && result[0].values.length > 0 ? result[0].values[0] : null;
+    console.log("### -- 3 funcionario", funcionario);
     return funcionario;
   }
 
@@ -416,7 +430,16 @@ VALUES
     this.loadRolesFuncionario();
   }
 
+  // Hack temporal
+  nuevosPacientes: Paciente[] = [];
   public addPaciente(paciente: Paciente): void {
+    // First, check if patient already exists
+    const existingPaciente = this.getPacienteByRut(paciente.rut);
+    if (existingPaciente) {
+      throw new Error('Paciente ya existe');
+    }
+
+    // Add new patient
     this.db.run(
       `INSERT INTO PAC_PACIENTE (nombres, apellidos, rut, telefono, email, fecha_nacimiento, genero, direccion) 
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, 
@@ -431,7 +454,26 @@ VALUES
         paciente.direccion
       ]
     );
-    this.loadPacientes();
+
+    // Force a fresh load of all patients
+    const result = this.db.exec('SELECT * FROM PAC_PACIENTE');
+    if (result.length > 0) {
+      const pacientes = result[0].values.map((row: any) => ({
+        id: row[0],
+        nombres: row[1],
+        apellidos: row[2],
+        rut: row[3],
+        telefono: row[4],
+        email: row[5],
+        fecha_nacimiento: row[6],
+        genero: row[7],
+        direccion: row[8]
+      }));
+      this.pacientesSubject.next(pacientes);
+    }
+    // Temporary hack
+    paciente.id = this.nuevosPacientes.length + 11;
+    this.nuevosPacientes.push(paciente);
   }
 
   /**
@@ -440,7 +482,12 @@ VALUES
    * @returns Paciente si se encuentra, null si no existe
    */
   public getPacienteByRut(rut: string): Paciente | null {
-    const result = this.db.exec(`SELECT * FROM PAC_PACIENTE WHERE rut = ?`, [rut.replace(/\./g, '').replace('-', '')]);
+    rut = rut.replace(/\./g, '').replace('-', '');
+    const paciente = this.nuevosPacientes.find(p => p.rut === rut);
+    if (paciente) {
+      return paciente;
+    }
+    const result = this.db.exec(`SELECT * FROM PAC_PACIENTE WHERE rut = ?`, [rut]);
     if (result.length > 0 && result[0].values.length > 0) {
       const row = result[0].values[0];
       return {
@@ -459,7 +506,6 @@ VALUES
   }
 
   public addSegmentoHorario(segmentoHorario: SegmentoHorario): void {
-    console.log("### segmentoHorario: ", segmentoHorario);
     if (!segmentoHorario.nombre || !segmentoHorario.fecha_hora_inicio || !segmentoHorario.fecha_hora_fin || !segmentoHorario.fun_id) {
       return;
     }
@@ -637,6 +683,61 @@ VALUES
       'UPDATE FUN_FUNCIONARIO SET password = ? WHERE id = ?',
       [newPassword, id]
     );
+  }
+
+  public getEspecialidadByName(nombre: string): Especialidad | null {
+    const result = this.db.exec(`SELECT * FROM ESP_ESPECIALIDAD WHERE nombre = ?`, [nombre]);
+    return result.length > 0 && result[0].values.length > 0 ? {
+      id: result[0].values[0][0],
+      nombre: result[0].values[0][1]
+    } as Especialidad : null;
+  }
+
+  public updateFuncionario(funcionario: Funcionario): void {
+    console.log("### updateFuncionario", funcionario);
+    if (funcionario.especialidad && !funcionario.esp_id) {
+      const especialidad = this.getEspecialidadByName(funcionario.especialidad);
+      if (especialidad) {
+        funcionario.esp_id = especialidad.id;
+      }
+    }
+    const oldFuncionario = this.getFuncionarioById(funcionario.id);
+    console.log("### 1");
+    const updateFields: (keyof Funcionario)[] = ['nombres', 'apellidos', 'email', 'telefono', 'esp_id', 'rut', 'password'];
+    console.log("### 2");
+    const values = updateFields.map(field => funcionario[field]);
+    console.log("### 3");
+    const newFuncionario = {
+      ...oldFuncionario,
+      ...funcionario
+    };
+    console.log("### 4");
+    // let sql = `
+    //   UPDATE FUN_FUNCIONARIO 
+    //   SET nombres = ?, apellidos = ?, email = ?, telefono = ?, esp_id = ?, rut = ?, password = ?
+    // `;
+    let sql = `
+      UPDATE FUN_FUNCIONARIO 
+      SET nombres = '${funcionario.nombres}', apellidos = '${funcionario.apellidos}', email = '${funcionario.email}', telefono = '${funcionario.telefono}', esp_id = ${funcionario.esp_id}, rut = '${funcionario.rut}'
+    `;
+    if (newFuncionario.password && newFuncionario.password.length > 0) {
+      sql += `, password = '${newFuncionario.password}'`;
+      values.push(newFuncionario.password);
+    } else {
+      sql += `, password = '${oldFuncionario ? oldFuncionario.password : ''}'`;
+      values.push(oldFuncionario ? oldFuncionario.password : '');
+    }
+    console.log("### 6");
+    sql += ` WHERE id = ?`;
+    values.push(funcionario.id);
+    console.log("### 7");
+    console.log("### sql", sql);
+    console.log("### values", values);
+    this.loadFuncionarios();
+    this.db.run(sql);
+    // this.db.run(sql, values);
+    console.log("### 8");
+    this.loadFuncionarios();
   }
 }
 

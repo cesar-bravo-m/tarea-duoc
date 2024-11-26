@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { DatabaseService, Paciente } from '../services/database.service';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { ToastService } from '../services/toast.service';
 
 /**
  * Componente que maneja la inscripción de pacientes
@@ -16,7 +17,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
   templateUrl: './inscripcion.component.html',
   styleUrls: ['./inscripcion.component.css']
 })
-export class InscripcionComponent {
+export class InscripcionComponent implements OnInit {
   pacienteForm: FormGroup;
   /** RUT para búsqueda de pacientes */
   searchRut: string = '';
@@ -33,21 +34,39 @@ export class InscripcionComponent {
    * Constructor del componente
    * @param fb Servicio de formulario reactivo
    * @param dbService Servicio de base de datos
+   * @param toastService Servicio de notificaciones
    */
   constructor(
     private fb: FormBuilder,
-    private dbService: DatabaseService
+    private dbService: DatabaseService,
+    private toastService: ToastService
   ) {
     this.pacienteForm = this.fb.group({
       nombres: ['', [Validators.required, Validators.minLength(2)]],
       apellidos: ['', [Validators.required, Validators.minLength(2)]],
-      rut: ['', [Validators.required, Validators.pattern(/^[0-9]{7,8}-[0-9Kk]$/)]],
-      telefono: ['', [Validators.required, Validators.pattern(/^[0-9\-\+]{9,}$/)]],
-      email: ['', [Validators.required, Validators.email]],
+      rut: ['', [Validators.required, this.rutValidator()]],
+      telefono: ['(56) 9 ', [Validators.required, Validators.minLength(12)]],
+      email: ['', [Validators.required, Validators.email, this.emailDomainValidator()]],
       fecha_nacimiento: ['', Validators.required],
       genero: ['', Validators.required],
       direccion: ['', Validators.required]
     });
+  }
+
+  rutValidator() {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const rut = control.value;
+      if (!rut) return null;
+      
+      // Remove formatting before validation
+      const cleanRut = rut.replace(/\./g, '').replace(/-/g, '');
+      
+      if (!/^[0-9]{7,8}[0-9Kk]$/.test(cleanRut)) {
+        return { invalidRut: true };
+      }
+
+      return this.validateRut(cleanRut) ? null : { invalidRut: true };
+    };
   }
 
   /**
@@ -96,23 +115,12 @@ export class InscripcionComponent {
    * @returns RUT formateado con puntos y guión
    */
   formatRut(rut: string): string {
+    if (!rut) return '';
     rut = rut.replace(/\./g, '').replace(/-/g, '');
-    
-    if (!rut || rut.length <= 1) return rut;
-
-    let verificationDigit = '';
-    let numbers = rut;
-    
     if (rut.length > 1) {
-      verificationDigit = rut.slice(-1);
-      numbers = rut.slice(0, -1);
+      return rut.slice(0, -1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + '-' + rut.slice(-1);
     }
-
-    let formattedNumbers = numbers.split('').reverse().join('')
-      .match(/.{1,3}/g)?.join('.')
-      .split('').reverse().join('') || numbers;
-
-    return verificationDigit ? `${formattedNumbers}-${verificationDigit}` : formattedNumbers;
+    return rut;
   }
 
   /**
@@ -121,6 +129,7 @@ export class InscripcionComponent {
    * @returns boolean indicando si el RUT es válido
    */
   validateRut(rut: string): boolean {
+    // Remove any dots and dash before validation
     rut = rut.replace(/\./g, '').replace(/-/g, '');
     
     if (!/^[0-9]{7,8}[0-9Kk]$/.test(rut)) return false;
@@ -154,11 +163,15 @@ export class InscripcionComponent {
   onRutInput(event: any) {
     const input = event.target;
     let rut = input.value.replace(/\./g, '').replace(/-/g, '');
-    
     rut = rut.replace(/[^0-9kK]/g, '');
     
     if (rut.length > 0) {
-      input.value = this.formatRut(rut);
+      let result = rut;
+      if (rut.length > 1) {
+        result = rut.slice(0, -1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') + '-' + rut.slice(-1);
+      }
+      input.value = result;
+      this.searchRut = result;
     }
   }
 
@@ -167,27 +180,25 @@ export class InscripcionComponent {
    * @description Actualiza el formulario con los datos del paciente si se encuentra
    */
   searchPaciente() {
-    if (!this.searchRut) {
-      this.showError = true;
-      this.message = 'Ingrese un RUT para buscar';
-      return;
-    }
-
-    if (!this.validateRut(this.searchRut)) {
+    const cleanRut = this.searchRut.replace(/\./g, '').replace(/-/g, '');
+    
+    if (!this.validateRut(cleanRut)) {
       this.showError = true;
       this.message = 'RUT inválido';
       return;
     }
 
-    const paciente = this.dbService.getPacienteByRut(this.searchRut.replace(/\./g, '').replace('-', ''));
+    const paciente = this.dbService.getPacienteByRut(cleanRut);
     if (paciente) {
-      this.pacienteForm.patchValue(paciente);
+      this.pacienteForm.patchValue({
+        ...paciente,
+        rut: this.formatRut(paciente.rut)
+      });
       this.showSuccess = true;
       this.message = 'Paciente encontrado';
     } else {
       this.showError = true;
       this.message = 'Paciente no encontrado';
-      this.pacienteForm.reset();
     }
   }
 
@@ -211,12 +222,15 @@ export class InscripcionComponent {
     this.showSuccess = false;
 
     try {
-      const paciente = this.pacienteForm.value as Paciente;
+      const formValue = this.pacienteForm.value;
+      const paciente = {
+        ...formValue,
+        rut: formValue.rut.replace(/\./g, '').replace(/-/g, '') // Remove formatting before saving
+      };
+
       this.dbService.addPaciente(paciente);
-      this.showSuccess = true;
-      this.message = 'Paciente registrado exitosamente';
-      this.pacienteForm.reset();
-      this.searchRut = '';
+      this.toastService.show('Paciente creado exitosamente', 'success');
+      this.resetForm();
     } catch (error) {
       this.showError = true;
       this.message = 'Error al registrar paciente';
@@ -236,5 +250,31 @@ export class InscripcionComponent {
     this.showSuccess = false;
     this.message = '';
     this.searchRut = '';
+  }
+
+  /**
+   * Validador personalizado para el dominio del email
+   * @returns ValidatorFn para validar que el email tenga un dominio válido
+   */
+  emailDomainValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const email = control.value;
+      if (!email) return null;
+      
+      if (!email.includes('@')) return { invalidEmail: true };
+
+      const [localPart, domain] = email.split('@');
+      
+      if (!domain || !domain.includes('.')) return { invalidDomain: true };
+
+      const parts = domain.split('.');
+      const tld = parts[parts.length - 1];
+      
+      if (tld.length < 2 || !/^[a-zA-Z]+$/.test(tld)) {
+        return { invalidTld: true };
+      }
+
+      return null;
+    };
   }
 }

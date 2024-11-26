@@ -34,7 +34,7 @@ export class RoleGuard implements CanActivate {
     if (currentUser.id > 10) return true
 
     try {
-      await this.dbService.initializeDatabase();
+      // await this.dbService.initializeDatabase();
       
       const hasRole = this.dbService.hasRole(currentUser.id, requiredRole);
       
