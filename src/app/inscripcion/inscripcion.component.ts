@@ -151,6 +151,7 @@ export class InscripcionComponent implements OnInit {
     if (expectedDigit === 11) expectedVerificationDigit = '0';
     else if (expectedDigit === 10) expectedVerificationDigit = 'K';
     else expectedVerificationDigit = expectedDigit.toString();
+    if (!/^[0-9Kk.-]+$/.test(rut)) return false;
     
     return verificationDigit === expectedVerificationDigit;
   }

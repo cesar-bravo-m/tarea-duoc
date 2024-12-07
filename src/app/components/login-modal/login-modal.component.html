@@ -15,6 +15,7 @@
             name="rut"
             required
             placeholder="12.345.678-9"
+            maxlength="12"
             (input)="onRutInput($event)"
             [class.error]="showError"
             >
@@ -59,6 +60,7 @@
             type="text" 
             formControlName="recoveryRut"
             placeholder="12.345.678-9"
+            maxlength="12"
             (input)="onRutInput($event)"
             [class.error]="isFieldInvalid('recoveryRut')"
             >

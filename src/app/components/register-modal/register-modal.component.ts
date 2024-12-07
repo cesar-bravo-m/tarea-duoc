@@ -40,8 +40,8 @@ export class RegisterModalComponent {
     private toastService: ToastService
   ) {
     this.registerForm = this.fb.group({
-      nombres: ['', [Validators.required, Validators.minLength(4)]],
-      apellidos: ['', [Validators.required, Validators.minLength(4)]],
+      nombres: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z]+$/)]],
+      apellidos: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z]+$/)]],
       rut: ['', [Validators.required, this.rutValidator()]],
       telefono: ['(56) 9 ', [Validators.required, Validators.minLength(12)]],
       email: ['', [Validators.required, Validators.email, this.emailDomainValidator()]],
@@ -81,6 +81,7 @@ export class RegisterModalComponent {
     if (expectedDigit === 11) expectedVerificationDigit = '0';
     else if (expectedDigit === 10) expectedVerificationDigit = 'K';
     else expectedVerificationDigit = expectedDigit.toString();
+    if (!/^[0-9Kk.-]+$/.test(rut)) return false;
     return verificationDigit === expectedVerificationDigit;
   }
 

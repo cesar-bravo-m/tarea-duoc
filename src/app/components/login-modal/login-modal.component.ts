@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { DatabaseService } from '../../services/database.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
@@ -57,7 +57,7 @@ export class LoginModalComponent {
     private toastService: ToastService
   ) {
     this.recoveryForm = this.fb.group({
-      recoveryRut: ['', [Validators.required]],
+      recoveryRut: ['', [Validators.required, this.rutValidator()]],
       recoveryCode: [''],
       newPassword: ['', [
         Validators.required,
@@ -68,6 +68,34 @@ export class LoginModalComponent {
       ]],
       confirmPassword: ['', [Validators.required]]
     }, { validator: this.passwordMatchValidator() });
+  }
+
+  validateRut(rut: string): boolean {
+    rut = rut.replace(/\./g, '').replace(/-/g, '');
+    if (!/^[0-9]{7,8}[0-9Kk]$/.test(rut)) return false;
+    const verificationDigit = rut.slice(-1).toUpperCase();
+    const numbers = rut.slice(0, -1);
+    let sum = 0;
+    let multiplier = 2;
+    for (let i = numbers.length - 1; i >= 0; i--) {
+      sum += parseInt(numbers[i]) * multiplier;
+      multiplier = multiplier === 7 ? 2 : multiplier + 1;
+    }
+    const expectedDigit = 11 - (sum % 11);
+    let expectedVerificationDigit: string;
+    if (expectedDigit === 11) expectedVerificationDigit = '0';
+    else if (expectedDigit === 10) expectedVerificationDigit = 'K';
+    else expectedVerificationDigit = expectedDigit.toString();
+    if (!/^[0-9Kk.-]+$/.test(rut)) return false;
+    return verificationDigit === expectedVerificationDigit;
+  }
+
+  rutValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const rut = control.value;
+      if (!rut) return null;
+      return this.validateRut(rut) ? null : { invalidRut: true };
+    };
   }
 
   passwordMatchValidator() {
@@ -214,7 +242,7 @@ export class LoginModalComponent {
   onRutInput(event: any) {
     const input = event.target;
     let rut = input.value.replace(/\./g, '').replace(/-/g, '');
-    rut = rut.replace(/[^0-9kK]/g, '');
+    rut = rut.replace(/[^0-9kK.-]/g, '');
     
     if (rut.length > 0) {
       let result = rut;

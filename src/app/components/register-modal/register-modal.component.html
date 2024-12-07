@@ -10,7 +10,7 @@
             <label for="nombres">Nombres</label>
             <input id="nombres" type="text" formControlName="nombres">
             <div class="error-message" *ngIf="isFieldInvalid('nombres')">
-            Nombres son requeridos (mínimo 4 caracteres)
+            Nombres son requeridos (mínimo 4 caracteres, sin números ni caracteres especiales)
             </div>
         </div>
 
@@ -18,7 +18,7 @@
             <label for="apellidos">Apellidos</label>
             <input id="apellidos" type="text" formControlName="apellidos">
             <div class="error-message" *ngIf="isFieldInvalid('apellidos')">
-            Apellidos son requeridos (mínimo 4 caracteres)
+            Apellidos son requeridos (mínimo 4 caracteres, sin números ni caracteres especiales)
             </div>
         </div>
 
@@ -29,6 +29,7 @@
             type="text" 
             formControlName="rut"
             placeholder="12.345.678-9"
+            maxlength="12"
             (input)="onRutInput($event)"
             >
             <div class="error-message" *ngIf="isFieldInvalid('rut')">

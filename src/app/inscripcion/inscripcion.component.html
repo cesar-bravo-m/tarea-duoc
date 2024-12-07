@@ -58,6 +58,7 @@
             formControlName="rut"
             placeholder="12.345.678-9"
             mask="00.000.000-0||00.000.000-K"
+            maxlength="12"
             [validation]="true"
             [dropSpecialCharacters]="false"
             [class.error]="isFieldInvalid('rut')"
