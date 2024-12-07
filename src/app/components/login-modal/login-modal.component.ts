@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { DatabaseService } from '../../services/database.service';
+import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 
@@ -52,7 +52,7 @@ export class LoginModalComponent {
 
   constructor(
     private fb: FormBuilder,
-    private dbService: DatabaseService,
+    private apiService: ApiService,
     private router: Router,
     private toastService: ToastService
   ) {
@@ -153,7 +153,7 @@ export class LoginModalComponent {
       if (control.errors['pattern']) {
         if (fieldName === 'newPassword') {
           if (control.value?.includes(' ')) return 'No se permiten espacios';
-          return 'La contraseña debe tener al menos una mayúscula, una minúscula y un número';
+          return 'La contraseña debe tener al menos una mayúscula, una minúscula y un n��mero';
         }
         return 'Formato inválido';
       }
@@ -207,28 +207,40 @@ export class LoginModalComponent {
 
     try {
       if (!this.recoveryCodeSent) {
-        const funcionario = this.dbService.getFuncionarioByRut(this.recoveryForm.get('recoveryRut')?.value);
-        if (!funcionario) {
-          this.showError = true;
-          this.errorMessage = 'RUT no encontrado';
-          return;
-        }
+        this.apiService.getFuncionarioByRut(this.recoveryForm.get('recoveryRut')?.value)
+          .subscribe({
+            next: (funcionario) => {
+              if (!funcionario) {
+                this.showError = true;
+                this.errorMessage = 'RUT no encontrado';
+                return;
+              }
 
-        this.generatedCode = Math.random().toString(36).substring(2, 8).toUpperCase();
-        console.log('Código de recuperación:', this.generatedCode);
-        
-        this.recoveryCodeSent = true;
-        this.errorMessage = '';
+              this.generatedCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+              console.log('Código de recuperación:', this.generatedCode);
+              
+              this.recoveryCodeSent = true;
+              this.errorMessage = '';
+              this.isLoading = false;
+            },
+            error: () => {
+              this.showError = true;
+              this.errorMessage = 'RUT no encontrado';
+              this.isLoading = false;
+            }
+          });
       } 
       else if (!this.recoveryCodeVerified) {
         if (this.recoveryForm.get('recoveryCode')?.value !== this.generatedCode) {
           this.showError = true;
           this.errorMessage = 'Código inválido';
+          this.isLoading = false;
           return;
         }
         
         this.recoveryCodeVerified = true;
         this.errorMessage = '';
+        this.isLoading = false;
       } 
       else {
         if (this.recoveryForm.invalid) {
@@ -238,15 +250,36 @@ export class LoginModalComponent {
               control.markAsTouched();
             }
           });
+          this.isLoading = false;
           return;
         }
 
-        const funcionario = this.dbService.getFuncionarioByRut(this.recoveryForm.get('recoveryRut')?.value);
-        if (funcionario) {
-          this.dbService.updateFuncionarioPassword(funcionario.id, this.recoveryForm.get('newPassword')?.value);
-          this.toastService.show('Contraseña actualizada', 'success');
-          this.closeModal();
-        }
+        this.apiService.getFuncionarioByRut(this.recoveryForm.get('recoveryRut')?.value)
+          .subscribe({
+            next: (funcionario) => {
+              if (funcionario) {
+                this.apiService.updateFuncionarioPassword(
+                  funcionario.id, 
+                  this.recoveryForm.get('newPassword')?.value
+                ).subscribe({
+                  next: () => {
+                    this.toastService.show('Contraseña actualizada', 'success');
+                    this.closeModal();
+                  },
+                  error: (error) => {
+                    console.error('Password update error:', error);
+                    this.showError = true;
+                    this.errorMessage = 'Error al actualizar la contraseña';
+                  }
+                });
+              }
+            },
+            error: (error) => {
+              console.error('Recovery error:', error);
+              this.showError = true;
+              this.errorMessage = 'Error en el proceso de recuperación';
+            }
+          });
       }
     } catch (error) {
       console.error('Recovery error:', error);
@@ -288,42 +321,42 @@ export class LoginModalComponent {
 
     try {
       const cleanRut = this.rut.replace(/\./g, '').replace('-', '');
-      const funcionario = this.dbService.getFuncionarioByRut(cleanRut);
-
-      if (funcionario && funcionario.password === this.password) {
-        const userData = {
-          id: funcionario.id,
-          nombres: funcionario.nombres,
-          apellidos: funcionario.apellidos,
-          rut: funcionario.rut,
-          esp_id: funcionario.esp_id,
-          especialidad: funcionario.especialidad,
-          password: funcionario.password,
-          email: funcionario.email,
-          telefono: funcionario.telefono
-        };
-        
-        localStorage.setItem('currentUser', JSON.stringify(userData));
-        
-        const now = new Date();
-        const timeStr = now.toLocaleString('es-CL', { 
-          hour: '2-digit', 
-          minute: '2-digit',
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric'
-        });
-        this.toastService.show(`Inicio de sesión exitoso @ ${timeStr}`, 'success');
-        
-        this.closeModal();
-        await this.router.navigate(['/dashboard']);
-      } else {
-        this.showError = true;
-      }
+      
+      this.apiService.login({ rut: cleanRut, password: this.password }).subscribe({
+        next: (response) => {
+          const userData = {
+            id: response.id,
+            nombres: response.nombres,
+            apellidos: response.apellidos,
+            rut: response.rut,
+            roles: response.roles
+          };
+          
+          localStorage.setItem('currentUser', JSON.stringify(userData));
+          
+          const now = new Date();
+          const timeStr = now.toLocaleString('es-CL', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+          });
+          this.toastService.show(`Inicio de sesión exitoso @ ${timeStr}`, 'success');
+          
+          this.closeModal();
+          this.router.navigate(['/dashboard']);
+        },
+        error: (error) => {
+          console.error('Login error:', error);
+          this.showError = true;
+          this.errorMessage = 'RUT o contraseña incorrectos';
+          this.isLoading = false;
+        }
+      });
     } catch (error) {
       console.error('Login error:', error);
       this.showError = true;
-    } finally {
       this.isLoading = false;
     }
   }

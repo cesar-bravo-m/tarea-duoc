@@ -4,6 +4,7 @@
  */
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 
@@ -12,5 +13,8 @@ import { routes } from './app.routes';
  * @description Proporciona el enrutador y otros servicios globales
  */
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes)]
+  providers: [
+    provideRouter(routes),
+    provideHttpClient()
+  ]
 };
