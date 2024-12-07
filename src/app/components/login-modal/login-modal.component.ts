@@ -70,6 +70,11 @@ export class LoginModalComponent {
     }, { validator: this.passwordMatchValidator() });
   }
 
+  /**
+   * Valida el RUT ingresado
+   * @param rut RUT a validar
+   * @returns boolean indicando si el RUT es válido
+   */
   validateRut(rut: string): boolean {
     rut = rut.replace(/\./g, '').replace(/-/g, '');
     if (!/^[0-9]{7,8}[0-9Kk]$/.test(rut)) return false;
@@ -90,6 +95,10 @@ export class LoginModalComponent {
     return verificationDigit === expectedVerificationDigit;
   }
 
+  /**
+   * Validador personalizado para validar el formato del RUT
+   * @returns ValidatorFn para validar el formato del RUT
+   */
   rutValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const rut = control.value;
@@ -98,6 +107,10 @@ export class LoginModalComponent {
     };
   }
 
+  /**
+   * Validador personalizado para verificar si las contraseñas coinciden
+   * @returns ValidatorFn para validar la coincidencia de contraseñas
+   */
   passwordMatchValidator() {
     return (formGroup: FormGroup) => {
       const password = formGroup.get('newPassword');
@@ -116,11 +129,21 @@ export class LoginModalComponent {
     };
   }
 
+  /**
+   * Verifica si un campo del formulario es inválido
+   * @param fieldName Nombre del campo a verificar
+   * @returns boolean indicando si el campo es inválido y ha sido tocado
+   */
   isFieldInvalid(fieldName: string): boolean {
     const field = this.recoveryForm.get(fieldName);
     return field ? (field.invalid && (field.dirty || field.touched)) : false;
   }
 
+  /**
+   * Obtiene el mensaje de error para un campo del formulario
+   * @param fieldName Nombre del campo a verificar
+   * @returns Mensaje de error para el campo
+   */
   getErrorMessage(fieldName: string): string {
     const control = this.recoveryForm.get(fieldName);
     if (control?.errors) {

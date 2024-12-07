@@ -53,6 +53,10 @@ export class InscripcionComponent implements OnInit {
     });
   }
 
+  /**
+   * Validador personalizado para validar el formato del RUT
+   * @returns ValidatorFn para validar el formato del RUT
+   */
   rutValidator() {
     return (control: AbstractControl): ValidationErrors | null => {
       const rut = control.value;
