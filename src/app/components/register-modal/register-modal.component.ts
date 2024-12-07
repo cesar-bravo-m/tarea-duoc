@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
-import { DatabaseService, Funcionario } from '../../services/database.service';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { ApiService, Funcionario } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
@@ -35,7 +35,7 @@ export class RegisterModalComponent {
 
   constructor(
     private fb: FormBuilder,
-    private dbService: DatabaseService,
+    private apiService: ApiService,
     private router: Router,
     private toastService: ToastService
   ) {
@@ -49,14 +49,15 @@ export class RegisterModalComponent {
         Validators.required, 
         Validators.minLength(6),
         Validators.maxLength(12),
+        Validators.pattern(/^[^\s]+$/),
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/)
       ]],
       confirmPassword: ['', [Validators.required]],
       esp_id: ['', Validators.required]
     }, { validator: this.passwordMatchValidator() });
 
-    this.dbService.especialidades$.subscribe(
-      esp => this.especialidades = esp
+    this.apiService.getEspecialidades().subscribe(
+      especialidades => this.especialidades = especialidades
     );
   }
 
@@ -159,36 +160,67 @@ export class RegisterModalComponent {
     try {
       const formValue = this.registerForm.value;
       
-      const existingUser = this.dbService.getFuncionarioByRut(formValue.rut);
-      if (existingUser) {
-        this.showError = true;
-        this.errorMessage = 'Este RUT ya está registrado';
-        this.isLoading = false;
-        return;
-      }
+      this.apiService.getFuncionarioByRut(formValue.rut.replace(/\./g, '').replace('-', '')).subscribe({
+        next: (existingUser) => {
+          if (existingUser) {
+            this.showError = true;
+            this.errorMessage = 'Este RUT ya está registrado';
+            this.isLoading = false;
+            return;
+          }
 
-      const newFuncionario = {
-        id: 0,
-        nombres: formValue.nombres,
-        apellidos: formValue.apellidos,
-        rut: formValue.rut.replace(/\./g, '').replace('-', ''),
-        telefono: formValue.telefono,
-        email: formValue.email,
-        password: formValue.password,
-        esp_id: parseInt(formValue.esp_id)
-      } as Funcionario;
+          const newFuncionario: Funcionario = {
+            id: 0,
+            nombres: formValue.nombres,
+            apellidos: formValue.apellidos,
+            rut: formValue.rut.replace(/\./g, '').replace('-', ''),
+            telefono: formValue.telefono,
+            email: formValue.email,
+            password: formValue.password,
+            especialidad: {
+              id: parseInt(formValue.esp_id),
+              nombre: ''
+            },
+            roles: [
+              {
+                id: 1,
+                nombre: ''
+              },
+              {
+                id: 2,
+                nombre: ''
+              },
+              {
+                id: 3,
+                nombre: ''
+              }
+            ]
+          };
 
-      this.dbService.addFuncionario(newFuncionario);
-      
-      this.toastService.show('Usuario registrado. Inicie sesión con su RUT y contraseña.', 'success');
-      
-      this.closeModal();
-      
+          this.apiService.createFuncionario(newFuncionario).subscribe({
+            next: () => {
+              this.toastService.show('Usuario registrado. Inicie sesión con su RUT y contraseña.', 'success');
+              this.closeModal();
+            },
+            error: (error) => {
+              console.error('Registration error:', error);
+              this.showError = true;
+              this.errorMessage = 'Error al registrar. Por favor intente nuevamente.';
+              this.isLoading = false;
+            }
+          });
+        },
+        error: (error) => {
+          console.error('RUT check error:', error);
+          this.showError = true;
+          this.errorMessage = 'Error al verificar RUT. Por favor intente nuevamente.';
+          this.isLoading = false;
+        }
+      });
     } catch (error) {
       console.error('Registration error:', error);
       this.showError = true;
       this.errorMessage = 'Error al registrar. Por favor intente nuevamente.';
-    } finally {
       this.isLoading = false;
     }
   }

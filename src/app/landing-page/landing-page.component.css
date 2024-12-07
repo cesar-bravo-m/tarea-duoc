@@ -1,5 +1,7 @@
 .landing-page {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
@@ -58,6 +60,9 @@
 }
 
 .main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding-top: 5rem;
 }
 
@@ -131,8 +136,15 @@
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+/* Medium screens (tablets and up) */
+@media (min-width: 768px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .feature-card {
@@ -168,7 +180,7 @@
   color: white;
   text-align: center;
   padding: 2rem;
-  margin-top: 4rem;
+  margin-top: auto;
 }
 
 @media (max-width: 768px) {
@@ -178,10 +190,6 @@
   
   .hero p {
     font-size: 1rem;
-  }
-  
-  .feature-grid {
-    grid-template-columns: 1fr;
   }
   
   .nav-container {
