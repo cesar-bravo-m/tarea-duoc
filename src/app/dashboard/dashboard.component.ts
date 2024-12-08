@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterOutlet, RouterLinkActive } from '@angular/router';
-import { DatabaseService } from '../services/database.service';
 import { ToastService } from '../services/toast.service';
 import { ProfileModalComponent } from '../components/profile-modal/profile-modal.component';
+import { ApiService, Rol } from '../services/api.service';
 
 /**
  * Interfaz que define la estructura de un elemento de navegación
@@ -72,7 +72,7 @@ export class DashboardComponent {
 
   constructor(
     private router: Router,
-    private dbService: DatabaseService,
+    private apiService: ApiService,
     private toastService: ToastService
   ) {}
 
@@ -82,7 +82,7 @@ export class DashboardComponent {
    */
   get authorizedNavItems(): NavItem[] {
     return this.navItems.filter(item => 
-      this.dbService.hasRole(this.currentUser.id, item.requiredRole)
+      this.currentUser.roles.some((role: Rol) => role.nombre === item.requiredRole)
     );
   }
 

@@ -29,6 +29,8 @@ export class InscripcionComponent implements OnInit {
   message = '';
   /** Indica si hay una operación en curso */
   isLoading = false;
+  /** ID del paciente */
+  pacienteId = 0;
 
   /**
    * Constructor del componente
@@ -45,7 +47,7 @@ export class InscripcionComponent implements OnInit {
       nombres: ['', [Validators.required, Validators.minLength(2)]],
       apellidos: ['', [Validators.required, Validators.minLength(2)]],
       rut: ['', [Validators.required, this.rutValidator()]],
-      telefono: ['(56) 9 ', [Validators.required, Validators.minLength(12)]],
+      telefono: ['(56) 9 ', [Validators.required, Validators.minLength(11)]],
       email: ['', [Validators.required, Validators.email, this.emailDomainValidator()]],
       fecha_nacimiento: ['', Validators.required],
       genero: ['', Validators.required],
@@ -198,6 +200,7 @@ export class InscripcionComponent implements OnInit {
           // Format the date to YYYY-MM-DD for the input field
           const fechaNacimiento = paciente.fechaNacimiento ? 
             new Date(paciente.fechaNacimiento).toISOString().split('T')[0] : '';
+          this.pacienteId = paciente.id;
 
           this.pacienteForm.patchValue({
             ...paciente,
@@ -241,7 +244,7 @@ export class InscripcionComponent implements OnInit {
     try {
       const formValue = this.pacienteForm.value;
       const paciente: Paciente = {
-        id: 0,
+        id: this.message === 'Paciente encontrado' ? this.pacienteId : 0,
         nombres: formValue.nombres,
         apellidos: formValue.apellidos,
         rut: formValue.rut.replace(/\./g, '').replace(/-/g, ''),
@@ -252,20 +255,37 @@ export class InscripcionComponent implements OnInit {
         direccion: formValue.direccion
       };
 
-      this.apiService.createPaciente(paciente).subscribe({
-        next: () => {
-          this.toastService.show('Paciente creado exitosamente', 'success');
-          this.resetForm();
-        },
-        error: (error) => {
-          console.error('Error creating paciente:', error);
-          this.showError = true;
-          this.message = 'Error al registrar paciente';
-        },
-        complete: () => {
-          this.isLoading = false;
-        }
-      });
+      if (this.message === 'Paciente encontrado') {
+        this.apiService.updatePaciente(paciente).subscribe({
+          next: () => {
+            this.toastService.show('Paciente actualizado exitosamente', 'success');
+            this.resetForm();
+          },
+          error: (error) => {
+            console.error('Error creating paciente:', error);
+            this.showError = true;
+            this.message = 'Error al registrar paciente';
+          },
+          complete: () => {
+            this.isLoading = false;
+          }
+        });
+      } else {
+        this.apiService.createPaciente(paciente).subscribe({
+          next: () => {
+            this.toastService.show('Paciente creado exitosamente', 'success');
+            this.resetForm();
+          },
+          error: (error) => {
+            console.error('Error creating paciente:', error);
+            this.showError = true;
+            this.message = 'Error al registrar paciente';
+          },
+          complete: () => {
+            this.isLoading = false;
+          }
+        });
+      }
     } catch (error) {
       this.showError = true;
       this.message = 'Error al registrar paciente';

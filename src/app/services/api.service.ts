@@ -68,6 +68,11 @@ export interface SegmentoHorario {
   funcionario: Funcionario;
 }
 
+export interface Rol {
+  id: number;
+  nombre: string;
+}
+
 /**
  * Service for interacting with the Hospital Scheduler API
  * @description Implements all endpoints defined in the OpenAPI specification
@@ -185,6 +190,16 @@ export class ApiService {
    */
   createPaciente(paciente: Paciente): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/pacientes`, paciente)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Update a paciente
+   * @param paciente Paciente data
+   * @returns Observable with operation result
+   */
+  updatePaciente(paciente: Paciente): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/pacientes/${paciente.id}`, paciente)
       .pipe(catchError(this.handleError));
   }
 

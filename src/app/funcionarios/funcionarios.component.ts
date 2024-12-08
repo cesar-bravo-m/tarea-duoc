@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DatabaseService, Funcionario } from '../services/database.service';
+import { ApiService, Funcionario, Especialidad } from '../services/api.service';
 
 /**
  * Componente que maneja la gestión de funcionarios
@@ -313,7 +313,7 @@ export class FuncionariosComponent implements OnInit {
   /** Lista completa de funcionarios */
   funcionarios: Funcionario[] = [];
   /** Lista de especialidades disponibles */
-  especialidades: any[] = [];
+  especialidades: Especialidad[] = [];
   /** Lista filtrada de funcionarios según búsqueda */
   filteredFuncionarios: Funcionario[] = [];
   /** Funcionario seleccionado para edición */
@@ -333,7 +333,7 @@ export class FuncionariosComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dbService: DatabaseService
+    private apiService: ApiService
   ) {
     this.funcionarioForm = this.fb.group({
       nombres: ['', [Validators.required, Validators.minLength(2)]],
@@ -344,7 +344,7 @@ export class FuncionariosComponent implements OnInit {
       esp_id: ['', Validators.required]
     });
 
-    this.dbService.funcionarios$.subscribe(
+    this.apiService.funcionarios$.subscribe(
       funcionarios => {
         this.funcionarios = funcionarios.map(funcionario => ({
           ...funcionario,
@@ -354,7 +354,7 @@ export class FuncionariosComponent implements OnInit {
       }
     );
 
-    this.dbService.especialidades$.subscribe(
+    this.apiService.especialidades$.subscribe(
       especialidades => {
         this.especialidades = especialidades;
       }
@@ -366,8 +366,8 @@ export class FuncionariosComponent implements OnInit {
    * @description Carga los funcionarios y especialidades
    */
   ngOnInit() {
-    this.dbService.loadFuncionarios();
-    this.dbService.loadEspecialidades();
+    this.apiService.loadFuncionarios();
+    this.apiService.loadEspecialidades();
   }
 
   /**
@@ -474,7 +474,7 @@ export class FuncionariosComponent implements OnInit {
         esp_id: parseInt(formValue.esp_id)
       } as Funcionario;
 
-      this.dbService.addFuncionario(funcionario);
+      this.apiService.addFuncionario(funcionario);
       this.showSuccess = true;
       this.successMessage = `Funcionario ${this.selectedFuncionario ? 'actualizado' : 'guardado'} exitosamente`;
       this.resetForm();
@@ -494,7 +494,7 @@ export class FuncionariosComponent implements OnInit {
   deleteFuncionario() {
     if (this.selectedFuncionario && confirm('¿Está seguro de eliminar este funcionario?')) {
       try {
-        this.dbService.deleteFuncionario(this.selectedFuncionario.id);
+        this.apiService.deleteFuncionario(this.selectedFuncionario.id);
         this.showSuccess = true;
         this.successMessage = 'Funcionario eliminado exitosamente';
         this.resetForm();
