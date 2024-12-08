@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { DatabaseService, Paciente } from '../services/database.service';
+import { ApiService, Paciente } from '../services/api.service';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { ToastService } from '../services/toast.service';
 
@@ -33,12 +33,12 @@ export class InscripcionComponent implements OnInit {
   /**
    * Constructor del componente
    * @param fb Servicio de formulario reactivo
-   * @param dbService Servicio de base de datos
+   * @param apiService Servicio de base de datos
    * @param toastService Servicio de notificaciones
    */
   constructor(
     private fb: FormBuilder,
-    private dbService: DatabaseService,
+    private apiService: ApiService,
     private toastService: ToastService
   ) {
     this.pacienteForm = this.fb.group({
@@ -78,7 +78,6 @@ export class InscripcionComponent implements OnInit {
    * @description Carga los datos necesarios del servicio
    */
   ngOnInit() {
-    this.dbService.loadPacientes();
   }
 
   /**
@@ -193,18 +192,31 @@ export class InscripcionComponent implements OnInit {
       return;
     }
 
-    const paciente = this.dbService.getPacienteByRut(cleanRut);
-    if (paciente) {
-      this.pacienteForm.patchValue({
-        ...paciente,
-        rut: this.formatRut(paciente.rut)
-      });
-      this.showSuccess = true;
-      this.message = 'Paciente encontrado';
-    } else {
-      this.showError = true;
-      this.message = 'Paciente no encontrado';
-    }
+    this.apiService.getPacienteByRut(cleanRut).subscribe({
+      next: (paciente) => {
+        if (paciente) {
+          // Format the date to YYYY-MM-DD for the input field
+          const fechaNacimiento = paciente.fechaNacimiento ? 
+            new Date(paciente.fechaNacimiento).toISOString().split('T')[0] : '';
+
+          this.pacienteForm.patchValue({
+            ...paciente,
+            rut: this.formatRut(paciente.rut),
+            fecha_nacimiento: fechaNacimiento  // Use the formatted date
+          });
+          this.showSuccess = true;
+          this.message = 'Paciente encontrado';
+        } else {
+          this.showError = true;
+          this.message = 'Paciente no encontrado';
+        }
+      },
+      error: (error) => {
+        console.error('Error searching paciente:', error);
+        this.showError = true;
+        this.message = 'Error al buscar paciente';
+      }
+    });
   }
 
   /**
@@ -228,19 +240,36 @@ export class InscripcionComponent implements OnInit {
 
     try {
       const formValue = this.pacienteForm.value;
-      const paciente = {
-        ...formValue,
-        rut: formValue.rut.replace(/\./g, '').replace(/-/g, '') // Remove formatting before saving
+      const paciente: Paciente = {
+        id: 0,
+        nombres: formValue.nombres,
+        apellidos: formValue.apellidos,
+        rut: formValue.rut.replace(/\./g, '').replace(/-/g, ''),
+        telefono: formValue.telefono,
+        email: formValue.email,
+        fechaNacimiento: formValue.fecha_nacimiento,
+        genero: formValue.genero,
+        direccion: formValue.direccion
       };
 
-      this.dbService.addPaciente(paciente);
-      this.toastService.show('Paciente creado exitosamente', 'success');
-      this.resetForm();
+      this.apiService.createPaciente(paciente).subscribe({
+        next: () => {
+          this.toastService.show('Paciente creado exitosamente', 'success');
+          this.resetForm();
+        },
+        error: (error) => {
+          console.error('Error creating paciente:', error);
+          this.showError = true;
+          this.message = 'Error al registrar paciente';
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
     } catch (error) {
       this.showError = true;
       this.message = 'Error al registrar paciente';
       console.error(error);
-    } finally {
       this.isLoading = false;
     }
   }
