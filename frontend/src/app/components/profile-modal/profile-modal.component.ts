@@ -311,8 +311,8 @@ export class ProfileModalComponent implements OnInit {
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     this.profileForm = this.fb.group({
-      nombres: ['', [Validators.required, Validators.minLength(4)]],
-      apellidos: ['', [Validators.required, Validators.minLength(4)]],
+      nombres: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z]+$/)]],
+      apellidos: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z]+$/)]],
       email: ['', [Validators.required, this.emailDomainValidator()]],
       telefono: ['(56) 9 ', [Validators.required, Validators.minLength(11)]],
       esp_id: ['', Validators.required],

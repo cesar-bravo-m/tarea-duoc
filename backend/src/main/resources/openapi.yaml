@@ -1,0 +1,332 @@
+openapi: 3.0.0
+info:
+  title: Hospital Scheduler API
+  description: API for managing hospital appointments and schedules
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /api/funcionarios/login:
+    post:
+      summary: Login funcionario
+      description: Authenticate a funcionario using RUT and password
+      tags:
+        - Funcionarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Invalid credentials
+
+  /api/funcionarios:
+    get:
+      summary: Get all funcionarios
+      tags:
+        - Funcionarios
+      responses:
+        '200':
+          description: List of funcionarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Funcionario'
+    post:
+      summary: Create funcionario
+      tags:
+        - Funcionarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Funcionario'
+      responses:
+        '200':
+          description: Funcionario created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Funcionario'
+
+  /api/funcionarios/{id}:
+    get:
+      summary: Get funcionario by ID
+      tags:
+        - Funcionarios
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Funcionario found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Funcionario'
+        '404':
+          description: Funcionario not found
+    put:
+      summary: Update funcionario
+      tags:
+        - Funcionarios
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Funcionario'
+      responses:
+        '200':
+          description: Funcionario updated
+        '404':
+          description: Funcionario not found
+    delete:
+      summary: Delete funcionario
+      tags:
+        - Funcionarios
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Funcionario deleted
+        '404':
+          description: Funcionario not found
+
+  /api/funcionarios/rut/{rut}:
+    get:
+      summary: Get funcionario by RUT
+      tags:
+        - Funcionarios
+      parameters:
+        - name: rut
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Funcionario found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Funcionario'
+        '404':
+          description: Funcionario not found
+
+  /api/pacientes:
+    get:
+      summary: Get all pacientes
+      tags:
+        - Pacientes
+      responses:
+        '200':
+          description: List of pacientes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Paciente'
+    post:
+      summary: Create paciente
+      tags:
+        - Pacientes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Paciente'
+      responses:
+        '200':
+          description: Paciente created
+
+  /api/citas/assign:
+    post:
+      summary: Assign segmento horario to paciente
+      tags:
+        - Citas
+      parameters:
+        - name: pacienteId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: segmentoHorarioId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Assignment successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cita'
+        '400':
+          description: Invalid request or segment not available
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        rut:
+          type: string
+        password:
+          type: string
+      required:
+        - rut
+        - password
+
+    LoginResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rut:
+          type: string
+        nombres:
+          type: string
+        apellidos:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rol'
+
+    Funcionario:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rut:
+          type: string
+        nombres:
+          type: string
+        apellidos:
+          type: string
+        telefono:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        especialidad:
+          $ref: '#/components/schemas/Especialidad'
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rol'
+
+    Paciente:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rut:
+          type: string
+        nombres:
+          type: string
+        apellidos:
+          type: string
+        telefono:
+          type: string
+        email:
+          type: string
+        fechaNacimiento:
+          type: string
+          format: date
+        genero:
+          $ref: '#/components/schemas/Genero'
+        direccion:
+          type: string
+
+    Especialidad:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nombre:
+          type: string
+
+    Rol:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nombre:
+          type: string
+
+    Genero:
+      type: string
+      enum: [M, F]
+
+    Cita:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        paciente:
+          $ref: '#/components/schemas/Paciente'
+        segmentoHorario:
+          $ref: '#/components/schemas/SegmentoHorario'
+
+    SegmentoHorario:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nombre:
+          type: string
+        fechaHoraInicio:
+          type: string
+          format: date-time
+        fechaHoraFin:
+          type: string
+          format: date-time
+        free:
+          type: boolean
+        funcionario:
+          $ref: '#/components/schemas/Funcionario' 
