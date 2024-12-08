@@ -153,7 +153,7 @@ export class LoginModalComponent {
       if (control.errors['pattern']) {
         if (fieldName === 'newPassword') {
           if (control.value?.includes(' ')) return 'No se permiten espacios';
-          return 'La contraseña debe tener al menos una mayúscula, una minúscula y un n��mero';
+          return 'La contraseña debe tener al menos una mayúscula, una minúscula y un número';
         }
         return 'Formato inválido';
       }
@@ -207,7 +207,7 @@ export class LoginModalComponent {
 
     try {
       if (!this.recoveryCodeSent) {
-        this.apiService.getFuncionarioByRut(this.recoveryForm.get('recoveryRut')?.value)
+        this.apiService.getFuncionarioByRut(this.recoveryForm.get('recoveryRut')?.value.replace(/\./g, '').replace(/-/g, ''))
           .subscribe({
             next: (funcionario) => {
               if (!funcionario) {
@@ -254,7 +254,7 @@ export class LoginModalComponent {
           return;
         }
 
-        this.apiService.getFuncionarioByRut(this.recoveryForm.get('recoveryRut')?.value)
+        this.apiService.getFuncionarioByRut(this.recoveryForm.get('recoveryRut')?.value.replace(/\./g, '').replace(/-/g, ''))
           .subscribe({
             next: (funcionario) => {
               if (funcionario) {

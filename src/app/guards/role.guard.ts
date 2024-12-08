@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { DatabaseService } from '../services/database.service';
+import { ApiService } from '../services/api.service';
+import { firstValueFrom } from 'rxjs';
 
 /**
  * Guardia que protege las rutas basadas en roles de usuario
@@ -11,7 +12,7 @@ import { DatabaseService } from '../services/database.service';
 })
 export class RoleGuard implements CanActivate {
   constructor(
-    private dbService: DatabaseService,
+    private apiService: ApiService,
     private router: Router
   ) {}
 
@@ -30,13 +31,11 @@ export class RoleGuard implements CanActivate {
       this.router.navigate(['/']);
       return false;
     }
-    // Hack temporal
-    if (currentUser.id > 10) return true
 
     try {
-      // await this.dbService.initializeDatabase();
-      
-      const hasRole = this.dbService.hasRole(currentUser.id, requiredRole);
+      const hasRole = await firstValueFrom(
+        this.apiService.hasRole(currentUser.id, requiredRole)
+      );
       
       if (!hasRole) {
         this.router.navigate(['/dashboard']);

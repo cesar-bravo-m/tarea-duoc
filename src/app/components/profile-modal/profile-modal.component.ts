@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { DatabaseService, Funcionario } from '../../services/database.service';
+import { ApiService, Funcionario } from '../../services/api.service';
 import { ToastService } from '../../services/toast.service';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { Router } from '@angular/router';
@@ -140,7 +140,6 @@ import { Router } from '@angular/router';
               <button 
                 type="submit" 
                 class="submit-btn" 
-                [disabled]="profileForm.invalid || isLoading"
               >
                 {{ isLoading ? 'Guardando...' : 'Guardar Cambios' }}
               </button>
@@ -301,12 +300,12 @@ export class ProfileModalComponent implements OnInit {
   /**
    * Constructor del componente
    * @param fb Servicio de formularios reactivos
-   * @param dbService Servicio de base de datos
+   * @param apiService Servicio de base de datos
    * @param toastService Servicio de notificaciones
    */
   constructor(
     private fb: FormBuilder,
-    private dbService: DatabaseService,
+    private apiService: ApiService,
     private toastService: ToastService,
     private router: Router
   ) {
@@ -315,19 +314,19 @@ export class ProfileModalComponent implements OnInit {
       nombres: ['', [Validators.required, Validators.minLength(4)]],
       apellidos: ['', [Validators.required, Validators.minLength(4)]],
       email: ['', [Validators.required, this.emailDomainValidator()]],
-      telefono: ['(56) 9 ', [Validators.required, Validators.minLength(12)]],
+      telefono: ['(56) 9 ', [Validators.required, Validators.minLength(11)]],
       esp_id: ['', Validators.required],
       password: ['', [
         Validators.minLength(6),
         Validators.maxLength(12),
-        Validators.pattern(/^[^\s]+$/),  // No spaces allowed
+        Validators.pattern(/^[^\s]+$/),
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/)
       ]],
       confirmPassword: ['']
     }, { validator: this.passwordMatchValidator() });
 
-    this.dbService.especialidades$.subscribe(
-      esp => this.especialidades = esp
+    this.apiService.getEspecialidades().subscribe(
+      especialidades => this.especialidades = especialidades
     );
   }
 
@@ -362,13 +361,20 @@ export class ProfileModalComponent implements OnInit {
    * @description Carga las especialidades y configura el formulario con los datos del usuario
    */
   ngOnInit() {
-    this.dbService.loadEspecialidades();
-    this.profileForm.patchValue({
-      nombres: this.currentUser.nombres,
-      apellidos: this.currentUser.apellidos,
-      email: this.currentUser.email,
-      telefono: this.currentUser.telefono || '(56) 9 ',
-      esp_id: this.currentUser.esp_id
+    this.apiService.getFuncionarioById(this.currentUser.id).subscribe({
+      next: (funcionario) => {
+        this.profileForm.patchValue({
+          nombres: funcionario.nombres,
+          apellidos: funcionario.apellidos,
+          email: funcionario.email,
+          telefono: funcionario.telefono || '(56) 9 ',
+          esp_id: funcionario.especialidad.id
+        });
+      },
+      error: (error) => {
+        console.error('Error loading funcionario:', error);
+        this.toastService.show('Error al cargar datos del perfil', 'error');
+      }
     });
   }
 
@@ -457,28 +463,68 @@ export class ProfileModalComponent implements OnInit {
     const formValue = this.profileForm.value;
     
     try {
-      const updatedUser = {
-        ...this.currentUser,
-        ...formValue
+      const updatedUser: Funcionario = {
+        id: this.currentUser.id,
+        nombres: formValue.nombres,
+        apellidos: formValue.apellidos,
+        rut: this.currentUser.rut,
+        telefono: formValue.telefono,
+        email: formValue.email,
+        password: formValue.password || '',
+        especialidad: {
+          id: parseInt(formValue.esp_id),
+          nombre: ''
+        },
+        roles: this.currentUser.roles
       };
 
-      if (formValue.password && formValue.password.length > 0) {
-        if (!formValue.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/)) {
-          this.toastService.show('La contraseña debe tener al menos una mayúscula, una minúscula y un número', 'error');
-          return;
+      this.apiService.updateFuncionario(this.currentUser.id, updatedUser).subscribe({
+        next: () => {
+          if (formValue.password) {
+            this.apiService.updateFuncionarioPassword(
+              this.currentUser.id, 
+              formValue.password
+            ).subscribe({
+              next: () => {
+                this.updateLocalStorage(updatedUser);
+                this.toastService.show('Perfil actualizado exitosamente', 'success');
+                this.closeModal();
+              },
+              error: (error) => {
+                console.error('Password update error:', error);
+                this.toastService.show('Error al actualizar la contraseña', 'error');
+              }
+            });
+          } else {
+            this.updateLocalStorage(updatedUser);
+            this.toastService.show('Perfil actualizado exitosamente', 'success');
+            this.closeModal();
+          }
+        },
+        error: (error) => {
+          console.error('Profile update error:', error);
+          this.toastService.show('Error al actualizar el perfil', 'error');
+        },
+        complete: () => {
+          this.isLoading = false;
         }
-        updatedUser.password = formValue.password;
-      }
-
-      this.dbService.updateFuncionario(updatedUser);
-      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-      
-      this.toastService.show('Perfil actualizado exitosamente', 'success');
-      this.closeModal();
+      });
     } catch (error) {
+      console.error('Profile update error:', error);
       this.toastService.show('Error al actualizar el perfil', 'error');
-    } finally {
       this.isLoading = false;
     }
+  }
+
+  private updateLocalStorage(updatedUser: Funcionario) {
+    const currentUser = {
+      ...this.currentUser,
+      nombres: updatedUser.nombres,
+      apellidos: updatedUser.apellidos,
+      email: updatedUser.email,
+      telefono: updatedUser.telefono,
+      especialidad: updatedUser.especialidad
+    };
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
   }
 } 
