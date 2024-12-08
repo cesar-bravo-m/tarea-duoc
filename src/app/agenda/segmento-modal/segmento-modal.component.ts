@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DatabaseService, Funcionario, SegmentoHorario } from '../../services/database.service';
+import { ApiService, Funcionario, SegmentoHorario } from '../../services/api.service';
 
 /**
  * Componente modal para la gestión de segmentos horarios
@@ -47,8 +47,8 @@ export class SegmentoModalComponent implements OnInit {
   ngOnInit() {
     if (this.segmentoToEdit) {
       this.isEditMode = true;
-      const duration = (new Date(this.segmentoToEdit.fecha_hora_fin).getTime() - 
-                       new Date(this.segmentoToEdit.fecha_hora_inicio).getTime()) / (30 * 60000);
+      const duration = (new Date(this.segmentoToEdit.fechaHoraFin).getTime() - 
+                       new Date(this.segmentoToEdit.fechaHoraInicio).getTime()) / (30 * 60000);
       
       this.segmentoForm.patchValue({
         nombre: this.segmentoToEdit.nombre,
@@ -76,6 +76,9 @@ export class SegmentoModalComponent implements OnInit {
     }
   }
 
+  formatDate(date: Date) {
+    return `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}T${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:00.000Z`;
+  }
   /**
    * Maneja el envío del formulario
    * @description Crea o actualiza un segmento horario
@@ -83,16 +86,16 @@ export class SegmentoModalComponent implements OnInit {
   onSubmit() {
     if (this.segmentoForm.valid) {
       const formValue = this.segmentoForm.value;
-      const startDate = this.segmentoToEdit ? new Date(this.segmentoToEdit.fecha_hora_inicio) : this.startDate;
+      const startDate = this.segmentoToEdit ? new Date(this.segmentoToEdit.fechaHoraInicio) : this.startDate;
       const endDate = new Date(startDate);
       endDate.setMinutes(endDate.getMinutes() + (formValue.cupos * 30));
 
       const segmento: SegmentoHorario = {
         id: this.segmentoToEdit?.id || 0,
         nombre: formValue.nombre,
-        fecha_hora_inicio: startDate.toISOString(),
-        fecha_hora_fin: endDate.toISOString(),
-        fun_id: this.funcionario.id,
+        fechaHoraInicio: this.formatDate(startDate),
+        fechaHoraFin: this.formatDate(endDate),
+        funcionario: this.funcionario,
         free: true
       };
       

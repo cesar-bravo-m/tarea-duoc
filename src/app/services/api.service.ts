@@ -258,7 +258,7 @@ export class ApiService {
    * @returns Observable with segmento horario data
    */
   getSegmentoHorarioById(id: number): Observable<SegmentoHorario> {
-    return this.http.get<SegmentoHorario>(`${this.baseUrl}/segmentos/${id}`)
+    return this.http.get<SegmentoHorario>(`${this.baseUrl}/segmentos-horarios/${id}`)
       .pipe(catchError(this.handleError));
   }
 
@@ -268,7 +268,7 @@ export class ApiService {
    * @returns Observable with created segmento horario
    */
   createSegmentoHorario(segmento: SegmentoHorario): Observable<SegmentoHorario> {
-    return this.http.post<SegmentoHorario>(`${this.baseUrl}/segmentos`, segmento)
+    return this.http.post<SegmentoHorario>(`${this.baseUrl}/segmentos-horarios`, segmento)
       .pipe(catchError(this.handleError));
   }
 
@@ -279,7 +279,7 @@ export class ApiService {
    * @returns Observable with operation result
    */
   updateSegmentoHorario(id: number, segmento: SegmentoHorario): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/segmentos/${id}`, segmento)
+    return this.http.put<void>(`${this.baseUrl}/segmentos-horarios/${id}`, segmento)
       .pipe(catchError(this.handleError));
   }
 
@@ -289,7 +289,7 @@ export class ApiService {
    * @returns Observable with operation result
    */
   deleteSegmentoHorario(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/segmentos/${id}`)
+    return this.http.delete<void>(`${this.baseUrl}/segmentos-horarios/${id}`)
       .pipe(catchError(this.handleError));
   }
 

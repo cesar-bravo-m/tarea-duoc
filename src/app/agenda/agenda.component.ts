@@ -1,13 +1,14 @@
 import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DatabaseService, Funcionario, SegmentoHorario } from '../services/database.service';
+import { ApiService, Funcionario, SegmentoHorario } from '../services/api.service';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import { FullCalendarModule, FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { SegmentoModalComponent } from './segmento-modal/segmento-modal.component';
+import { ToastService } from '../services/toast.service';
 
 /**
  * Componente que maneja la agenda de los funcionarios
@@ -23,7 +24,7 @@ import { SegmentoModalComponent } from './segmento-modal/segmento-modal.componen
         <div class="search-header" (click)="toggleSearch()">
           <div class="header-content">
             <h2>{{ selectedFuncionario ? selectedFuncionario.nombres + ' ' + selectedFuncionario.apellidos : 'Seleccionar Funcionario' }}</h2>
-            <span class="specialty" *ngIf="selectedFuncionario">{{ selectedFuncionario.especialidad }}</span>
+            <span class="specialty" *ngIf="selectedFuncionario">{{ selectedFuncionario.especialidad.nombre }}</span>
           </div>
           <button class="toggle-btn">
             {{ selectedFuncionario ? '▼' : '▲' }}
@@ -50,7 +51,7 @@ import { SegmentoModalComponent } from './segmento-modal/segmento-modal.componen
             >
               <div class="funcionario-info">
                 <h3>{{ funcionario.nombres }} {{ funcionario.apellidos }}</h3>
-                <p>{{ funcionario.especialidad }}</p>
+                <p>{{ funcionario.especialidad.nombre }}</p>
               </div>
             </div>
           </div>
@@ -288,14 +289,42 @@ export class AgendaComponent implements OnInit {
     this.checkScreenSize();
   }
 
-  constructor(private dbService: DatabaseService) {
-    this.dbService.funcionarios$.subscribe(
+  constructor(
+    private apiService: ApiService,
+    private toastService: ToastService
+  ) {
+    this.apiService.getFuncionarios().subscribe(
       funcionarios => {
-        this.funcionarios = funcionarios;
-        this.filteredFuncionarios = funcionarios;
+        this.funcionarios = funcionarios.map(f => ({
+          ...f,
+          hasAvailableSegments: this.checkFuncionarioAvailability(f.id)
+        }));
+        this.filteredFuncionarios = this.funcionarios;
       }
     );
     this.checkScreenSize();
+  }
+
+  private checkFuncionarioAvailability(funcionarioId: number): boolean {
+    // Get segmentos from API
+    let hasAvailability = false;
+    this.apiService.getSegmentosHorarioByFuncionarioId(funcionarioId).subscribe(
+      segmentos => {
+        const today = new Date();
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - today.getDay());
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+        hasAvailability = segmentos.some(segmento => {
+          const segmentoDate = new Date(segmento.fechaHoraInicio);
+          return segmento.free && 
+                 segmentoDate >= startOfWeek && 
+                 segmentoDate < endOfWeek;
+        });
+      }
+    );
+    return hasAvailability;
   }
 
   /**
@@ -349,7 +378,8 @@ export class AgendaComponent implements OnInit {
    * @description Carga la lista de funcionarios
    */
   ngOnInit() {
-    this.dbService.loadFuncionarios();
+    // Load funcionarios from API
+    this.apiService.getFuncionarios().subscribe();
   }
 
   /**
@@ -366,7 +396,7 @@ export class AgendaComponent implements OnInit {
     this.filteredFuncionarios = this.funcionarios.filter(funcionario => 
       funcionario.nombres.toLowerCase().includes(searchTermLower) ||
       funcionario.apellidos.toLowerCase().includes(searchTermLower) ||
-      funcionario.especialidad?.toLowerCase().includes(searchTermLower)
+      funcionario.especialidad.nombre.toLowerCase().includes(searchTermLower)
     );
   }
 
@@ -376,7 +406,7 @@ export class AgendaComponent implements OnInit {
    */
   selectFuncionario(funcionario: Funcionario) {
     this.selectedFuncionario = funcionario;
-    this.loadShifts(funcionario.id);
+    this.loadSegmentos(funcionario.id);
     
     setTimeout(() => {
       this.updateCalendarView();
@@ -388,17 +418,24 @@ export class AgendaComponent implements OnInit {
    * @param funcionarioId ID del funcionario
    * @description Actualiza los eventos del calendario con los segmentos del funcionario
    */
-  loadShifts(funcionarioId: number) {
-    const segmentos = this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
-    const events: EventInput[] = segmentos.map(segmento => ({
-      id: segmento.id.toString(),
-      title: segmento.nombre,
-      start: segmento.fecha_hora_inicio,
-      end: segmento.fecha_hora_fin,
-      funcionarioId: segmento.fun_id
-    }));
+  loadSegmentos(funcionarioId: number) {
+    this.apiService.getSegmentosHorarioByFuncionarioId(funcionarioId).subscribe(
+      segmentos => {
+        const events: EventInput[] = segmentos.map(segmento => ({
+          id: segmento.id.toString(),
+          title: segmento.nombre,
+          start: segmento.fechaHoraInicio,
+          end: segmento.fechaHoraFin,
+          backgroundColor: segmento.free ? '#48bb78' : '#fc8181',
+          borderColor: segmento.free ? '#38a169' : '#f56565',
+          extendedProps: {
+            segmento: segmento
+          }
+        }));
 
-    this.calendarOptions.events = events;
+        this.calendarOptions.events = events;
+      }
+    );
   }
 
   /**
@@ -426,16 +463,31 @@ export class AgendaComponent implements OnInit {
   handleSegmentoSubmit(segmento: SegmentoHorario) {
     try {
       if (segmento.id === 0) {
-        console.log("### creating", segmento);
-        this.dbService.addSegmentoHorario(segmento);
+        this.apiService.createSegmentoHorario(segmento).subscribe({
+          next: () => {
+            this.loadSegmentos(this.selectedFuncionario!.id);
+            this.toastService.show('Segmento creado exitosamente', 'success');
+          },
+          error: (error) => {
+            console.error('Error creating segmento:', error);
+            this.toastService.show('Error al crear el segmento', 'error');
+          }
+        });
       } else {
-        console.log("### updating", segmento);
-        this.dbService.updateSegmentoHorario(segmento);
+        this.apiService.updateSegmentoHorario(segmento.id, segmento).subscribe({
+          next: () => {
+            this.loadSegmentos(this.selectedFuncionario!.id);
+            this.toastService.show('Segmento actualizado exitosamente', 'success');
+          },
+          error: (error) => {
+            console.error('Error updating segmento:', error);
+            this.toastService.show('Error al actualizar el segmento', 'error');
+          }
+        });
       }
-      this.loadShifts(this.selectedFuncionario!.id);
     } catch (error) {
       console.error('Error saving segmento:', error);
-      alert('Error al guardar el segmento horario');
+      this.toastService.show('Error al guardar el segmento', 'error');
     }
     this.showSegmentoModal = false;
     this.selectedSegmento = null;
@@ -447,11 +499,19 @@ export class AgendaComponent implements OnInit {
    */
   handleSegmentoDelete(id: number) {
     try {
-      this.dbService.deleteSegmentoHorario(id);
-      this.loadShifts(this.selectedFuncionario!.id);
+      this.apiService.deleteSegmentoHorario(id).subscribe({
+        next: () => {
+          this.loadSegmentos(this.selectedFuncionario!.id);
+          this.toastService.show('Segmento eliminado exitosamente', 'success');
+        },
+        error: (error) => {
+          console.error('Error deleting segmento:', error);
+          this.toastService.show('Error al eliminar el segmento', 'error');
+        }
+      });
     } catch (error) {
       console.error('Error deleting segmento:', error);
-      alert('Error al eliminar el segmento horario');
+      this.toastService.show('Error al eliminar el segmento', 'error');
     }
   }
 
@@ -461,12 +521,19 @@ export class AgendaComponent implements OnInit {
    * @description Abre el modal para editar el segmento
    */
   handleEventClick(clickInfo: any) {
-    console.log("### clickInfo", clickInfo);
-    const segmento = this.dbService.getSegmentoHorarioById(clickInfo.event.id);
-    if (segmento) {
-      this.selectedSegmento = segmento;
-      this.showSegmentoModal = true;
-    }
+    const segmentoId = parseInt(clickInfo.event.id);
+    this.apiService.getSegmentoHorarioById(segmentoId).subscribe({
+      next: (segmento) => {
+        if (segmento) {
+          this.selectedSegmento = segmento;
+          this.showSegmentoModal = true;
+        }
+      },
+      error: (error) => {
+        console.error('Error loading segmento:', error);
+        this.toastService.show('Error al cargar el segmento', 'error');
+      }
+    });
   }
 
   /**
