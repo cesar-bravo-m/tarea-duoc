@@ -270,6 +270,7 @@ export class LoginModalComponent {
                     console.error('Password update error:', error);
                     this.showError = true;
                     this.errorMessage = 'Error al actualizar la contraseña';
+                    this.closeModal();
                   }
                 });
               }
