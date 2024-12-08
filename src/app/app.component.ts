@@ -42,16 +42,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * Inicializa el componente
-   * @description Inicializa la base de datos y carga los datos iniciales
+   * @description Inicializa los datos globales
    */
   async ngOnInit() {
-    try {
-      this.loading = false;
-    } catch (err) {
-      this.error = 'Failed to initialize database';
-      this.loading = false;
-      console.error(err);
-    }
   }
 
   /**
