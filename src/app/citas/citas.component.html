@@ -4,7 +4,7 @@
     <div class="search-header" (click)="toggleSearch()">
       <div class="header-content">
         <h2>{{ selectedFuncionario ? selectedFuncionario.nombres + ' ' + selectedFuncionario.apellidos : 'Seleccionar Funcionario' }}</h2>
-        <span class="specialty" *ngIf="selectedFuncionario">{{ selectedFuncionario.especialidad }}</span>
+        <span class="specialty" *ngIf="selectedFuncionario">{{ selectedFuncionario.especialidad.nombre }}</span>
       </div>
       <button class="toggle-btn">
         {{ selectedFuncionario ? '▼' : '▲' }}
@@ -32,7 +32,7 @@
         >
           <div class="funcionario-info">
             <h3>{{ funcionario.nombres }} {{ funcionario.apellidos }}</h3>
-            <p>{{ funcionario.especialidad }}</p>
+            <p>{{ funcionario.especialidad.nombre }}</p>
             <span class="availability-badge" *ngIf="funcionario.hasAvailableSegments">
               Horarios disponibles esta semana
             </span>
@@ -57,6 +57,7 @@
           [(ngModel)]="searchRut" 
           placeholder="Ingrese RUT del paciente"
           class="search-input"
+          maxlength="12"
           (input)="onRutInput($event)"
         >
         <button (click)="searchPaciente()" class="search-btn">Buscar</button>
