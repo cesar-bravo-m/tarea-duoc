@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet, RouterLinkActive } from '@angular/router';
 import { DatabaseService } from '../services/database.service';
 import { ToastService } from '../services/toast.service';
 import { ProfileModalComponent } from '../components/profile-modal/profile-modal.component';
@@ -28,7 +28,13 @@ interface NavItem {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, ProfileModalComponent],
+  imports: [
+    CommonModule, 
+    RouterLink, 
+    RouterOutlet, 
+    RouterLinkActive,
+    ProfileModalComponent
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -130,5 +136,13 @@ export class DashboardComponent {
 
   closeProfileModal() {
     this.showProfileModal = false;
+  }
+
+  /**
+   * Gets the current route path
+   * @returns The current route path
+   */
+  getCurrentPath(): string {
+    return this.router.url.split('/')[2] || 'agenda';  // Default to 'agenda' if no path
   }
 }

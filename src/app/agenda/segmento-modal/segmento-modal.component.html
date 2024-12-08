@@ -8,14 +8,21 @@
         <form [formGroup]="segmentoForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="nombre">Nombre del Segmento</label>
-            <select
-                id="nombre"
-                formControlName="nombre"
-            >
-                <option value="">Seleccione un tipo de segmento</option>
-                <option value="Atención general">Atención general</option>
-                <option value="Otro">Otro</option>
-            </select>
+            <div class="select-wrapper">
+                <select
+                    id="nombre"
+                    formControlName="nombre"
+                    [class.error]="segmentoForm.get('nombre')?.invalid && segmentoForm.get('nombre')?.touched"
+                >
+                    <option value="" disabled>Seleccione un tipo de segmento</option>
+                    <option value="Atención general">Atención general</option>
+                    <option value="Control médico">Control médico</option>
+                    <option value="Primera consulta">Primera consulta</option>
+                    <option value="Procedimiento">Procedimiento</option>
+                    <option value="Otro">Otro</option>
+                </select>
+                <span class="select-arrow">▼</span>
+            </div>
             <div class="error-message" *ngIf="segmentoForm.get('nombre')?.invalid && segmentoForm.get('nombre')?.touched">
                 El nombre es requerido
             </div>

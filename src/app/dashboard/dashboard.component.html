@@ -10,6 +10,7 @@
           <a *ngFor="let item of authorizedNavItems" 
              [routerLink]="item.path"
              routerLinkActive="active"
+             [class.current]="getCurrentPath() === item.path"
              class="nav-link">
             <span class="nav-icon">{{ item.icon }}</span>
             <span class="nav-label">{{ item.label }}</span>

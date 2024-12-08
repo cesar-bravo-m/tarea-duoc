@@ -150,3 +150,69 @@
     background-color: #a0aec0;
     cursor: not-allowed;
 }
+
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.select-wrapper select {
+    width: 100%;
+    padding: 0.75rem;
+    padding-right: 2.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.select-wrapper select:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.select-wrapper select:hover {
+    border-color: #4299e1;
+}
+
+.select-wrapper select.error {
+    border-color: #fc8181;
+}
+
+.select-arrow {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #718096;
+    font-size: 0.8rem;
+    transition: color 0.2s;
+}
+
+.select-wrapper:hover .select-arrow {
+    color: #4299e1;
+}
+
+select option {
+    padding: 0.75rem;
+    font-size: 1rem;
+}
+
+select option:first-child {
+    color: #718096;
+}
+
+select:invalid {
+    color: #718096;
+}
+
+#cupos {
+    width: 93%;
+}
