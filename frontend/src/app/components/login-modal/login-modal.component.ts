@@ -60,11 +60,10 @@ export class LoginModalComponent {
       recoveryRut: ['', [Validators.required, this.rutValidator()]],
       recoveryCode: [''],
       newPassword: ['', [
-        Validators.required,
+        Validators.required, 
         Validators.minLength(6),
         Validators.maxLength(12),
-        Validators.pattern(/^[^\s]+$/),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/)
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)
       ]],
       confirmPassword: ['', [Validators.required]]
     }, { validator: this.passwordMatchValidator() });
@@ -102,6 +101,7 @@ export class LoginModalComponent {
   rutValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const rut = control.value;
+      if (!/^[0-9Kk.-]+$/.test(rut)) return { invalidRut: true };
       if (!rut) return null;
       return this.validateRut(rut) ? null : { invalidRut: true };
     };
@@ -153,7 +153,7 @@ export class LoginModalComponent {
       if (control.errors['pattern']) {
         if (fieldName === 'newPassword') {
           if (control.value?.includes(' ')) return 'No se permiten espacios';
-          return 'La contraseña debe tener al menos una mayúscula, una minúscula y un número';
+          return 'La contraseña debe tener al menos una mayúscula, una minúscula, un caracter especial y un número. Debe tener entre 6 y 12 caracteres';
         }
         return 'Formato inválido';
       }

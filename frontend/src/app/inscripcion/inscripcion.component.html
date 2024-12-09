@@ -111,7 +111,7 @@
             [class.error]="isFieldInvalid('fecha_nacimiento')"
           >
           <div class="error-message" *ngIf="isFieldInvalid('fecha_nacimiento')">
-            Fecha de nacimiento requerida
+            {{ getErrorMessage('fecha_nacimiento') }}
           </div>
         </div>
       </div>

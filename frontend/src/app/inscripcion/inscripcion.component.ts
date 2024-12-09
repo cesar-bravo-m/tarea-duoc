@@ -44,12 +44,12 @@ export class InscripcionComponent implements OnInit {
     private toastService: ToastService
   ) {
     this.pacienteForm = this.fb.group({
-      nombres: ['', [Validators.required, Validators.minLength(2)]],
-      apellidos: ['', [Validators.required, Validators.minLength(2)]],
+      nombres: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z]+$/)]],
+      apellidos: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z]+$/)]],
       rut: ['', [Validators.required, this.rutValidator()]],
-      telefono: ['(56) 9 ', [Validators.required, Validators.minLength(11)]],
+      telefono: ['(56) 9 ', [Validators.required, Validators.minLength(10)]],
       email: ['', [Validators.required, Validators.email, this.emailDomainValidator()]],
-      fecha_nacimiento: ['', Validators.required],
+      fecha_nacimiento: ['', [Validators.required, this.dateOfBirthValidator()]],
       genero: ['', Validators.required],
       direccion: ['', Validators.required]
     });
@@ -110,6 +110,9 @@ export class InscripcionComponent implements OnInit {
           default: return 'Formato inválido';
         }
       }
+      if (control.errors['invalidDate']) return 'Fecha inválida';
+      if (control.errors['dateTooEarly']) return 'La fecha debe ser posterior a 1900';
+      if (control.errors['futureDate']) return 'La fecha no puede ser futura';
     }
     return '';
   }
@@ -326,6 +329,32 @@ export class InscripcionComponent implements OnInit {
       
       if (tld.length < 2 || !/^[a-zA-Z]+$/.test(tld)) {
         return { invalidTld: true };
+      }
+
+      return null;
+    };
+  }
+
+  dateOfBirthValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return null;
+      }
+
+      const inputDate = new Date(control.value);
+      const today = new Date();
+      const minDate = new Date('1900-01-01');
+
+      if (isNaN(inputDate.getTime())) {
+        return { invalidDate: true };
+      }
+
+      if (inputDate < minDate) {
+        return { dateTooEarly: true };
+      }
+
+      if (inputDate > today) {
+        return { futureDate: true };
       }
 
       return null;

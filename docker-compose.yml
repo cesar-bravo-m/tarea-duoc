@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # Servicio del backend
   backend:
     build: 
       context: ./backend
@@ -15,6 +16,7 @@ services:
     networks:
       - hospital-network
 
+  # Servicio del frontend
   frontend:
     build:
       context: ./frontend
@@ -28,6 +30,7 @@ services:
     networks:
       - hospital-network
 
+# Configuración de redes
 networks:
   hospital-network:
     driver: bridge 

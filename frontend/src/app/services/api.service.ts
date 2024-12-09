@@ -3,9 +3,6 @@ import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-/**
- * Interfaces based on OpenAPI schemas
- */
 export interface LoginRequest {
   rut: string;
   password: string;
@@ -74,8 +71,7 @@ export interface Rol {
 }
 
 /**
- * Service for interacting with the Hospital Scheduler API
- * @description Implements all endpoints defined in the OpenAPI specification
+ * Servicio para interactuar con el API del Hospital Scheduler
  */
 @Injectable({
   providedIn: 'root'
@@ -86,9 +82,9 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Error handler for API requests
-   * @param error HTTP error response
-   * @returns Observable with error message
+   * Manejador de errores para las solicitudes API
+   * @param error Respuesta de error HTTP
+   * @returns Observable con el mensaje de error
    */
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An error occurred';
@@ -106,8 +102,8 @@ export class ApiService {
 
   /**
    * Authenticate a funcionario
-   * @param credentials Login credentials
-   * @returns Observable with login response
+   * @param credentials Credenciales de inicio de sesión
+   * @returns Observable con la respuesta de inicio de sesión
    */
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/funcionarios/login`, credentials)
@@ -116,7 +112,7 @@ export class ApiService {
 
   /**
    * Get all funcionarios
-   * @returns Observable with array of funcionarios
+   * @returns Observable con el array de funcionarios
    */
   getFuncionarios(): Observable<Funcionario[]> {
     return this.http.get<Funcionario[]>(`${this.baseUrl}/funcionarios`)
@@ -125,8 +121,8 @@ export class ApiService {
 
   /**
    * Create a new funcionario
-   * @param funcionario Funcionario data
-   * @returns Observable with created funcionario
+   * @param funcionario Datos del funcionario
+   * @returns Observable con el funcionario creado
    */
   createFuncionario(funcionario: Funcionario): Observable<Funcionario> {
     return this.http.post<Funcionario>(`${this.baseUrl}/funcionarios`, funcionario)
@@ -135,8 +131,8 @@ export class ApiService {
 
   /**
    * Get funcionario by ID
-   * @param id Funcionario ID
-   * @returns Observable with funcionario data
+   * @param id ID del funcionario
+   * @returns Observable con los datos del funcionario
    */
   getFuncionarioById(id: number): Observable<Funcionario> {
     return this.http.get<Funcionario>(`${this.baseUrl}/funcionarios/${id}`)
@@ -146,8 +142,8 @@ export class ApiService {
   /**
    * Update funcionario
    * @param id Funcionario ID
-   * @param funcionario Updated funcionario data
-   * @returns Observable with operation result
+   * @param funcionario Datos actualizados del funcionario
+   * @returns Observable con el resultado de la operación
    */
   updateFuncionario(id: number, funcionario: Funcionario): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/funcionarios/${id}`, funcionario)
@@ -156,8 +152,8 @@ export class ApiService {
 
   /**
    * Delete funcionario
-   * @param id Funcionario ID
-   * @returns Observable with operation result
+   * @param id ID del funcionario
+   * @returns Observable con el resultado de la operación
    */
   deleteFuncionario(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/funcionarios/${id}`)
@@ -166,8 +162,8 @@ export class ApiService {
 
   /**
    * Get funcionario by RUT
-   * @param rut Funcionario RUT
-   * @returns Observable with funcionario data
+   * @param rut RUT del funcionario
+   * @returns Observable con los datos del funcionario
    */
   getFuncionarioByRut(rut: string): Observable<Funcionario> {
     return this.http.get<Funcionario>(`${this.baseUrl}/funcionarios/rut/${rut}`)
@@ -176,7 +172,7 @@ export class ApiService {
 
   /**
    * Get all pacientes
-   * @returns Observable with array of pacientes
+   * @returns Observable con el array de pacientes
    */
   getPacientes(): Observable<Paciente[]> {
     return this.http.get<Paciente[]>(`${this.baseUrl}/pacientes`)
@@ -185,8 +181,8 @@ export class ApiService {
 
   /**
    * Create a new paciente
-   * @param paciente Paciente data
-   * @returns Observable with operation result
+   * @param paciente Datos del paciente
+   * @returns Observable con el resultado de la operación
    */
   createPaciente(paciente: Paciente): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/pacientes`, paciente)
@@ -195,8 +191,8 @@ export class ApiService {
 
   /**
    * Update a paciente
-   * @param paciente Paciente data
-   * @returns Observable with operation result
+   * @param paciente Datos del paciente
+   * @returns Observable con el resultado de la operación
    */
   updatePaciente(paciente: Paciente): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/pacientes/${paciente.id}`, paciente)
@@ -206,8 +202,8 @@ export class ApiService {
   /**
    * Assign segmento horario to paciente
    * @param pacienteId Paciente ID
-   * @param segmentoHorarioId Segmento horario ID
-   * @returns Observable with created cita
+   * @param segmentoHorarioId ID del segmento horario
+   * @returns Observable con la cita creada
    */
   assignSegmentoToPaciente(pacienteId: number, segmentoHorarioId: number): Observable<Cita> {
     const params = new HttpParams()
@@ -220,7 +216,7 @@ export class ApiService {
 
   /**
    * Get all especialidades
-   * @returns Observable with array of especialidades
+   * @returns Observable con el array de especialidades
    */
   getEspecialidades(): Observable<Especialidad[]> {
     return this.http.get<Especialidad[]>(`${this.baseUrl}/especialidades`)
@@ -229,7 +225,7 @@ export class ApiService {
 
   /**
    * Get all roles
-   * @returns Observable with array of roles
+   * @returns Observable con el array de roles
    */
   getRoles(): Observable<Rol[]> {
     return this.http.get<Rol[]>(`${this.baseUrl}/roles`)
@@ -238,8 +234,8 @@ export class ApiService {
 
   /**
    * Get roles for a funcionario
-   * @param funcionarioId Funcionario ID
-   * @returns Observable with array of roles
+   * @param funcionarioId ID del funcionario
+   * @returns Observable con el array de roles
    */
   getFuncionarioRoles(funcionarioId: number): Observable<Rol[]> {
     return this.http.get<Rol[]>(`${this.baseUrl}/funcionarios/${funcionarioId}/roles`)
@@ -249,8 +245,8 @@ export class ApiService {
   /**
    * Check if funcionario has a specific role
    * @param funcionarioId Funcionario ID
-   * @param rolNombre Role name
-   * @returns Observable with boolean result
+   * @param rolNombre Nombre del rol
+   * @returns Observable con el resultado booleano
    */
   hasRole(funcionarioId: number, rolNombre: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseUrl}/funcionarios/${funcionarioId}/roles/${rolNombre}`)
@@ -259,8 +255,8 @@ export class ApiService {
 
   /**
    * Get all segmentos horarios for a funcionario
-   * @param funcionarioId Funcionario ID
-   * @returns Observable with array of segmentos horarios
+   * @param funcionarioId ID del funcionario
+   * @returns Observable con el array de segmentos horarios
    */
   getSegmentosHorarioByFuncionarioId(funcionarioId: number): Observable<SegmentoHorario[]> {
     return this.http.get<SegmentoHorario[]>(`${this.baseUrl}/funcionarios/${funcionarioId}/segmentos`)
@@ -269,8 +265,8 @@ export class ApiService {
 
   /**
    * Get segmento horario by ID
-   * @param id Segmento horario ID
-   * @returns Observable with segmento horario data
+   * @param id ID del segmento horario
+   * @returns Observable con los datos del segmento horario
    */
   getSegmentoHorarioById(id: number): Observable<SegmentoHorario> {
     return this.http.get<SegmentoHorario>(`${this.baseUrl}/segmentos-horarios/${id}`)
@@ -279,8 +275,8 @@ export class ApiService {
 
   /**
    * Create a new segmento horario
-   * @param segmento Segmento horario data
-   * @returns Observable with created segmento horario
+   * @param segmento Datos del segmento horario
+   * @returns Observable con el segmento horario creado
    */
   createSegmentoHorario(segmento: SegmentoHorario): Observable<SegmentoHorario> {
     return this.http.post<SegmentoHorario>(`${this.baseUrl}/segmentos-horarios`, segmento)
@@ -290,8 +286,8 @@ export class ApiService {
   /**
    * Update segmento horario
    * @param id Segmento horario ID
-   * @param segmento Updated segmento horario data
-   * @returns Observable with operation result
+   * @param segmento Datos actualizados del segmento horario
+   * @returns Observable con el resultado de la operación
    */
   updateSegmentoHorario(id: number, segmento: SegmentoHorario): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/segmentos-horarios/${id}`, segmento)
@@ -300,8 +296,8 @@ export class ApiService {
 
   /**
    * Delete segmento horario
-   * @param id Segmento horario ID
-   * @returns Observable with operation result
+   * @param id ID del segmento horario
+   * @returns Observable con el resultado de la operación
    */
   deleteSegmentoHorario(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/segmentos-horarios/${id}`)
@@ -311,8 +307,8 @@ export class ApiService {
   /**
    * Update funcionario password
    * @param id Funcionario ID
-   * @param newPassword New password
-   * @returns Observable with operation result
+   * @param newPassword Nueva contraseña
+   * @returns Observable con el resultado de la operación
    */
   updateFuncionarioPassword(id: number, newPassword: string): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/funcionarios/${id}/password`, { password: newPassword })
@@ -321,8 +317,8 @@ export class ApiService {
 
   /**
    * Get paciente by RUT
-   * @param rut Paciente RUT
-   * @returns Observable with paciente data
+   * @param rut RUT del paciente
+   * @returns Observable con los datos del paciente
    */
   getPacienteByRut(rut: string): Observable<Paciente> {
     return this.http.get<Paciente>(`${this.baseUrl}/pacientes/rut/${rut}`)

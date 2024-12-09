@@ -49,8 +49,7 @@ export class RegisterModalComponent {
         Validators.required, 
         Validators.minLength(6),
         Validators.maxLength(12),
-        Validators.pattern(/^[^\s]+$/),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/)
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)
       ]],
       confirmPassword: ['', [Validators.required]],
       esp_id: ['', Validators.required]
@@ -266,7 +265,7 @@ export class RegisterModalComponent {
       if (control.errors['invalidTld']) return 'El dominio debe tener una extensión válida (ej: .com, .net)';
       if (control.errors['pattern']) {
         if (fieldName === 'telefono') return 'Formato de teléfono inválido';
-        if (fieldName === 'password') return 'La contraseña debe tener al menos una mayúscula, una minúscula y un número';
+        if (fieldName === 'password') return 'La contraseña debe tener al menos una mayúscula, una minúscula, un caracter especial y un número. Debe tener entre 6 y 12 caracteres';
         return 'Formato inválido';
       }
       if (control.errors['invalidRut']) return 'RUT inválido';
