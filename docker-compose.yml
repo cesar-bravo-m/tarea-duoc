@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # Servicio del backend
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    image: 850639815822.dkr.ecr.us-east-1.amazonaws.com/hospital-scheduler-backend:latest
+    container_name: hospital-scheduler-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SERVER_PORT=8080
+    networks:
+      - hospital-network
+
+  # Servicio del frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: 850639815822.dkr.ecr.us-east-1.amazonaws.com/hospital-scheduler-frontend:latest
+    container_name: hospital-scheduler-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - hospital-network
+
+# Configuración de redes
+networks:
+  hospital-network:
+    driver: bridge 

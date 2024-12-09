@@ -1,0 +1,46 @@
+<div class="dashboard">
+  <header class="main-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="app-title">
+          <span class="full-title">Hospital Scheduler</span>
+          <span class="short-title">HS</span>
+        </h1>
+        <nav class="main-nav">
+          <a *ngFor="let item of authorizedNavItems" 
+             [routerLink]="item.path"
+             routerLinkActive="active"
+             [class.current]="getCurrentPath() === item.path"
+             class="nav-link">
+            <span class="nav-icon">{{ item.icon }}</span>
+            <span class="nav-label">{{ item.label }}</span>
+          </a>
+        </nav>
+      </div>
+      <div class="user-menu" [class.show]="showUserMenu">
+        <div class="user-circle" (click)="toggleUserMenu()">
+          {{ getUserInitials() }}
+        </div>
+        <div class="dropdown-menu" *ngIf="showUserMenu">
+          <!-- <div class="user-info">
+            <span class="user-name">{{ getUserFullName() }}</span>
+            <span class="user-role">{{ getUserSpecialty() }}</span>
+          </div> -->
+          <button class="profile-btn" (click)="openProfileModal()">
+            <span class="icon">🔧</span>
+            <span>Modificar Perfil</span>
+          </button>
+          <button class="logout-btn" (click)="logout()">
+            <span class="icon">🚪</span>
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <app-profile-modal *ngIf="showProfileModal" (close)="closeProfileModal()"></app-profile-modal>
+    <router-outlet></router-outlet>
+  </main>
+</div>
