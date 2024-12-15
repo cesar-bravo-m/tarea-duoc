@@ -390,10 +390,10 @@
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
-import { Router, RouterLink, RouterOutlet } from &#x27;@angular/router&#x27;;
-import { DatabaseService } from &#x27;../services/database.service&#x27;;
+import { Router, RouterLink, RouterOutlet, RouterLinkActive } from &#x27;@angular/router&#x27;;
 import { ToastService } from &#x27;../services/toast.service&#x27;;
 import { ProfileModalComponent } from &#x27;../components/profile-modal/profile-modal.component&#x27;;
+import { ApiService, Rol } from &#x27;../services/api.service&#x27;;
 
 /**
  * Interfaz que define la estructura de un elemento de navegación
@@ -418,7 +418,13 @@ interface NavItem {
 @Component({
   selector: &#x27;app-dashboard&#x27;,
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, ProfileModalComponent],
+  imports: [
+    CommonModule, 
+    RouterLink, 
+    RouterOutlet, 
+    RouterLinkActive,
+    ProfileModalComponent
+  ],
   templateUrl: &#x27;./dashboard.component.html&#x27;,
   styleUrls: [&#x27;./dashboard.component.css&#x27;]
 })
@@ -456,7 +462,7 @@ export class DashboardComponent {
 
   constructor(
     private router: Router,
-    private dbService: DatabaseService,
+    private apiService: ApiService,
     private toastService: ToastService
   ) {}
 
@@ -466,7 +472,7 @@ export class DashboardComponent {
    */
   get authorizedNavItems(): NavItem[] {
     return this.navItems.filter(item &#x3D;&gt; 
-      this.dbService.hasRole(this.currentUser.id, item.requiredRole)
+      this.currentUser.roles.some((role: Rol) &#x3D;&gt; role.nombre &#x3D;&#x3D;&#x3D; item.requiredRole)
     );
   }
 
@@ -506,20 +512,44 @@ export class DashboardComponent {
     this.router.navigate([&#x27;/&#x27;]);
   }
 
+  /**
+   * Obtiene el nombre completo del usuario
+   * @returns String con el nombre completo del usuario
+   */
   getUserFullName(): string {
     return &#x60;${this.currentUser.nombres} ${this.currentUser.apellidos}&#x60;;
   }
 
+  /**
+   * Obtiene la especialidad del usuario
+   * @returns String con la especialidad del usuario
+   */
   getUserSpecialty(): string {
     return this.currentUser.especialidad;
   }
 
+  /**
+   * Abre el modal de perfil
+   * @description Muestra el modal de perfil
+   */
   openProfileModal() {
     this.showProfileModal &#x3D; true;
   }
 
+  /**
+   * Cierra el modal de perfil
+   * @description Oculta el modal de perfil
+   */
   closeProfileModal() {
     this.showProfileModal &#x3D; false;
+  }
+
+  /**
+   * Gets the current route path
+   * @returns The current route path
+   */
+  getCurrentPath(): string {
+    return this.router.url.split(&#x27;/&#x27;)[2] || &#x27;agenda&#x27;;  // Default to &#x27;agenda&#x27; if no path
   }
 }
 </code></pre>

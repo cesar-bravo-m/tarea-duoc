@@ -122,18 +122,34 @@ export class DashboardComponent {
     this.router.navigate(['/']);
   }
 
+  /**
+   * Obtiene el nombre completo del usuario
+   * @returns String con el nombre completo del usuario
+   */
   getUserFullName(): string {
     return `${this.currentUser.nombres} ${this.currentUser.apellidos}`;
   }
 
+  /**
+   * Obtiene la especialidad del usuario
+   * @returns String con la especialidad del usuario
+   */
   getUserSpecialty(): string {
     return this.currentUser.especialidad;
   }
 
+  /**
+   * Abre el modal de perfil
+   * @description Muestra el modal de perfil
+   */
   openProfileModal() {
     this.showProfileModal = true;
   }
 
+  /**
+   * Cierra el modal de perfil
+   * @description Oculta el modal de perfil
+   */
   closeProfileModal() {
     this.showProfileModal = false;
   }

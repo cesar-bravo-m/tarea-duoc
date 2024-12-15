@@ -443,7 +443,6 @@
           &lt;button
             type&#x3D;&quot;submit&quot;
             class&#x3D;&quot;submit-btn&quot;
-            [disabled]&#x3D;&quot;profileForm.invalid || isLoading&quot;
           &gt;
             {{ isLoading ? &#x27;Guardando...&#x27; : &#x27;Guardar Cambios&#x27; }}
           &lt;/button&gt;
@@ -504,6 +503,9 @@
                                 <a href="#closeModal" >closeModal</a>
                             </li>
                             <li>
+                                <a href="#emailDomainValidator" >emailDomainValidator</a>
+                            </li>
+                            <li>
                                 <a href="#getErrorMessage" >getErrorMessage</a>
                             </li>
                             <li>
@@ -517,6 +519,10 @@
                             </li>
                             <li>
                                 <a href="#passwordMatchValidator" >passwordMatchValidator</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateLocalStorage" >updateLocalStorage</a>
                             </li>
                         </ul>
                     </td>
@@ -564,12 +570,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(fb: FormBuilder, dbService: <a href="../injectables/DatabaseService.html" target="_self">DatabaseService</a>, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>, router: Router)</code>
+<code>constructor(fb: FormBuilder, apiService: <a href="../injectables/ApiService.html" target="_self">ApiService</a>, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>, router: Router)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="299" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:299</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="298" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:298</a></div>
                             </td>
                         </tr>
 
@@ -606,10 +612,10 @@
                                                         </td>
                                                 </tr>
                                                 <tr>
-                                                        <td>dbService</td>
+                                                        <td>apiService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                                        <code><a href="../injectables/ApiService.html" target="_self" >ApiService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -678,7 +684,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="290" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:290</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="289" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:289</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -708,7 +714,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="292" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:292</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="291" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:291</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -747,8 +753,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="407"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:407</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="443"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:443</a></div>
                         </td>
                     </tr>
 
@@ -762,6 +768,49 @@
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emailDomainValidator"></a>
+                    <span class="name">
+                        <span ><b>emailDomainValidator</b></span>
+                        <a href="#emailDomainValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>emailDomainValidator()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="337"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:337</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Validador personalizado para el dominio del email</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>ValidatorFn</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>ValidatorFn para validar que el email tenga un dominio válido</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -786,8 +835,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="384"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:384</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="418"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:418</a></div>
                         </td>
                     </tr>
 
@@ -861,8 +910,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="374"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:374</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="408"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:408</a></div>
                         </td>
                     </tr>
 
@@ -936,8 +985,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="336"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:336</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="363"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:363</a></div>
                         </td>
                     </tr>
 
@@ -975,8 +1024,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="415"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:415</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="451"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:451</a></div>
                         </td>
                     </tr>
 
@@ -1014,8 +1063,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="351"
-                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:351</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="385"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:385</a></div>
                         </td>
                     </tr>
 
@@ -1032,6 +1081,75 @@
                             <div class="io-description">
                                 <p>ValidatorFn que verifica que las contraseñas coincidan</p>
 
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateLocalStorage"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateLocalStorage</b></span>
+                        <a href="#updateLocalStorage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateLocalStorage(updatedUser: <a href="../interfaces/Funcionario.html" target="_self">Funcionario</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="519"
+                                    class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:519</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>updatedUser</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Funcionario.html" target="_self" >Funcionario</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
                             </div>
                 </td>
             </tr>
@@ -1067,7 +1185,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="299" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:299</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="298" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:298</a></div>
                         </td>
                     </tr>
 
@@ -1098,7 +1216,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="297" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:297</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="296" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:296</a></div>
                         </td>
                     </tr>
 
@@ -1130,7 +1248,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="295" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:295</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="294" class="link-to-prism">src/app/components/profile-modal/profile-modal.component.ts:294</a></div>
                         </td>
                     </tr>
 
@@ -1151,8 +1269,8 @@
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, Output, OnInit } from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from &#x27;@angular/forms&#x27;;
-import { DatabaseService, Funcionario } from &#x27;../../services/database.service&#x27;;
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, ValidationErrors } from &#x27;@angular/forms&#x27;;
+import { ApiService, Funcionario } from &#x27;../../services/api.service&#x27;;
 import { ToastService } from &#x27;../../services/toast.service&#x27;;
 import { NgxMaskDirective, provideNgxMask } from &#x27;ngx-mask&#x27;;
 import { Router } from &#x27;@angular/router&#x27;;
@@ -1291,7 +1409,6 @@ import { Router } from &#x27;@angular/router&#x27;;
               &lt;button 
                 type&#x3D;&quot;submit&quot; 
                 class&#x3D;&quot;submit-btn&quot; 
-                [disabled]&#x3D;&quot;profileForm.invalid || isLoading&quot;
               &gt;
                 {{ isLoading ? &#x27;Guardando...&#x27; : &#x27;Guardar Cambios&#x27; }}
               &lt;/button&gt;
@@ -1452,32 +1569,60 @@ export class ProfileModalComponent implements OnInit {
   /**
    * Constructor del componente
    * @param fb Servicio de formularios reactivos
-   * @param dbService Servicio de base de datos
+   * @param apiService Servicio de base de datos
    * @param toastService Servicio de notificaciones
    */
   constructor(
     private fb: FormBuilder,
-    private dbService: DatabaseService,
+    private apiService: ApiService,
     private toastService: ToastService,
     private router: Router
   ) {
     this.currentUser &#x3D; JSON.parse(localStorage.getItem(&#x27;currentUser&#x27;) || &#x27;{}&#x27;);
     this.profileForm &#x3D; this.fb.group({
-      nombres: [&#x27;&#x27;, [Validators.required, Validators.minLength(2)]],
-      apellidos: [&#x27;&#x27;, [Validators.required, Validators.minLength(2)]],
-      email: [&#x27;&#x27;, [Validators.required, Validators.email]],
-      telefono: [&#x27;(56) 9 &#x27;, [Validators.required, Validators.minLength(12)]],
+      nombres: [&#x27;&#x27;, [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z]+$/)]],
+      apellidos: [&#x27;&#x27;, [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z]+$/)]],
+      email: [&#x27;&#x27;, [Validators.required, this.emailDomainValidator()]],
+      telefono: [&#x27;(56) 9 &#x27;, [Validators.required, Validators.minLength(11)]],
       esp_id: [&#x27;&#x27;, Validators.required],
       password: [&#x27;&#x27;, [
-        Validators.pattern(/^[^\s]+$/),  // No spaces allowed
+        Validators.minLength(6),
+        Validators.maxLength(12),
+        Validators.pattern(/^[^\s]+$/),
         Validators.pattern(/^(?&#x3D;.*[a-z])(?&#x3D;.*[A-Z])(?&#x3D;.*\d)[a-zA-Z\d]{6,}$/)
       ]],
       confirmPassword: [&#x27;&#x27;]
     }, { validator: this.passwordMatchValidator() });
 
-    this.dbService.especialidades$.subscribe(
-      esp &#x3D;&gt; this.especialidades &#x3D; esp
+    this.apiService.getEspecialidades().subscribe(
+      especialidades &#x3D;&gt; this.especialidades &#x3D; especialidades
     );
+  }
+
+  /**
+   * Validador personalizado para el dominio del email
+   * @returns ValidatorFn para validar que el email tenga un dominio válido
+   */
+  emailDomainValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null &#x3D;&gt; {
+      const email &#x3D; control.value;
+      if (!email) return null;
+      
+      if (!email.includes(&#x27;@&#x27;)) return { invalidEmail: true };
+
+      const [localPart, domain] &#x3D; email.split(&#x27;@&#x27;);
+      
+      if (!domain || !domain.includes(&#x27;.&#x27;)) return { invalidDomain: true };
+
+      const parts &#x3D; domain.split(&#x27;.&#x27;);
+      const tld &#x3D; parts[parts.length - 1];
+      
+      if (tld.length &lt; 2 || !/^[a-zA-Z]+$/.test(tld)) {
+        return { invalidTld: true };
+      }
+
+      return null;
+    };
   }
 
   /**
@@ -1485,13 +1630,20 @@ export class ProfileModalComponent implements OnInit {
    * @description Carga las especialidades y configura el formulario con los datos del usuario
    */
   ngOnInit() {
-    this.dbService.loadEspecialidades();
-    this.profileForm.patchValue({
-      nombres: this.currentUser.nombres,
-      apellidos: this.currentUser.apellidos,
-      email: this.currentUser.email,
-      telefono: this.currentUser.telefono || &#x27;(56) 9 &#x27;,
-      esp_id: this.currentUser.esp_id
+    this.apiService.getFuncionarioById(this.currentUser.id).subscribe({
+      next: (funcionario) &#x3D;&gt; {
+        this.profileForm.patchValue({
+          nombres: funcionario.nombres,
+          apellidos: funcionario.apellidos,
+          email: funcionario.email,
+          telefono: funcionario.telefono || &#x27;(56) 9 &#x27;,
+          esp_id: funcionario.especialidad.id
+        });
+      },
+      error: (error) &#x3D;&gt; {
+        console.error(&#x27;Error loading funcionario:&#x27;, error);
+        this.toastService.show(&#x27;Error al cargar datos del perfil&#x27;, &#x27;error&#x27;);
+      }
     });
   }
 
@@ -1537,7 +1689,9 @@ export class ProfileModalComponent implements OnInit {
     if (control?.errors) {
       if (control.errors[&#x27;required&#x27;]) return &#x27;Este campo es requerido&#x27;;
       if (control.errors[&#x27;minlength&#x27;]) return &#x60;Mínimo ${control.errors[&#x27;minlength&#x27;].requiredLength} caracteres&#x60;;
-      if (control.errors[&#x27;email&#x27;]) return &#x27;Email inválido&#x27;;
+      if (control.errors[&#x27;invalidEmail&#x27;]) return &#x27;Email inválido&#x27;;
+      if (control.errors[&#x27;invalidDomain&#x27;]) return &#x27;Dominio de email inválido&#x27;;
+      if (control.errors[&#x27;invalidTld&#x27;]) return &#x27;TLD de dominio de email inválido&#x27;;
       if (control.errors[&#x27;pattern&#x27;]) {
         if (fieldName &#x3D;&#x3D;&#x3D; &#x27;telefono&#x27;) return &#x27;Formato de teléfono inválido&#x27;;
         if (fieldName &#x3D;&#x3D;&#x3D; &#x27;password&#x27;) {
@@ -1578,29 +1732,69 @@ export class ProfileModalComponent implements OnInit {
     const formValue &#x3D; this.profileForm.value;
     
     try {
-      const updatedUser &#x3D; {
-        ...this.currentUser,
-        ...formValue
+      const updatedUser: Funcionario &#x3D; {
+        id: this.currentUser.id,
+        nombres: formValue.nombres,
+        apellidos: formValue.apellidos,
+        rut: this.currentUser.rut,
+        telefono: formValue.telefono,
+        email: formValue.email,
+        password: formValue.password || &#x27;&#x27;,
+        especialidad: {
+          id: parseInt(formValue.esp_id),
+          nombre: &#x27;&#x27;
+        },
+        roles: this.currentUser.roles
       };
 
-      if (formValue.password &amp;&amp; formValue.password.length &gt; 0) {
-        if (!formValue.password.match(/^(?&#x3D;.*[a-z])(?&#x3D;.*[A-Z])(?&#x3D;.*\d)[a-zA-Z\d]{6,}$/)) {
-          this.toastService.show(&#x27;La contraseña debe tener al menos una mayúscula, una minúscula y un número&#x27;, &#x27;error&#x27;);
-          return;
+      this.apiService.updateFuncionario(this.currentUser.id, updatedUser).subscribe({
+        next: () &#x3D;&gt; {
+          if (formValue.password) {
+            this.apiService.updateFuncionarioPassword(
+              this.currentUser.id, 
+              formValue.password
+            ).subscribe({
+              next: () &#x3D;&gt; {
+                this.updateLocalStorage(updatedUser);
+                this.toastService.show(&#x27;Perfil actualizado exitosamente&#x27;, &#x27;success&#x27;);
+                this.closeModal();
+              },
+              error: (error) &#x3D;&gt; {
+                console.error(&#x27;Password update error:&#x27;, error);
+                this.toastService.show(&#x27;Error al actualizar la contraseña&#x27;, &#x27;error&#x27;);
+              }
+            });
+          } else {
+            this.updateLocalStorage(updatedUser);
+            this.toastService.show(&#x27;Perfil actualizado exitosamente&#x27;, &#x27;success&#x27;);
+            this.closeModal();
+          }
+        },
+        error: (error) &#x3D;&gt; {
+          console.error(&#x27;Profile update error:&#x27;, error);
+          this.toastService.show(&#x27;Error al actualizar el perfil&#x27;, &#x27;error&#x27;);
+        },
+        complete: () &#x3D;&gt; {
+          this.isLoading &#x3D; false;
         }
-        updatedUser.password &#x3D; formValue.password;
-      }
-
-      this.dbService.updateFuncionario(updatedUser);
-      localStorage.setItem(&#x27;currentUser&#x27;, JSON.stringify(updatedUser));
-      
-      this.toastService.show(&#x27;Perfil actualizado exitosamente&#x27;, &#x27;success&#x27;);
-      this.closeModal();
+      });
     } catch (error) {
+      console.error(&#x27;Profile update error:&#x27;, error);
       this.toastService.show(&#x27;Error al actualizar el perfil&#x27;, &#x27;error&#x27;);
-    } finally {
       this.isLoading &#x3D; false;
     }
+  }
+
+  private updateLocalStorage(updatedUser: Funcionario) {
+    const currentUser &#x3D; {
+      ...this.currentUser,
+      nombres: updatedUser.nombres,
+      apellidos: updatedUser.apellidos,
+      email: updatedUser.email,
+      telefono: updatedUser.telefono,
+      especialidad: updatedUser.especialidad
+    };
+    localStorage.setItem(&#x27;currentUser&#x27;, JSON.stringify(currentUser));
   }
 } </code></pre>
     </div>
@@ -1769,8 +1963,8 @@ export class ProfileModalComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="modal-backdrop" (click)="closeModal()">  <div class="modal-content" (click)="$event.stopPropagation()">    <div class="modal-header">      <h2>Modificar Perfil</h2>      <button class="close-button" (click)="closeModal()">×</button>    </div>    <div class="modal-body">      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">        <div class="form-row">          <div class="form-group">            <label for="nombres">Nombres</label>            <input              id="nombres"              type="text"              formControlName="nombres"              [class.error]="isFieldInvalid(\'nombres\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'nombres\')">              {{ getErrorMessage(\'nombres\') }}            </div>          </div>          <div class="form-group">            <label for="apellidos">Apellidos</label>            <input              id="apellidos"              type="text"              formControlName="apellidos"              [class.error]="isFieldInvalid(\'apellidos\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'apellidos\')">              {{ getErrorMessage(\'apellidos\') }}            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="email">Correo Electrónico</label>            <input              id="email"              type="email"              formControlName="email"              [class.error]="isFieldInvalid(\'email\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'email\')">              {{ getErrorMessage(\'email\') }}            </div>          </div>          <div class="form-group">            <label for="esp_id">Especialidad</label>            <select              id="esp_id"              formControlName="esp_id"              [class.error]="isFieldInvalid(\'esp_id\')"            >              <option value="">Seleccione una especialidad</option>              <option *ngFor="let esp of especialidades" [value]="esp.id">                {{ esp.nombre }}              </option>            </select>            <div class="error-message" *ngIf="isFieldInvalid(\'esp_id\')">              Especialidad es requerida            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="telefono">Teléfono</label>            <input              id="telefono"              type="text"              formControlName="telefono"              placeholder="(56) 9 1234 5678"              mask="(00) 0 0000 0000"              prefix="  "              [dropSpecialCharacters]="false"              [showMaskTyped]="true"              [clearIfNotMatch]="false"              [class.error]="isFieldInvalid(\'telefono\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'telefono\')">              {{ getErrorMessage(\'telefono\') }}            </div>          </div>          <div class="form-group">            <label for="password">Nueva Contraseña (opcional)</label>            <input              id="password"              type="password"              formControlName="password"              [class.error]="isFieldInvalid(\'password\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'password\')">              {{ getErrorMessage(\'password\') }}            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="confirmPassword">Confirmar Nueva Contraseña</label>            <input              id="confirmPassword"              type="password"              formControlName="confirmPassword"              [class.error]="isFieldInvalid(\'confirmPassword\')"            >            <div class="error-message" *ngIf="profileForm.errors?.[\'passwordMismatch\']">              Las contraseñas no coinciden            </div>          </div>        </div>        <div class="form-actions">          <button type="button" class="cancel-btn" (click)="closeModal()">            Cancelar          </button>          <button            type="submit"            class="submit-btn"            [disabled]="profileForm.invalid || isLoading"          >            {{ isLoading ? \'Guardando...\' : \'Guardar Cambios\' }}          </button>        </div>      </form>    </div>  </div></div></div>'
-    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'FuncionariosComponent', 'selector': 'app-funcionarios'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
+        var COMPONENT_TEMPLATE = '<div><div class="modal-backdrop" (click)="closeModal()">  <div class="modal-content" (click)="$event.stopPropagation()">    <div class="modal-header">      <h2>Modificar Perfil</h2>      <button class="close-button" (click)="closeModal()">×</button>    </div>    <div class="modal-body">      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">        <div class="form-row">          <div class="form-group">            <label for="nombres">Nombres</label>            <input              id="nombres"              type="text"              formControlName="nombres"              [class.error]="isFieldInvalid(\'nombres\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'nombres\')">              {{ getErrorMessage(\'nombres\') }}            </div>          </div>          <div class="form-group">            <label for="apellidos">Apellidos</label>            <input              id="apellidos"              type="text"              formControlName="apellidos"              [class.error]="isFieldInvalid(\'apellidos\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'apellidos\')">              {{ getErrorMessage(\'apellidos\') }}            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="email">Correo Electrónico</label>            <input              id="email"              type="email"              formControlName="email"              [class.error]="isFieldInvalid(\'email\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'email\')">              {{ getErrorMessage(\'email\') }}            </div>          </div>          <div class="form-group">            <label for="esp_id">Especialidad</label>            <select              id="esp_id"              formControlName="esp_id"              [class.error]="isFieldInvalid(\'esp_id\')"            >              <option value="">Seleccione una especialidad</option>              <option *ngFor="let esp of especialidades" [value]="esp.id">                {{ esp.nombre }}              </option>            </select>            <div class="error-message" *ngIf="isFieldInvalid(\'esp_id\')">              Especialidad es requerida            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="telefono">Teléfono</label>            <input              id="telefono"              type="text"              formControlName="telefono"              placeholder="(56) 9 1234 5678"              mask="(00) 0 0000 0000"              prefix="  "              [dropSpecialCharacters]="false"              [showMaskTyped]="true"              [clearIfNotMatch]="false"              [class.error]="isFieldInvalid(\'telefono\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'telefono\')">              {{ getErrorMessage(\'telefono\') }}            </div>          </div>          <div class="form-group">            <label for="password">Nueva Contraseña (opcional)</label>            <input              id="password"              type="password"              formControlName="password"              [class.error]="isFieldInvalid(\'password\')"            >            <div class="error-message" *ngIf="isFieldInvalid(\'password\')">              {{ getErrorMessage(\'password\') }}            </div>          </div>        </div>        <div class="form-row">          <div class="form-group">            <label for="confirmPassword">Confirmar Nueva Contraseña</label>            <input              id="confirmPassword"              type="password"              formControlName="confirmPassword"              [class.error]="isFieldInvalid(\'confirmPassword\')"            >            <div class="error-message" *ngIf="profileForm.errors?.[\'passwordMismatch\']">              Las contraseñas no coinciden            </div>          </div>        </div>        <div class="form-actions">          <button type="button" class="cancel-btn" (click)="closeModal()">            Cancelar          </button>          <button            type="submit"            class="submit-btn"          >            {{ isLoading ? \'Guardando...\' : \'Guardar Cambios\' }}          </button>        </div>      </form>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'ProfileModalComponent'};
 </script>

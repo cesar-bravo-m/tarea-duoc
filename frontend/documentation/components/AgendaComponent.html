@@ -347,7 +347,7 @@
     &lt;div class&#x3D;&quot;search-header&quot; (click)&#x3D;&quot;toggleSearch()&quot;&gt;
       &lt;div class&#x3D;&quot;header-content&quot;&gt;
         &lt;h2&gt;{{ selectedFuncionario ? selectedFuncionario.nombres + &#x27; &#x27; + selectedFuncionario.apellidos : &#x27;Seleccionar Funcionario&#x27; }}&lt;/h2&gt;
-        &lt;span class&#x3D;&quot;specialty&quot; *ngIf&#x3D;&quot;selectedFuncionario&quot;&gt;{{ selectedFuncionario.especialidad }}&lt;/span&gt;
+        &lt;span class&#x3D;&quot;specialty&quot; *ngIf&#x3D;&quot;selectedFuncionario&quot;&gt;{{ selectedFuncionario.especialidad.nombre }}&lt;/span&gt;
       &lt;/div&gt;
       &lt;button class&#x3D;&quot;toggle-btn&quot;&gt;
         {{ selectedFuncionario ? &#x27;▼&#x27; : &#x27;▲&#x27; }}
@@ -374,7 +374,7 @@
         &gt;
           &lt;div class&#x3D;&quot;funcionario-info&quot;&gt;
             &lt;h3&gt;{{ funcionario.nombres }} {{ funcionario.apellidos }}&lt;/h3&gt;
-            &lt;p&gt;{{ funcionario.especialidad }}&lt;/p&gt;
+            &lt;p&gt;{{ funcionario.especialidad.nombre }}&lt;/p&gt;
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
@@ -467,6 +467,10 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#checkFuncionarioAvailability" >checkFuncionarioAvailability</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#checkScreenSize" >checkScreenSize</a>
                             </li>
                             <li>
@@ -482,7 +486,7 @@
                                 <a href="#handleSegmentoSubmit" >handleSegmentoSubmit</a>
                             </li>
                             <li>
-                                <a href="#loadShifts" >loadShifts</a>
+                                <a href="#loadSegmentos" >loadSegmentos</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
@@ -536,12 +540,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(dbService: <a href="../injectables/DatabaseService.html" target="_self">DatabaseService</a>)</code>
+<code>constructor(apiService: <a href="../injectables/ApiService.html" target="_self">ApiService</a>, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="289" class="link-to-prism">src/app/agenda/agenda.component.ts:289</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="290" class="link-to-prism">src/app/agenda/agenda.component.ts:290</a></div>
                             </td>
                         </tr>
 
@@ -559,10 +563,22 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>dbService</td>
+                                                        <td>apiService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                                        <code><a href="../injectables/ApiService.html" target="_self" >ApiService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>toastService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ToastService.html" target="_self" >ToastService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -608,8 +624,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="287"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:287</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="288"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:288</a></div>
                         </td>
                     </tr>
 
@@ -633,6 +649,75 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="checkFuncionarioAvailability"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>checkFuncionarioAvailability</b></span>
+                        <a href="#checkFuncionarioAvailability"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkFuncionarioAvailability(funcionarioId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="308"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:308</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>funcionarioId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="checkScreenSize"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
@@ -651,8 +736,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="306"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:306</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="335"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:335</a></div>
                         </td>
                     </tr>
 
@@ -693,8 +778,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="409"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:409</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="446"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:446</a></div>
                         </td>
                     </tr>
 
@@ -767,8 +852,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="463"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:463</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="523"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:523</a></div>
                         </td>
                     </tr>
 
@@ -841,8 +926,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="448"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:448</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="500"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:500</a></div>
                         </td>
                     </tr>
 
@@ -915,8 +1000,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="426"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:426</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="463"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:463</a></div>
                         </td>
                     </tr>
 
@@ -973,24 +1058,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="loadShifts"></a>
+                    <a name="loadSegmentos"></a>
                     <span class="name">
-                        <span ><b>loadShifts</b></span>
-                        <a href="#loadShifts"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>loadSegmentos</b></span>
+                        <a href="#loadSegmentos"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadShifts(funcionarioId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>loadSegmentos(funcionarioId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="391"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:391</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="421"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:421</a></div>
                         </td>
                     </tr>
 
@@ -1063,8 +1148,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="351"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:351</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="380"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:380</a></div>
                         </td>
                     </tr>
 
@@ -1111,8 +1196,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="287"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:287</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="288"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:288</a></div>
                         </td>
                     </tr>
 
@@ -1150,8 +1235,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="359"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:359</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="389"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:389</a></div>
                         </td>
                     </tr>
 
@@ -1189,8 +1274,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="377"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:377</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="407"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:407</a></div>
                         </td>
                     </tr>
 
@@ -1263,8 +1348,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="476"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:476</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="543"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:543</a></div>
                         </td>
                     </tr>
 
@@ -1304,8 +1389,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="320"
-                                    class="link-to-prism">src/app/agenda/agenda.component.ts:320</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="349"
+                                    class="link-to-prism">src/app/agenda/agenda.component.ts:349</a></div>
                         </td>
                     </tr>
 
@@ -1361,7 +1446,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="240" class="link-to-prism">src/app/agenda/agenda.component.ts:240</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="241" class="link-to-prism">src/app/agenda/agenda.component.ts:241</a></div>
                         </td>
                     </tr>
 
@@ -1417,7 +1502,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="252" class="link-to-prism">src/app/agenda/agenda.component.ts:252</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="253" class="link-to-prism">src/app/agenda/agenda.component.ts:253</a></div>
                         </td>
                     </tr>
 
@@ -1454,7 +1539,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="247" class="link-to-prism">src/app/agenda/agenda.component.ts:247</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="248" class="link-to-prism">src/app/agenda/agenda.component.ts:248</a></div>
                         </td>
                     </tr>
 
@@ -1491,7 +1576,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="245" class="link-to-prism">src/app/agenda/agenda.component.ts:245</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="246" class="link-to-prism">src/app/agenda/agenda.component.ts:246</a></div>
                         </td>
                     </tr>
 
@@ -1528,7 +1613,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="280" class="link-to-prism">src/app/agenda/agenda.component.ts:280</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="281" class="link-to-prism">src/app/agenda/agenda.component.ts:281</a></div>
                         </td>
                     </tr>
 
@@ -1565,7 +1650,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="243" class="link-to-prism">src/app/agenda/agenda.component.ts:243</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="244" class="link-to-prism">src/app/agenda/agenda.component.ts:244</a></div>
                         </td>
                     </tr>
 
@@ -1602,7 +1687,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="276" class="link-to-prism">src/app/agenda/agenda.component.ts:276</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="277" class="link-to-prism">src/app/agenda/agenda.component.ts:277</a></div>
                         </td>
                     </tr>
 
@@ -1639,7 +1724,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="249" class="link-to-prism">src/app/agenda/agenda.component.ts:249</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="250" class="link-to-prism">src/app/agenda/agenda.component.ts:250</a></div>
                         </td>
                     </tr>
 
@@ -1676,7 +1761,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="278" class="link-to-prism">src/app/agenda/agenda.component.ts:278</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="279" class="link-to-prism">src/app/agenda/agenda.component.ts:279</a></div>
                         </td>
                     </tr>
 
@@ -1707,7 +1792,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="274" class="link-to-prism">src/app/agenda/agenda.component.ts:274</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="275" class="link-to-prism">src/app/agenda/agenda.component.ts:275</a></div>
                         </td>
                     </tr>
 
@@ -1729,13 +1814,14 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, HostListener, ViewChild } from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
 import { FormsModule } from &#x27;@angular/forms&#x27;;
-import { DatabaseService, Funcionario, SegmentoHorario } from &#x27;../services/database.service&#x27;;
+import { ApiService, Funcionario, SegmentoHorario } from &#x27;../services/api.service&#x27;;
 import { CalendarOptions, EventInput } from &#x27;@fullcalendar/core&#x27;;
 import { FullCalendarModule, FullCalendarComponent } from &#x27;@fullcalendar/angular&#x27;;
 import dayGridPlugin from &#x27;@fullcalendar/daygrid&#x27;;
 import timeGridPlugin from &#x27;@fullcalendar/timegrid&#x27;;
 import interactionPlugin from &#x27;@fullcalendar/interaction&#x27;;
 import { SegmentoModalComponent } from &#x27;./segmento-modal/segmento-modal.component&#x27;;
+import { ToastService } from &#x27;../services/toast.service&#x27;;
 
 /**
  * Componente que maneja la agenda de los funcionarios
@@ -1751,7 +1837,7 @@ import { SegmentoModalComponent } from &#x27;./segmento-modal/segmento-modal.com
         &lt;div class&#x3D;&quot;search-header&quot; (click)&#x3D;&quot;toggleSearch()&quot;&gt;
           &lt;div class&#x3D;&quot;header-content&quot;&gt;
             &lt;h2&gt;{{ selectedFuncionario ? selectedFuncionario.nombres + &#x27; &#x27; + selectedFuncionario.apellidos : &#x27;Seleccionar Funcionario&#x27; }}&lt;/h2&gt;
-            &lt;span class&#x3D;&quot;specialty&quot; *ngIf&#x3D;&quot;selectedFuncionario&quot;&gt;{{ selectedFuncionario.especialidad }}&lt;/span&gt;
+            &lt;span class&#x3D;&quot;specialty&quot; *ngIf&#x3D;&quot;selectedFuncionario&quot;&gt;{{ selectedFuncionario.especialidad.nombre }}&lt;/span&gt;
           &lt;/div&gt;
           &lt;button class&#x3D;&quot;toggle-btn&quot;&gt;
             {{ selectedFuncionario ? &#x27;▼&#x27; : &#x27;▲&#x27; }}
@@ -1778,7 +1864,7 @@ import { SegmentoModalComponent } from &#x27;./segmento-modal/segmento-modal.com
             &gt;
               &lt;div class&#x3D;&quot;funcionario-info&quot;&gt;
                 &lt;h3&gt;{{ funcionario.nombres }} {{ funcionario.apellidos }}&lt;/h3&gt;
-                &lt;p&gt;{{ funcionario.especialidad }}&lt;/p&gt;
+                &lt;p&gt;{{ funcionario.especialidad.nombre }}&lt;/p&gt;
               &lt;/div&gt;
             &lt;/div&gt;
           &lt;/div&gt;
@@ -2016,14 +2102,42 @@ export class AgendaComponent implements OnInit {
     this.checkScreenSize();
   }
 
-  constructor(private dbService: DatabaseService) {
-    this.dbService.funcionarios$.subscribe(
+  constructor(
+    private apiService: ApiService,
+    private toastService: ToastService
+  ) {
+    this.apiService.getFuncionarios().subscribe(
       funcionarios &#x3D;&gt; {
-        this.funcionarios &#x3D; funcionarios;
-        this.filteredFuncionarios &#x3D; funcionarios;
+        this.funcionarios &#x3D; funcionarios.map(f &#x3D;&gt; ({
+          ...f,
+          hasAvailableSegments: this.checkFuncionarioAvailability(f.id)
+        }));
+        this.filteredFuncionarios &#x3D; this.funcionarios;
       }
     );
     this.checkScreenSize();
+  }
+
+  private checkFuncionarioAvailability(funcionarioId: number): boolean {
+    // Get segmentos from API
+    let hasAvailability &#x3D; false;
+    this.apiService.getSegmentosHorarioByFuncionarioId(funcionarioId).subscribe(
+      segmentos &#x3D;&gt; {
+        const today &#x3D; new Date();
+        const startOfWeek &#x3D; new Date(today);
+        startOfWeek.setDate(today.getDate() - today.getDay());
+        const endOfWeek &#x3D; new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+        hasAvailability &#x3D; segmentos.some(segmento &#x3D;&gt; {
+          const segmentoDate &#x3D; new Date(segmento.fechaHoraInicio);
+          return segmento.free &amp;&amp; 
+                 segmentoDate &gt;&#x3D; startOfWeek &amp;&amp; 
+                 segmentoDate &lt; endOfWeek;
+        });
+      }
+    );
+    return hasAvailability;
   }
 
   /**
@@ -2077,7 +2191,8 @@ export class AgendaComponent implements OnInit {
    * @description Carga la lista de funcionarios
    */
   ngOnInit() {
-    this.dbService.loadFuncionarios();
+    // Load funcionarios from API
+    this.apiService.getFuncionarios().subscribe();
   }
 
   /**
@@ -2094,7 +2209,7 @@ export class AgendaComponent implements OnInit {
     this.filteredFuncionarios &#x3D; this.funcionarios.filter(funcionario &#x3D;&gt; 
       funcionario.nombres.toLowerCase().includes(searchTermLower) ||
       funcionario.apellidos.toLowerCase().includes(searchTermLower) ||
-      funcionario.especialidad?.toLowerCase().includes(searchTermLower)
+      funcionario.especialidad.nombre.toLowerCase().includes(searchTermLower)
     );
   }
 
@@ -2104,7 +2219,7 @@ export class AgendaComponent implements OnInit {
    */
   selectFuncionario(funcionario: Funcionario) {
     this.selectedFuncionario &#x3D; funcionario;
-    this.loadShifts(funcionario.id);
+    this.loadSegmentos(funcionario.id);
     
     setTimeout(() &#x3D;&gt; {
       this.updateCalendarView();
@@ -2116,17 +2231,24 @@ export class AgendaComponent implements OnInit {
    * @param funcionarioId ID del funcionario
    * @description Actualiza los eventos del calendario con los segmentos del funcionario
    */
-  loadShifts(funcionarioId: number) {
-    const segmentos &#x3D; this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
-    const events: EventInput[] &#x3D; segmentos.map(segmento &#x3D;&gt; ({
-      id: segmento.id.toString(),
-      title: segmento.nombre,
-      start: segmento.fecha_hora_inicio,
-      end: segmento.fecha_hora_fin,
-      funcionarioId: segmento.fun_id
-    }));
+  loadSegmentos(funcionarioId: number) {
+    this.apiService.getSegmentosHorarioByFuncionarioId(funcionarioId).subscribe(
+      segmentos &#x3D;&gt; {
+        const events: EventInput[] &#x3D; segmentos.map(segmento &#x3D;&gt; ({
+          id: segmento.id.toString(),
+          title: segmento.nombre,
+          start: segmento.fechaHoraInicio,
+          end: segmento.fechaHoraFin,
+          backgroundColor: segmento.free ? &#x27;#48bb78&#x27; : &#x27;#fc8181&#x27;,
+          borderColor: segmento.free ? &#x27;#38a169&#x27; : &#x27;#f56565&#x27;,
+          extendedProps: {
+            segmento: segmento
+          }
+        }));
 
-    this.calendarOptions.events &#x3D; events;
+        this.calendarOptions.events &#x3D; events;
+      }
+    );
   }
 
   /**
@@ -2154,16 +2276,31 @@ export class AgendaComponent implements OnInit {
   handleSegmentoSubmit(segmento: SegmentoHorario) {
     try {
       if (segmento.id &#x3D;&#x3D;&#x3D; 0) {
-        console.log(&quot;### creating&quot;, segmento);
-        this.dbService.addSegmentoHorario(segmento);
+        this.apiService.createSegmentoHorario(segmento).subscribe({
+          next: () &#x3D;&gt; {
+            this.loadSegmentos(this.selectedFuncionario!.id);
+            this.toastService.show(&#x27;Segmento creado exitosamente&#x27;, &#x27;success&#x27;);
+          },
+          error: (error) &#x3D;&gt; {
+            console.error(&#x27;Error creating segmento:&#x27;, error);
+            this.toastService.show(&#x27;Error al crear el segmento&#x27;, &#x27;error&#x27;);
+          }
+        });
       } else {
-        console.log(&quot;### updating&quot;, segmento);
-        this.dbService.updateSegmentoHorario(segmento);
+        this.apiService.updateSegmentoHorario(segmento.id, segmento).subscribe({
+          next: () &#x3D;&gt; {
+            this.loadSegmentos(this.selectedFuncionario!.id);
+            this.toastService.show(&#x27;Segmento actualizado exitosamente&#x27;, &#x27;success&#x27;);
+          },
+          error: (error) &#x3D;&gt; {
+            console.error(&#x27;Error updating segmento:&#x27;, error);
+            this.toastService.show(&#x27;Error al actualizar el segmento&#x27;, &#x27;error&#x27;);
+          }
+        });
       }
-      this.loadShifts(this.selectedFuncionario!.id);
     } catch (error) {
       console.error(&#x27;Error saving segmento:&#x27;, error);
-      alert(&#x27;Error al guardar el segmento horario&#x27;);
+      this.toastService.show(&#x27;Error al guardar el segmento&#x27;, &#x27;error&#x27;);
     }
     this.showSegmentoModal &#x3D; false;
     this.selectedSegmento &#x3D; null;
@@ -2175,11 +2312,19 @@ export class AgendaComponent implements OnInit {
    */
   handleSegmentoDelete(id: number) {
     try {
-      this.dbService.deleteSegmentoHorario(id);
-      this.loadShifts(this.selectedFuncionario!.id);
+      this.apiService.deleteSegmentoHorario(id).subscribe({
+        next: () &#x3D;&gt; {
+          this.loadSegmentos(this.selectedFuncionario!.id);
+          this.toastService.show(&#x27;Segmento eliminado exitosamente&#x27;, &#x27;success&#x27;);
+        },
+        error: (error) &#x3D;&gt; {
+          console.error(&#x27;Error deleting segmento:&#x27;, error);
+          this.toastService.show(&#x27;Error al eliminar el segmento&#x27;, &#x27;error&#x27;);
+        }
+      });
     } catch (error) {
       console.error(&#x27;Error deleting segmento:&#x27;, error);
-      alert(&#x27;Error al eliminar el segmento horario&#x27;);
+      this.toastService.show(&#x27;Error al eliminar el segmento&#x27;, &#x27;error&#x27;);
     }
   }
 
@@ -2189,12 +2334,19 @@ export class AgendaComponent implements OnInit {
    * @description Abre el modal para editar el segmento
    */
   handleEventClick(clickInfo: any) {
-    console.log(&quot;### clickInfo&quot;, clickInfo);
-    const segmento &#x3D; this.dbService.getSegmentoHorarioById(clickInfo.event.id);
-    if (segmento) {
-      this.selectedSegmento &#x3D; segmento;
-      this.showSegmentoModal &#x3D; true;
-    }
+    const segmentoId &#x3D; parseInt(clickInfo.event.id);
+    this.apiService.getSegmentoHorarioById(segmentoId).subscribe({
+      next: (segmento) &#x3D;&gt; {
+        if (segmento) {
+          this.selectedSegmento &#x3D; segmento;
+          this.showSegmentoModal &#x3D; true;
+        }
+      },
+      error: (error) &#x3D;&gt; {
+        console.error(&#x27;Error loading segmento:&#x27;, error);
+        this.toastService.show(&#x27;Error al cargar el segmento&#x27;, &#x27;error&#x27;);
+      }
+    });
   }
 
   /**
@@ -2404,8 +2556,8 @@ export class AgendaComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="agenda-container">  <div class="search-section" [class.collapsed]="selectedFuncionario">    <div class="search-header" (click)="toggleSearch()">      <div class="header-content">        <h2>{{ selectedFuncionario ? selectedFuncionario.nombres + \' \' + selectedFuncionario.apellidos : \'Seleccionar Funcionario\' }}</h2>        <span class="specialty" *ngIf="selectedFuncionario">{{ selectedFuncionario.especialidad }}</span>      </div>      <button class="toggle-btn">        {{ selectedFuncionario ? \'▼\' : \'▲\' }}      </button>    </div>    <div class="search-content" [class.hidden]="selectedFuncionario">      <div class="search-box">        <input          type="text"          [(ngModel)]="searchTerm"          placeholder="Buscar por nombre o especialidad"          class="search-input"          (input)="searchFuncionarios()"        >      </div>      <div class="funcionarios-list" *ngIf="filteredFuncionarios.length > 0">        <div          *ngFor="let funcionario of filteredFuncionarios"          class="funcionario-card"          [class.selected]="selectedFuncionario?.id === funcionario.id"          (click)="selectFuncionario(funcionario)"        >          <div class="funcionario-info">            <h3>{{ funcionario.nombres }} {{ funcionario.apellidos }}</h3>            <p>{{ funcionario.especialidad }}</p>          </div>        </div>      </div>    </div>  </div>  <div class="calendar-section" *ngIf="selectedFuncionario">    <full-calendar #calendar [options]="calendarOptions"></full-calendar>  </div>  <app-segmento-modal    *ngIf="showSegmentoModal"    [startDate]="selectedDate!"    [funcionario]="selectedFuncionario!"    [segmentoToEdit]="selectedSegmento"    (close)="showSegmentoModal = false"    (submit)="handleSegmentoSubmit($event)"    (delete)="handleSegmentoDelete($event)"  ></app-segmento-modal></div></div>'
-    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'FuncionariosComponent', 'selector': 'app-funcionarios'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
+        var COMPONENT_TEMPLATE = '<div><div class="agenda-container">  <div class="search-section" [class.collapsed]="selectedFuncionario">    <div class="search-header" (click)="toggleSearch()">      <div class="header-content">        <h2>{{ selectedFuncionario ? selectedFuncionario.nombres + \' \' + selectedFuncionario.apellidos : \'Seleccionar Funcionario\' }}</h2>        <span class="specialty" *ngIf="selectedFuncionario">{{ selectedFuncionario.especialidad.nombre }}</span>      </div>      <button class="toggle-btn">        {{ selectedFuncionario ? \'▼\' : \'▲\' }}      </button>    </div>    <div class="search-content" [class.hidden]="selectedFuncionario">      <div class="search-box">        <input          type="text"          [(ngModel)]="searchTerm"          placeholder="Buscar por nombre o especialidad"          class="search-input"          (input)="searchFuncionarios()"        >      </div>      <div class="funcionarios-list" *ngIf="filteredFuncionarios.length > 0">        <div          *ngFor="let funcionario of filteredFuncionarios"          class="funcionario-card"          [class.selected]="selectedFuncionario?.id === funcionario.id"          (click)="selectFuncionario(funcionario)"        >          <div class="funcionario-info">            <h3>{{ funcionario.nombres }} {{ funcionario.apellidos }}</h3>            <p>{{ funcionario.especialidad.nombre }}</p>          </div>        </div>      </div>    </div>  </div>  <div class="calendar-section" *ngIf="selectedFuncionario">    <full-calendar #calendar [options]="calendarOptions"></full-calendar>  </div>  <app-segmento-modal    *ngIf="showSegmentoModal"    [startDate]="selectedDate!"    [funcionario]="selectedFuncionario!"    [segmentoToEdit]="selectedSegmento"    (close)="showSegmentoModal = false"    (submit)="handleSegmentoSubmit($event)"    (delete)="handleSegmentoDelete($event)"  ></app-segmento-modal></div></div>'
+    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'AgendaComponent'};
 </script>

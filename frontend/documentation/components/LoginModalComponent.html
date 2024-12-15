@@ -166,6 +166,7 @@
                 <td class="col-md-9">
                             <code>CommonModule</code>
                             <code>FormsModule</code>
+                            <code>ReactiveFormsModule</code>
                 </td>
             </tr>
 
@@ -232,6 +233,9 @@
                                 <a href="#recoveryCodeVerified" >recoveryCodeVerified</a>
                             </li>
                             <li>
+                                <a href="#recoveryForm" >recoveryForm</a>
+                            </li>
+                            <li>
                                 <a href="#recoveryRut" >recoveryRut</a>
                             </li>
                             <li>
@@ -259,6 +263,9 @@
                                 <a href="#closeModal" >closeModal</a>
                             </li>
                             <li>
+                                <a href="#getErrorMessage" >getErrorMessage</a>
+                            </li>
+                            <li>
                                 <a href="#handleRecovery" >handleRecovery</a>
                             </li>
                             <li>
@@ -266,10 +273,22 @@
                                 <a href="#handleSubmit" >handleSubmit</a>
                             </li>
                             <li>
+                                <a href="#isFieldInvalid" >isFieldInvalid</a>
+                            </li>
+                            <li>
                                 <a href="#onRutInput" >onRutInput</a>
                             </li>
                             <li>
+                                <a href="#passwordMatchValidator" >passwordMatchValidator</a>
+                            </li>
+                            <li>
+                                <a href="#rutValidator" >rutValidator</a>
+                            </li>
+                            <li>
                                 <a href="#startRecovery" >startRecovery</a>
+                            </li>
+                            <li>
+                                <a href="#validateRut" >validateRut</a>
                             </li>
                         </ul>
                     </td>
@@ -303,12 +322,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(dbService: <a href="../injectables/DatabaseService.html" target="_self">DatabaseService</a>, router: Router, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>)</code>
+<code>constructor(fb: FormBuilder, apiService: <a href="../injectables/ApiService.html" target="_self">ApiService</a>, router: Router, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:51</a></div>
                             </td>
                         </tr>
 
@@ -326,10 +345,22 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>dbService</td>
+                                                        <td>fb</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                                    <code>FormBuilder</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>apiService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ApiService.html" target="_self" >ApiService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -428,8 +459,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="78"
-                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:78</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="187"
+                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:187</a></div>
                         </td>
                     </tr>
 
@@ -467,8 +498,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="60"
-                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:60</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="169"
+                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:169</a></div>
                         </td>
                     </tr>
 
@@ -482,6 +513,81 @@
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getErrorMessage"></a>
+                    <span class="name">
+                        <span ><b>getErrorMessage</b></span>
+                        <a href="#getErrorMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getErrorMessage(fieldName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="147"
+                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:147</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene el mensaje de error para un campo del formulario</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fieldName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Nombre del campo a verificar</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Mensaje de error para el campo</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -506,8 +612,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="94"
-                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:94</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="203"
+                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:203</a></div>
                         </td>
                     </tr>
 
@@ -582,8 +688,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="170"
-                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:170</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="318"
+                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:318</a></div>
                         </td>
                     </tr>
 
@@ -640,6 +746,81 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="isFieldInvalid"></a>
+                    <span class="name">
+                        <span ><b>isFieldInvalid</b></span>
+                        <a href="#isFieldInvalid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isFieldInvalid(fieldName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="137"
+                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:137</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Verifica si un campo del formulario es inválido</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fieldName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Nombre del campo a verificar</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>boolean indicando si el campo es inválido y ha sido tocado</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="onRutInput"></a>
                     <span class="name">
                         <span ><b>onRutInput</b></span>
@@ -656,8 +837,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="151"
-                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:151</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="299"
+                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:299</a></div>
                         </td>
                     </tr>
 
@@ -714,6 +895,92 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="passwordMatchValidator"></a>
+                    <span class="name">
+                        <span ><b>passwordMatchValidator</b></span>
+                        <a href="#passwordMatchValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>passwordMatchValidator()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="114"
+                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Validador personalizado para verificar si las contraseñas coinciden</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>(formGroup: FormGroup) &#x3D;&gt; { passwordMismatch: boolean; }</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>ValidatorFn para validar la coincidencia de contraseñas</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rutValidator"></a>
+                    <span class="name">
+                        <span ><b>rutValidator</b></span>
+                        <a href="#rutValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>rutValidator()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="101"
+                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:101</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Validador personalizado para validar el formato del RUT</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>ValidatorFn</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>ValidatorFn para validar el formato del RUT</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="startRecovery"></a>
                     <span class="name">
                         <span ><b>startRecovery</b></span>
@@ -730,8 +997,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="68"
-                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:68</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="177"
+                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:177</a></div>
                         </td>
                     </tr>
 
@@ -745,6 +1012,81 @@
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateRut"></a>
+                    <span class="name">
+                        <span ><b>validateRut</b></span>
+                        <a href="#validateRut"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>validateRut(rut: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="77"
+                                    class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Valida el RUT ingresado</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>rut</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>RUT a validar</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>boolean indicando si el RUT es válido</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1092,6 +1434,38 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="recoveryForm"></a>
+                    <span class="name">
+                        <span ><b>recoveryForm</b></span>
+                        <a href="#recoveryForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FormGroup</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/login-modal/login-modal.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Formulario para recuperación de contraseña</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="recoveryRut"></a>
                     <span class="name">
                         <span ><b>recoveryRut</b></span>
@@ -1207,8 +1581,8 @@
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Output } from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
-import { FormsModule } from &#x27;@angular/forms&#x27;;
-import { DatabaseService } from &#x27;../../services/database.service&#x27;;
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors } from &#x27;@angular/forms&#x27;;
+import { ApiService } from &#x27;../../services/api.service&#x27;;
 import { Router } from &#x27;@angular/router&#x27;;
 import { ToastService } from &#x27;../../services/toast.service&#x27;;
 
@@ -1219,7 +1593,7 @@ import { ToastService } from &#x27;../../services/toast.service&#x27;;
 @Component({
   selector: &#x27;app-login-modal&#x27;,
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: &#x27;./login-modal.component.html&#x27;,
   styleUrls: [&#x27;./login-modal.component.css&#x27;]
 })
@@ -1254,11 +1628,120 @@ export class LoginModalComponent {
   /** Mensaje de error para mostrar al usuario */
   errorMessage: string &#x3D; &#x27;RUT o contraseña incorrectos&#x27;;
 
+  /** Formulario para recuperación de contraseña */
+  recoveryForm: FormGroup;
+
   constructor(
-    private dbService: DatabaseService,
+    private fb: FormBuilder,
+    private apiService: ApiService,
     private router: Router,
     private toastService: ToastService
-  ) {}
+  ) {
+    this.recoveryForm &#x3D; this.fb.group({
+      recoveryRut: [&#x27;&#x27;, [Validators.required, this.rutValidator()]],
+      recoveryCode: [&#x27;&#x27;],
+      newPassword: [&#x27;&#x27;, [
+        Validators.required, 
+        Validators.minLength(6),
+        Validators.maxLength(12),
+        Validators.pattern(/^(?&#x3D;.*[a-z])(?&#x3D;.*[A-Z])(?&#x3D;.*\d)(?&#x3D;.*[@$!%*?&amp;])[A-Za-z\d@$!%*?&amp;]{6,}$/)
+      ]],
+      confirmPassword: [&#x27;&#x27;, [Validators.required]]
+    }, { validator: this.passwordMatchValidator() });
+  }
+
+  /**
+   * Valida el RUT ingresado
+   * @param rut RUT a validar
+   * @returns boolean indicando si el RUT es válido
+   */
+  validateRut(rut: string): boolean {
+    rut &#x3D; rut.replace(/\./g, &#x27;&#x27;).replace(/-/g, &#x27;&#x27;);
+    if (!/^[0-9]{7,8}[0-9Kk]$/.test(rut)) return false;
+    const verificationDigit &#x3D; rut.slice(-1).toUpperCase();
+    const numbers &#x3D; rut.slice(0, -1);
+    let sum &#x3D; 0;
+    let multiplier &#x3D; 2;
+    for (let i &#x3D; numbers.length - 1; i &gt;&#x3D; 0; i--) {
+      sum +&#x3D; parseInt(numbers[i]) * multiplier;
+      multiplier &#x3D; multiplier &#x3D;&#x3D;&#x3D; 7 ? 2 : multiplier + 1;
+    }
+    const expectedDigit &#x3D; 11 - (sum % 11);
+    let expectedVerificationDigit: string;
+    if (expectedDigit &#x3D;&#x3D;&#x3D; 11) expectedVerificationDigit &#x3D; &#x27;0&#x27;;
+    else if (expectedDigit &#x3D;&#x3D;&#x3D; 10) expectedVerificationDigit &#x3D; &#x27;K&#x27;;
+    else expectedVerificationDigit &#x3D; expectedDigit.toString();
+    if (!/^[0-9Kk.-]+$/.test(rut)) return false;
+    return verificationDigit &#x3D;&#x3D;&#x3D; expectedVerificationDigit;
+  }
+
+  /**
+   * Validador personalizado para validar el formato del RUT
+   * @returns ValidatorFn para validar el formato del RUT
+   */
+  rutValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null &#x3D;&gt; {
+      const rut &#x3D; control.value;
+      if (!/^[0-9Kk.-]+$/.test(rut)) return { invalidRut: true };
+      if (!rut) return null;
+      return this.validateRut(rut) ? null : { invalidRut: true };
+    };
+  }
+
+  /**
+   * Validador personalizado para verificar si las contraseñas coinciden
+   * @returns ValidatorFn para validar la coincidencia de contraseñas
+   */
+  passwordMatchValidator() {
+    return (formGroup: FormGroup) &#x3D;&gt; {
+      const password &#x3D; formGroup.get(&#x27;newPassword&#x27;);
+      const confirmPassword &#x3D; formGroup.get(&#x27;confirmPassword&#x27;);
+
+      if (password?.value || confirmPassword?.value) {
+        if (password?.value !&#x3D;&#x3D; confirmPassword?.value) {
+          confirmPassword?.setErrors({ passwordMismatch: true });
+          return { passwordMismatch: true };
+        } else {
+          confirmPassword?.setErrors(null);
+          return null;
+        }
+      }
+      return null;
+    };
+  }
+
+  /**
+   * Verifica si un campo del formulario es inválido
+   * @param fieldName Nombre del campo a verificar
+   * @returns boolean indicando si el campo es inválido y ha sido tocado
+   */
+  isFieldInvalid(fieldName: string): boolean {
+    const field &#x3D; this.recoveryForm.get(fieldName);
+    return field ? (field.invalid &amp;&amp; (field.dirty || field.touched)) : false;
+  }
+
+  /**
+   * Obtiene el mensaje de error para un campo del formulario
+   * @param fieldName Nombre del campo a verificar
+   * @returns Mensaje de error para el campo
+   */
+  getErrorMessage(fieldName: string): string {
+    const control &#x3D; this.recoveryForm.get(fieldName);
+    if (control?.errors) {
+      if (control.errors[&#x27;required&#x27;]) return &#x27;Este campo es requerido&#x27;;
+      if (control.errors[&#x27;minlength&#x27;]) return &#x60;Mínimo ${control.errors[&#x27;minlength&#x27;].requiredLength} caracteres&#x60;;
+      if (control.errors[&#x27;maxlength&#x27;]) return &#x60;Máximo ${control.errors[&#x27;maxlength&#x27;].requiredLength} caracteres&#x60;;
+      if (control.errors[&#x27;pattern&#x27;]) {
+        if (fieldName &#x3D;&#x3D;&#x3D; &#x27;newPassword&#x27;) {
+          if (control.value?.includes(&#x27; &#x27;)) return &#x27;No se permiten espacios&#x27;;
+          return &#x27;La contraseña debe tener al menos una mayúscula, una minúscula, un caracter especial y un número. Debe tener entre 6 y 12 caracteres&#x27;;
+        }
+        return &#x27;Formato inválido&#x27;;
+      }
+      if (control.errors[&#x27;passwordMismatch&#x27;]) return &#x27;Las contraseñas no coinciden&#x27;;
+    }
+    return &#x27;&#x27;;
+  }
 
   /**
    * Cierra el modal de inicio de sesión
@@ -1305,41 +1788,80 @@ export class LoginModalComponent {
 
     try {
       if (!this.recoveryCodeSent) {
-        const funcionario &#x3D; this.dbService.getFuncionarioByRut(this.recoveryRut);
-        if (!funcionario) {
-          this.showError &#x3D; true;
-          this.errorMessage &#x3D; &#x27;RUT no encontrado&#x27;;
-          return;
-        }
+        this.apiService.getFuncionarioByRut(this.recoveryForm.get(&#x27;recoveryRut&#x27;)?.value.replace(/\./g, &#x27;&#x27;).replace(/-/g, &#x27;&#x27;))
+          .subscribe({
+            next: (funcionario) &#x3D;&gt; {
+              if (!funcionario) {
+                this.showError &#x3D; true;
+                this.errorMessage &#x3D; &#x27;RUT no encontrado&#x27;;
+                return;
+              }
 
-        this.generatedCode &#x3D; Math.random().toString(36).substring(2, 8).toUpperCase();
-        console.log(&#x27;Código de recuperación:&#x27;, this.generatedCode);
-        
-        this.recoveryCodeSent &#x3D; true;
-        this.errorMessage &#x3D; &#x27;&#x27;;
+              this.generatedCode &#x3D; Math.random().toString(36).substring(2, 8).toUpperCase();
+              console.log(&#x27;Código de recuperación:&#x27;, this.generatedCode);
+              
+              this.recoveryCodeSent &#x3D; true;
+              this.errorMessage &#x3D; &#x27;&#x27;;
+              this.isLoading &#x3D; false;
+            },
+            error: () &#x3D;&gt; {
+              this.showError &#x3D; true;
+              this.errorMessage &#x3D; &#x27;RUT no encontrado&#x27;;
+              this.isLoading &#x3D; false;
+            }
+          });
       } 
       else if (!this.recoveryCodeVerified) {
-        if (this.recoveryCode !&#x3D;&#x3D; this.generatedCode) {
+        if (this.recoveryForm.get(&#x27;recoveryCode&#x27;)?.value !&#x3D;&#x3D; this.generatedCode) {
           this.showError &#x3D; true;
           this.errorMessage &#x3D; &#x27;Código inválido&#x27;;
+          this.isLoading &#x3D; false;
           return;
         }
         
         this.recoveryCodeVerified &#x3D; true;
         this.errorMessage &#x3D; &#x27;&#x27;;
+        this.isLoading &#x3D; false;
       } 
       else {
-        if (this.newPassword.length &lt; 6) {
-          this.showError &#x3D; true;
-          this.errorMessage &#x3D; &#x27;La contraseña debe tener al menos 6 caracteres&#x27;;
+        if (this.recoveryForm.invalid) {
+          Object.keys(this.recoveryForm.controls).forEach(key &#x3D;&gt; {
+            const control &#x3D; this.recoveryForm.get(key);
+            if (control?.invalid) {
+              control.markAsTouched();
+            }
+          });
+          this.isLoading &#x3D; false;
           return;
         }
 
-        const funcionario &#x3D; this.dbService.getFuncionarioByRut(this.recoveryRut);
-        if (funcionario) {
-          this.dbService.updateFuncionarioPassword(funcionario.id, this.newPassword);
-          this.closeModal();
-        }
+        this.apiService.getFuncionarioByRut(this.recoveryForm.get(&#x27;recoveryRut&#x27;)?.value.replace(/\./g, &#x27;&#x27;).replace(/-/g, &#x27;&#x27;))
+          .subscribe({
+            next: (funcionario) &#x3D;&gt; {
+              if (funcionario) {
+                this.apiService.updateFuncionarioPassword(
+                  funcionario.id, 
+                  this.recoveryForm.get(&#x27;newPassword&#x27;)?.value
+                ).subscribe({
+                  next: () &#x3D;&gt; {
+                    this.toastService.show(&#x27;Contraseña actualizada&#x27;, &#x27;success&#x27;);
+                    this.closeModal();
+                  },
+                  error: (error) &#x3D;&gt; {
+                    console.error(&#x27;Password update error:&#x27;, error);
+                    this.showError &#x3D; true;
+                    this.errorMessage &#x3D; &#x27;Error al actualizar la contraseña&#x27;;
+                    this.closeModal();
+                  }
+                });
+              }
+            },
+            error: (error) &#x3D;&gt; {
+              console.error(&#x27;Recovery error:&#x27;, error);
+              this.showError &#x3D; true;
+              this.errorMessage &#x3D; &#x27;Error en el proceso de recuperación&#x27;;
+            }
+          });
       }
     } catch (error) {
       console.error(&#x27;Recovery error:&#x27;, error);
@@ -1358,7 +1880,7 @@ export class LoginModalComponent {
   onRutInput(event: any) {
     const input &#x3D; event.target;
     let rut &#x3D; input.value.replace(/\./g, &#x27;&#x27;).replace(/-/g, &#x27;&#x27;);
-    rut &#x3D; rut.replace(/[^0-9kK]/g, &#x27;&#x27;);
+    rut &#x3D; rut.replace(/[^0-9kK.-]/g, &#x27;&#x27;);
     
     if (rut.length &gt; 0) {
       let result &#x3D; rut;
@@ -1381,42 +1903,42 @@ export class LoginModalComponent {
 
     try {
       const cleanRut &#x3D; this.rut.replace(/\./g, &#x27;&#x27;).replace(&#x27;-&#x27;, &#x27;&#x27;);
-      const funcionario &#x3D; this.dbService.getFuncionarioByRut(cleanRut);
-
-      if (funcionario &amp;&amp; funcionario.password &#x3D;&#x3D;&#x3D; this.password) {
-        const userData &#x3D; {
-          id: funcionario.id,
-          nombres: funcionario.nombres,
-          apellidos: funcionario.apellidos,
-          rut: funcionario.rut,
-          esp_id: funcionario.esp_id,
-          especialidad: funcionario.especialidad,
-          password: funcionario.password,
-          email: funcionario.email,
-          telefono: funcionario.telefono
-        };
-        
-        localStorage.setItem(&#x27;currentUser&#x27;, JSON.stringify(userData));
-        
-        const now &#x3D; new Date();
-        const timeStr &#x3D; now.toLocaleString(&#x27;es-CL&#x27;, { 
-          hour: &#x27;2-digit&#x27;, 
-          minute: &#x27;2-digit&#x27;,
-          day: &#x27;2-digit&#x27;,
-          month: &#x27;2-digit&#x27;,
-          year: &#x27;numeric&#x27;
-        });
-        this.toastService.show(&#x60;Inicio de sesión exitoso @ ${timeStr}&#x60;, &#x27;success&#x27;);
-        
-        this.closeModal();
-        await this.router.navigate([&#x27;/dashboard&#x27;]);
-      } else {
-        this.showError &#x3D; true;
-      }
+      
+      this.apiService.login({ rut: cleanRut, password: this.password }).subscribe({
+        next: (response) &#x3D;&gt; {
+          const userData &#x3D; {
+            id: response.id,
+            nombres: response.nombres,
+            apellidos: response.apellidos,
+            rut: response.rut,
+            roles: response.roles
+          };
+          
+          localStorage.setItem(&#x27;currentUser&#x27;, JSON.stringify(userData));
+          
+          const now &#x3D; new Date();
+          const timeStr &#x3D; now.toLocaleString(&#x27;es-CL&#x27;, { 
+            hour: &#x27;2-digit&#x27;, 
+            minute: &#x27;2-digit&#x27;,
+            day: &#x27;2-digit&#x27;,
+            month: &#x27;2-digit&#x27;,
+            year: &#x27;numeric&#x27;
+          });
+          this.toastService.show(&#x60;Inicio de sesión exitoso @ ${timeStr}&#x60;, &#x27;success&#x27;);
+          
+          this.closeModal();
+          this.router.navigate([&#x27;/dashboard&#x27;]);
+        },
+        error: (error) &#x3D;&gt; {
+          console.error(&#x27;Login error:&#x27;, error);
+          this.showError &#x3D; true;
+          this.errorMessage &#x3D; &#x27;RUT o contraseña incorrectos&#x27;;
+          this.isLoading &#x3D; false;
+        }
+      });
     } catch (error) {
       console.error(&#x27;Login error:&#x27;, error);
       this.showError &#x3D; true;
-    } finally {
       this.isLoading &#x3D; false;
     }
   }
@@ -1437,10 +1959,12 @@ export class LoginModalComponent {
             &lt;input 
             id&#x3D;&quot;rut&quot; 
             type&#x3D;&quot;text&quot; 
+            autofocus
             [(ngModel)]&#x3D;&quot;rut&quot; 
             name&#x3D;&quot;rut&quot;
             required
             placeholder&#x3D;&quot;12.345.678-9&quot;
+            maxlength&#x3D;&quot;12&quot;
             (input)&#x3D;&quot;onRutInput($event)&quot;
             [class.error]&#x3D;&quot;showError&quot;
             &gt;
@@ -1477,18 +2001,17 @@ export class LoginModalComponent {
         &lt;/div&gt;
         &lt;/form&gt;
 
-        &lt;form *ngIf&#x3D;&quot;isRecovering&quot; (submit)&#x3D;&quot;handleRecovery($event)&quot;&gt;
+        &lt;form *ngIf&#x3D;&quot;isRecovering&quot; [formGroup]&#x3D;&quot;recoveryForm&quot; (ngSubmit)&#x3D;&quot;handleRecovery($event)&quot;&gt;
         &lt;div class&#x3D;&quot;form-group&quot;&gt;
             &lt;label for&#x3D;&quot;recoveryRut&quot;&gt;RUT&lt;/label&gt;
             &lt;input 
             id&#x3D;&quot;recoveryRut&quot; 
             type&#x3D;&quot;text&quot; 
-            [(ngModel)]&#x3D;&quot;recoveryRut&quot; 
-            name&#x3D;&quot;recoveryRut&quot;
-            required
+            formControlName&#x3D;&quot;recoveryRut&quot;
             placeholder&#x3D;&quot;12.345.678-9&quot;
+            maxlength&#x3D;&quot;12&quot;
             (input)&#x3D;&quot;onRutInput($event)&quot;
-            [class.error]&#x3D;&quot;showError&quot;
+            [class.error]&#x3D;&quot;isFieldInvalid(&#x27;recoveryRut&#x27;)&quot;
             &gt;
         &lt;/div&gt;
 
@@ -1497,23 +2020,37 @@ export class LoginModalComponent {
             &lt;input 
             id&#x3D;&quot;recoveryCode&quot; 
             type&#x3D;&quot;text&quot; 
-            [(ngModel)]&#x3D;&quot;recoveryCode&quot; 
-            name&#x3D;&quot;recoveryCode&quot;
-            required
-            [class.error]&#x3D;&quot;showError&quot;
+            formControlName&#x3D;&quot;recoveryCode&quot;
+            [class.error]&#x3D;&quot;isFieldInvalid(&#x27;recoveryCode&#x27;)&quot;
             &gt;
         &lt;/div&gt;
 
-        &lt;div class&#x3D;&quot;form-group&quot; *ngIf&#x3D;&quot;recoveryCodeSent &amp;&amp; recoveryCodeVerified&quot;&gt;
-            &lt;label for&#x3D;&quot;newPassword&quot;&gt;Nueva Contraseña&lt;/label&gt;
-            &lt;input 
-            id&#x3D;&quot;newPassword&quot; 
-            type&#x3D;&quot;password&quot; 
-            [(ngModel)]&#x3D;&quot;newPassword&quot; 
-            name&#x3D;&quot;newPassword&quot;
-            required
-            [class.error]&#x3D;&quot;showError&quot;
-            &gt;
+        &lt;div *ngIf&#x3D;&quot;recoveryCodeSent &amp;&amp; recoveryCodeVerified&quot;&gt;
+            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+                &lt;label for&#x3D;&quot;newPassword&quot;&gt;Nueva Contraseña&lt;/label&gt;
+                &lt;input 
+                id&#x3D;&quot;newPassword&quot; 
+                type&#x3D;&quot;password&quot; 
+                formControlName&#x3D;&quot;newPassword&quot;
+                [class.error]&#x3D;&quot;isFieldInvalid(&#x27;newPassword&#x27;)&quot;
+                &gt;
+                &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;isFieldInvalid(&#x27;newPassword&#x27;)&quot;&gt;
+                    {{ getErrorMessage(&#x27;newPassword&#x27;) }}
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+                &lt;label for&#x3D;&quot;confirmPassword&quot;&gt;Confirmar Nueva Contraseña&lt;/label&gt;
+                &lt;input 
+                id&#x3D;&quot;confirmPassword&quot; 
+                type&#x3D;&quot;password&quot; 
+                formControlName&#x3D;&quot;confirmPassword&quot;
+                [class.error]&#x3D;&quot;isFieldInvalid(&#x27;confirmPassword&#x27;)&quot;
+                &gt;
+                &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;recoveryForm.errors?.[&#x27;passwordMismatch&#x27;]&quot;&gt;
+                    Las contraseñas no coinciden
+                &lt;/div&gt;
+            &lt;/div&gt;
         &lt;/div&gt;
 
         &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;showError&quot;&gt;
@@ -1705,7 +2242,7 @@ export class LoginModalComponent {
   background-color: #cbd5e0;
 }
 
-#rut, #password, #recoveryRut, #recoveryCode {
+#rut, #password, #recoveryRut, #recoveryCode, #newPassword, #confirmPassword {
   width: 95%;
 }</code></pre>
     </div>
@@ -1735,8 +2272,8 @@ export class LoginModalComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="modal-backdrop" (click)="closeModal()">    <div class="modal-content" (click)="$event.stopPropagation()">    <div class="modal-header">        <h2>{{ isRecovering ? \'Recuperar Contraseña\' : \'Iniciar Sesión\' }}</h2>        <button class="close-button" (click)="closeModal()">×</button>    </div>    <div class="modal-body">        <form *ngIf="!isRecovering" (submit)="handleSubmit($event)">        <div class="form-group">            <label for="rut">RUT</label>            <input             id="rut"             type="text"             [(ngModel)]="rut"             name="rut"            required            placeholder="12.345.678-9"            (input)="onRutInput($event)"            [class.error]="showError"            >        </div>        <div class="form-group">            <label for="password">Contraseña</label>            <input             id="password"             type="password"             [(ngModel)]="password"             name="password"            required            [class.error]="showError"            >        </div>        <div class="error-message" *ngIf="showError">            RUT o contraseña incorrectos        </div>        <div class="recovery-link">            <a (click)="startRecovery()">¿Olvidaste tu contraseña?</a>        </div>        <div class="form-footer">            <button             type="submit"             class="login-button"            [disabled]="isLoading"            >            {{ isLoading ? \'Iniciando sesión...\' : \'Iniciar Sesión\' }}            </button>        </div>        </form>        <form *ngIf="isRecovering" (submit)="handleRecovery($event)">        <div class="form-group">            <label for="recoveryRut">RUT</label>            <input             id="recoveryRut"             type="text"             [(ngModel)]="recoveryRut"             name="recoveryRut"            required            placeholder="12.345.678-9"            (input)="onRutInput($event)"            [class.error]="showError"            >        </div>        <div class="form-group" *ngIf="recoveryCodeSent">            <label for="recoveryCode">Código de Recuperación</label>            <input             id="recoveryCode"             type="text"             [(ngModel)]="recoveryCode"             name="recoveryCode"            required            [class.error]="showError"            >        </div>        <div class="form-group" *ngIf="recoveryCodeSent && recoveryCodeVerified">            <label for="newPassword">Nueva Contraseña</label>            <input             id="newPassword"             type="password"             [(ngModel)]="newPassword"             name="newPassword"            required            [class.error]="showError"            >        </div>        <div class="error-message" *ngIf="showError">            {{ errorMessage }}        </div>        <div class="form-footer">            <button             type="submit"             class="login-button"            [disabled]="isLoading"            >            {{                 isLoading ? \'Procesando...\' :                 (recoveryCodeSent ?                     (recoveryCodeVerified ? \'Cambiar Contraseña\' : \'Verificar Código\') :                     \'Enviar Código\'                )            }}            </button>        </div>        </form>    </div>    </div></div></div>'
-    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'FuncionariosComponent', 'selector': 'app-funcionarios'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
+        var COMPONENT_TEMPLATE = '<div><div class="modal-backdrop" (click)="closeModal()">    <div class="modal-content" (click)="$event.stopPropagation()">    <div class="modal-header">        <h2>{{ isRecovering ? \'Recuperar Contraseña\' : \'Iniciar Sesión\' }}</h2>        <button class="close-button" (click)="closeModal()">×</button>    </div>    <div class="modal-body">        <form *ngIf="!isRecovering" (submit)="handleSubmit($event)">        <div class="form-group">            <label for="rut">RUT</label>            <input             id="rut"             type="text"             autofocus            [(ngModel)]="rut"             name="rut"            required            placeholder="12.345.678-9"            maxlength="12"            (input)="onRutInput($event)"            [class.error]="showError"            >        </div>        <div class="form-group">            <label for="password">Contraseña</label>            <input             id="password"             type="password"             [(ngModel)]="password"             name="password"            required            [class.error]="showError"            >        </div>        <div class="error-message" *ngIf="showError">            RUT o contraseña incorrectos        </div>        <div class="recovery-link">            <a (click)="startRecovery()">¿Olvidaste tu contraseña?</a>        </div>        <div class="form-footer">            <button             type="submit"             class="login-button"            [disabled]="isLoading"            >            {{ isLoading ? \'Iniciando sesión...\' : \'Iniciar Sesión\' }}            </button>        </div>        </form>        <form *ngIf="isRecovering" [formGroup]="recoveryForm" (ngSubmit)="handleRecovery($event)">        <div class="form-group">            <label for="recoveryRut">RUT</label>            <input             id="recoveryRut"             type="text"             formControlName="recoveryRut"            placeholder="12.345.678-9"            maxlength="12"            (input)="onRutInput($event)"            [class.error]="isFieldInvalid(\'recoveryRut\')"            >        </div>        <div class="form-group" *ngIf="recoveryCodeSent">            <label for="recoveryCode">Código de Recuperación</label>            <input             id="recoveryCode"             type="text"             formControlName="recoveryCode"            [class.error]="isFieldInvalid(\'recoveryCode\')"            >        </div>        <div *ngIf="recoveryCodeSent && recoveryCodeVerified">            <div class="form-group">                <label for="newPassword">Nueva Contraseña</label>                <input                 id="newPassword"                 type="password"                 formControlName="newPassword"                [class.error]="isFieldInvalid(\'newPassword\')"                >                <div class="error-message" *ngIf="isFieldInvalid(\'newPassword\')">                    {{ getErrorMessage(\'newPassword\') }}                </div>            </div>            <div class="form-group">                <label for="confirmPassword">Confirmar Nueva Contraseña</label>                <input                 id="confirmPassword"                 type="password"                 formControlName="confirmPassword"                [class.error]="isFieldInvalid(\'confirmPassword\')"                >                <div class="error-message" *ngIf="recoveryForm.errors?.[\'passwordMismatch\']">                    Las contraseñas no coinciden                </div>            </div>        </div>        <div class="error-message" *ngIf="showError">            {{ errorMessage }}        </div>        <div class="form-footer">            <button             type="submit"             class="login-button"            [disabled]="isLoading"            >            {{                 isLoading ? \'Procesando...\' :                 (recoveryCodeSent ?                     (recoveryCodeVerified ? \'Cambiar Contraseña\' : \'Verificar Código\') :                     \'Enviar Código\'                )            }}            </button>        </div>        </form>    </div>    </div></div></div>'
+    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'LoginModalComponent'};
 </script>

@@ -571,6 +571,8 @@ export class LandingPageComponent {
                 </p>
                 <pre class="line-numbers"><code class="language-scss">.landing-page {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   font-family: &#x27;Segoe UI&#x27;, system-ui, -apple-system, sans-serif;
 }
 
@@ -602,6 +604,7 @@ export class LandingPageComponent {
   display: flex;
   gap: 2rem;
   align-items: center;
+  margin-right: 3rem;
 }
 
 .nav-links a {
@@ -628,6 +631,9 @@ export class LandingPageComponent {
 }
 
 .main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding-top: 5rem;
 }
 
@@ -701,8 +707,15 @@ export class LandingPageComponent {
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+/* Medium screens (tablets and up) */
+@media (min-width: 768px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .feature-card {
@@ -738,7 +751,7 @@ export class LandingPageComponent {
   color: white;
   text-align: center;
   padding: 2rem;
-  margin-top: 4rem;
+  margin-top: auto;
 }
 
 @media (max-width: 768px) {
@@ -748,10 +761,6 @@ export class LandingPageComponent {
   
   .hero p {
     font-size: 1rem;
-  }
-  
-  .feature-grid {
-    grid-template-columns: 1fr;
   }
   
   .nav-container {
@@ -798,7 +807,7 @@ export class LandingPageComponent {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="landing-page">  <header class="header">    <nav class="nav-container">      <div class="logo">Hospital Scheduler</div>      <div class="nav-links">        <a (click)="toggleLoginModal()" style="cursor: pointer;">Iniciar Sesión</a>        <a (click)="toggleRegisterModal()" style="cursor: pointer;" class="register-btn">Registrarse</a>      </div>    </nav>  </header>  <main class="main-content">    <section class="hero">      <h1>Gestión de Citas Médicas</h1>      <p>Sistema integral para la administración de citas y horarios médicos</p>      <div class="cta-buttons">        <a (click)="toggleRegisterModal()" class="cta-primary" style="cursor: pointer;">Comenzar Ahora</a>        <a (click)="scrollToFeatures()" class="cta-secondary" style="cursor: pointer;">Saber Más</a>      </div>    </section>    <section class="features" id="features">      <h2>Características Principales</h2>      <div class="feature-grid">        <div class="feature-card">          <i class="feature-icon">📅</i>          <h3>Gestión de Citas</h3>          <p>Programa y administra citas médicas de manera eficiente</p>        </div>        <div class="feature-card">          <i class="feature-icon">👨‍⚕️</i>          <h3>Perfil Médico</h3>          <p>Gestiona la información y disponibilidad de los médicos</p>        </div>        <div class="feature-card">          <i class="feature-icon">📊</i>          <h3>Reportes</h3>          <p>Genera informes detallados de las citas y atenciones</p>        </div>        <div class="feature-card">          <i class="feature-icon">🔔</i>          <h3>Recordatorios</h3>          <p>Sistema de notificaciones para citas próximas</p>        </div>      </div>    </section>  </main>  <footer class="footer">    <p>&copy; 2024 Hospital Scheduler. Todos los derechos reservados.</p>  </footer>  <app-login-modal     *ngIf="showLoginModal"     (close)="toggleLoginModal()">  </app-login-modal>  <app-register-modal     *ngIf="showRegisterModal"     (close)="toggleRegisterModal()">  </app-register-modal></div></div>'
-    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'FuncionariosComponent', 'selector': 'app-funcionarios'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
+    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'LandingPageComponent'};
 </script>

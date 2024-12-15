@@ -143,7 +143,10 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>{
-  providers: [provideRouter(routes)]
+  providers: [
+    provideRouter(routes),
+    provideHttpClient()
+  ]
 }</code>
                     </td>
                 </tr>

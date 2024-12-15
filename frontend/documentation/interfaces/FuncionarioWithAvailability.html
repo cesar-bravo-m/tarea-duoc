@@ -223,13 +223,14 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, ViewChild, HostListener } from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
 import { FormsModule } from &#x27;@angular/forms&#x27;;
-import { DatabaseService, Funcionario, SegmentoHorario, Paciente } from &#x27;../services/database.service&#x27;;
+import { ApiService, Funcionario, SegmentoHorario, Paciente } from &#x27;../services/api.service&#x27;;
 import { CalendarOptions, EventInput } from &#x27;@fullcalendar/core&#x27;;
 import { FullCalendarModule, FullCalendarComponent } from &#x27;@fullcalendar/angular&#x27;;
 import dayGridPlugin from &#x27;@fullcalendar/daygrid&#x27;;
 import timeGridPlugin from &#x27;@fullcalendar/timegrid&#x27;;
 import interactionPlugin from &#x27;@fullcalendar/interaction&#x27;;
 import { ToastService } from &#x27;../services/toast.service&#x27;;
+import { Observable, map } from &#x27;rxjs&#x27;;
 
 /**
  * Componente que maneja la asignación de citas médicas
@@ -302,23 +303,31 @@ export class CitasComponent implements OnInit {
   }
 
   constructor(
-    private dbService: DatabaseService,
+    private apiService: ApiService,
     private toastService: ToastService
   ) {
-    this.dbService.funcionarios$.subscribe(
-      funcionarios &#x3D;&gt; {
+    this.apiService.getFuncionarios().subscribe({
+      next: (funcionarios) &#x3D;&gt; {
         this.funcionarios &#x3D; funcionarios.map(f &#x3D;&gt; ({
           ...f,
-          hasAvailableSegments: this.checkFuncionarioAvailability(f.id)
+          hasAvailableSegments: false
         }));
         this.filteredFuncionarios &#x3D; this.funcionarios;
+        
+        // Check availability for each funcionario
+        this.funcionarios.forEach(f &#x3D;&gt; {
+          this.checkFuncionarioAvailability(f.id).subscribe(
+            hasAvailable &#x3D;&gt; {
+              f.hasAvailableSegments &#x3D; hasAvailable;
+            }
+          );
+        });
+      },
+      error: (error) &#x3D;&gt; {
+        console.error(&#x27;Error loading funcionarios:&#x27;, error);
+        this.toastService.show(&#x27;Error al cargar funcionarios&#x27;, &#x27;error&#x27;);
       }
-    );
-
-    // Subscribe to pacientes
-    this.dbService.pacientes$.subscribe(
-      pacientes &#x3D;&gt; this.pacientes &#x3D; pacientes
-    );
+    });
 
     this.checkScreenSize();
   }
@@ -370,8 +379,8 @@ export class CitasComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dbService.loadFuncionarios();
-    this.dbService.loadPacientes();  // Load pacientes
+    // Load initial data
+    this.apiService.getFuncionarios().subscribe();
   }
 
   /**
@@ -380,20 +389,23 @@ export class CitasComponent implements OnInit {
    * @returns boolean indicando si tiene segmentos disponibles esta semana
    * @private
    */
-  private checkFuncionarioAvailability(funcionarioId: number): boolean {
-    const segmentos &#x3D; this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
-    const today &#x3D; new Date();
-    const startOfWeek &#x3D; new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay());
-    const endOfWeek &#x3D; new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 7);
+  private checkFuncionarioAvailability(funcionarioId: number): Observable&lt;boolean&gt; {
+    return this.apiService.getSegmentosHorarioByFuncionarioId(funcionarioId).pipe(
+      map(segmentos &#x3D;&gt; {
+        const today &#x3D; new Date();
+        const startOfWeek &#x3D; new Date(today);
+        startOfWeek.setDate(today.getDate() - today.getDay());
+        const endOfWeek &#x3D; new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 7);
 
-    return segmentos.some(segmento &#x3D;&gt; {
-      const segmentoDate &#x3D; new Date(segmento.fecha_hora_inicio);
-      return segmento.free &amp;&amp; 
-             segmentoDate &gt;&#x3D; startOfWeek &amp;&amp; 
-             segmentoDate &lt; endOfWeek;
-    });
+        return segmentos.some(segmento &#x3D;&gt; {
+          const segmentoDate &#x3D; new Date(segmento.fechaHoraInicio);
+          return segmento.free &amp;&amp; 
+                 segmentoDate &gt;&#x3D; startOfWeek &amp;&amp; 
+                 segmentoDate &lt; endOfWeek;
+        });
+      })
+    );
   }
 
   /**
@@ -431,20 +443,27 @@ export class CitasComponent implements OnInit {
    * @param funcionarioId ID del funcionario
    */
   loadSegmentos(funcionarioId: number) {
-    const segmentos &#x3D; this.dbService.getSegmentosHorarioByFuncionarioId(funcionarioId);
-    const events: EventInput[] &#x3D; segmentos.map(segmento &#x3D;&gt; ({
-      id: segmento.id.toString(),
-      title: segmento.nombre,
-      start: segmento.fecha_hora_inicio,
-      end: segmento.fecha_hora_fin,
-      backgroundColor: segmento.free ? &#x27;#48bb78&#x27; : &#x27;#fc8181&#x27;,
-      borderColor: segmento.free ? &#x27;#38a169&#x27; : &#x27;#f56565&#x27;,
-      extendedProps: {
-        segmento: segmento
-      }
-    }));
+    this.apiService.getSegmentosHorarioByFuncionarioId(funcionarioId).subscribe({
+      next: (segmentos) &#x3D;&gt; {
+        const events: EventInput[] &#x3D; segmentos.map(segmento &#x3D;&gt; ({
+          id: segmento.id.toString(),
+          title: segmento.nombre,
+          start: segmento.fechaHoraInicio,
+          end: segmento.fechaHoraFin,
+          backgroundColor: segmento.free ? &#x27;#48bb78&#x27; : &#x27;#fc8181&#x27;,
+          borderColor: segmento.free ? &#x27;#38a169&#x27; : &#x27;#f56565&#x27;,
+          extendedProps: {
+            segmento: segmento
+          }
+        }));
 
-    this.calendarOptions.events &#x3D; events;
+        this.calendarOptions.events &#x3D; events;
+      },
+      error: (error) &#x3D;&gt; {
+        console.error(&#x27;Error loading segmentos:&#x27;, error);
+        this.toastService.show(&#x27;Error al cargar horarios&#x27;, &#x27;error&#x27;);
+      }
+    });
   }
 
   /**
@@ -458,7 +477,7 @@ export class CitasComponent implements OnInit {
       this.selectedSegmento &#x3D; segmento;
       this.showAssignModal &#x3D; true;
     } else {
-      alert(&#x27;Este horario ya está ocupado&#x27;);
+      this.toastService.show(&#x27;Este horario ya está ocupado&#x27;, &#x27;error&#x27;);
     }
   }
 
@@ -492,16 +511,26 @@ export class CitasComponent implements OnInit {
       return;
     }
 
-    const paciente &#x3D; this.dbService.getPacienteByRut(this.searchRut);
-    if (paciente) {
-      this.selectedPaciente &#x3D; paciente;
-      this.showSuccess &#x3D; true;
-      this.successMessage &#x3D; &#x27;Paciente encontrado&#x27;;
-    } else {
-      this.showError &#x3D; true;
-      this.errorMessage &#x3D; &#x27;Paciente no encontrado&#x27;;
-      this.selectedPaciente &#x3D; null;
-    }
+    const cleanRut &#x3D; this.searchRut.replace(/\./g, &#x27;&#x27;).replace(/-/g, &#x27;&#x27;);
+    this.apiService.getPacienteByRut(cleanRut).subscribe({
+      next: (paciente) &#x3D;&gt; {
+        if (paciente) {
+          this.selectedPaciente &#x3D; paciente;
+          this.showSuccess &#x3D; true;
+          this.successMessage &#x3D; &#x27;Paciente encontrado&#x27;;
+        } else {
+          this.showError &#x3D; true;
+          this.errorMessage &#x3D; &#x27;Paciente no encontrado&#x27;;
+          this.selectedPaciente &#x3D; null;
+        }
+      },
+      error: (error) &#x3D;&gt; {
+        console.error(&#x27;Error searching paciente:&#x27;, error);
+        this.showError &#x3D; true;
+        this.errorMessage &#x3D; &#x27;Error al buscar paciente&#x27;;
+        this.selectedPaciente &#x3D; null;
+      }
+    });
   }
 
   /**
@@ -511,30 +540,35 @@ export class CitasComponent implements OnInit {
   assignPaciente() {
     if (!this.selectedSegmento || !this.selectedPaciente) return;
 
-    try {
-      
-      this.dbService.assignSegmentoToPaciente(this.selectedPaciente.id, this.selectedSegmento.id);
-      
-      this.toastService.show(&#x27;Cita creada exitosamente&#x27;, &#x27;success&#x27;);
-      
-      this.selectedSegmento &#x3D; null;
-      this.selectedPaciente &#x3D; null;
-      this.searchRut &#x3D; &#x27;&#x27;;
-      
-      if (this.selectedFuncionario) {
-        this.loadSegmentos(this.selectedFuncionario.id);
+    this.apiService.assignSegmentoToPaciente(
+      this.selectedPaciente.id, 
+      this.selectedSegmento.id
+    ).subscribe({
+      next: () &#x3D;&gt; {
+        this.toastService.show(&#x27;Cita creada exitosamente&#x27;, &#x27;success&#x27;);
+        if (this.selectedFuncionario) {
+          this.loadSegmentos(this.selectedFuncionario.id);
+        }
+        this.closeAssignModal();
+        
+        // Refresh funcionario availability
+        if (this.selectedFuncionario) {
+          this.checkFuncionarioAvailability(this.selectedFuncionario.id).subscribe(
+            hasAvailable &#x3D;&gt; {
+              const funcionario &#x3D; this.funcionarios.find(f &#x3D;&gt; f.id &#x3D;&#x3D;&#x3D; this.selectedFuncionario?.id);
+              if (funcionario) {
+                funcionario.hasAvailableSegments &#x3D; hasAvailable;
+              }
+            }
+          );
+        }
+      },
+      error: (error) &#x3D;&gt; {
+        console.error(&#x27;Error assigning cita:&#x27;, error);
+        this.showError &#x3D; true;
+        this.errorMessage &#x3D; &#x27;Error al asignar la cita&#x27;;
       }
-      
-      this.closeAssignModal();
-    } catch (error) {
-      this.showError &#x3D; true;
-      this.errorMessage &#x3D; &#x27;Error al asignar la cita&#x27;;
-      console.error(error);
-    }
-    this.funcionarios &#x3D; this.funcionarios.map(f &#x3D;&gt; ({
-      ...f,
-      hasAvailableSegments: this.checkFuncionarioAvailability(f.id)
-    }));
+    });
   }
 
   /**

@@ -66,9 +66,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="components/DashboardComponent.html" data-type="entity-link" >DashboardComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/FuncionariosComponent.html" data-type="entity-link" >FuncionariosComponent</a>
-                            </li>
-                            <li class="link">
                                 <a href="components/InscripcionComponent.html" data-type="entity-link" >InscripcionComponent</a>
                             </li>
                             <li class="link">
@@ -100,7 +97,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </div>
                             <ul class="links collapse " ${ isNormalMode ? 'id="injectables-links"' : 'id="xs-injectables-links"' }>
                                 <li class="link">
-                                    <a href="injectables/DatabaseService.html" data-type="entity-link" >DatabaseService</a>
+                                    <a href="injectables/ApiService.html" data-type="entity-link" >ApiService</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/ToastService.html" data-type="entity-link" >ToastService</a>
@@ -132,9 +129,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/Cita.html" data-type="entity-link" >Cita</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/Cupo.html" data-type="entity-link" >Cupo</a>
-                            </li>
-                            <li class="link">
                                 <a href="interfaces/Especialidad.html" data-type="entity-link" >Especialidad</a>
                             </li>
                             <li class="link">
@@ -142,6 +136,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/FuncionarioWithAvailability.html" data-type="entity-link" >FuncionarioWithAvailability</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/LoginRequest.html" data-type="entity-link" >LoginRequest</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/LoginResponse.html" data-type="entity-link" >LoginResponse</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/NavItem.html" data-type="entity-link" >NavItem</a>
@@ -153,7 +153,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/Rol.html" data-type="entity-link" >Rol</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/RolFuncionario.html" data-type="entity-link" >RolFuncionario</a>
+                                <a href="interfaces/Rol-1.html" data-type="entity-link" >Rol</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/SegmentoHorario.html" data-type="entity-link" >SegmentoHorario</a>
@@ -171,9 +171,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <span class="icon ion-ios-arrow-down"></span>
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="miscellaneous-links"' : 'id="xs-miscellaneous-links"' }>
-                            <li class="link">
-                                <a href="miscellaneous/enumerations.html" data-type="entity-link">Enums</a>
-                            </li>
                             <li class="link">
                                 <a href="miscellaneous/variables.html" data-type="entity-link">Variables</a>
                             </li>

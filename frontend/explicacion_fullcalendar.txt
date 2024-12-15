@@ -1,0 +1,38 @@
+Las librerías adicionales que usé en este proyecto son:
+- fullcalendar
+- rxjs
+- ngx-mask
+
+### FullCalendar - Explicación y Uso en el Proyecto
+
+FullCalendar es un proyecto open source que proporciona un calendario interactivo donde se pueden visualizar, crear, modificar y eliminar eventos.
+
+Características principales:
+- Visualización de eventos en diferentes vistas (vista mensual, vista semanal, vista diaria)
+- Integración perfecta con Angular mediante @fullcalendar/angular
+
+¿Por qué usamos FullCalendar en este proyecto?
+1. Gestión de Citas:
+   - Permite visualizar las citas programadas
+   - Facilita la creación y modificación de citas mediante interacción directa
+   - Ofrece una interfaz intuitiva para los usuarios
+
+2. Ventajas
+   - Ya conocía la librería de hace tiempo
+   - Compatibilidad con Angular y TypeScript
+
+3. Funcionalidades Específicas Implementadas:
+   - Gestión de citas
+   - Gestión de disponibilidad de horarios
+
+### rxjs
+
+RxJS es una librería que permite crear aplicaciones basadas en eventos usando observable.
+
+La usé en el servicio de la API para manejar las solicitudes HTTP de manera reactiva.
+
+### Ngx-mask
+
+Ngx-mask es una librería que proporciona una manera fácil de aplicar máscaras a los inputs de Angular.
+
+La usé en los componentes de inscripcion, login, registro y modificar perfil para aplicar una máscara a los inputs de teléfono y RUT

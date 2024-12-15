@@ -167,6 +167,7 @@
                             <code>CommonModule</code>
                             <code>RouterLink</code>
                             <code>RouterOutlet</code>
+                            <code>RouterLinkActive</code>
                                 <code><a href="../components/ProfileModalComponent.html" target="_self" >ProfileModalComponent</a></code>
                 </td>
             </tr>
@@ -234,6 +235,9 @@
                                 <a href="#closeProfileModal" >closeProfileModal</a>
                             </li>
                             <li>
+                                <a href="#getCurrentPath" >getCurrentPath</a>
+                            </li>
+                            <li>
                                 <a href="#getUserFullName" >getUserFullName</a>
                             </li>
                             <li>
@@ -283,12 +287,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(router: Router, dbService: <a href="../injectables/DatabaseService.html" target="_self">DatabaseService</a>, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>)</code>
+<code>constructor(router: Router, apiService: <a href="../injectables/ApiService.html" target="_self">ApiService</a>, toastService: <a href="../injectables/ToastService.html" target="_self">ToastService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/dashboard/dashboard.component.ts:65</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/dashboard/dashboard.component.ts:71</a></div>
                             </td>
                         </tr>
 
@@ -318,10 +322,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>dbService</td>
+                                                        <td>apiService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                                        <code><a href="../injectables/ApiService.html" target="_self" >ApiService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -379,19 +383,64 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="131"
-                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:131</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="153"
+                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:153</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Cierra el modal de perfil</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCurrentPath"></a>
+                    <span class="name">
+                        <span ><b>getCurrentPath</b></span>
+                        <a href="#getCurrentPath"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getCurrentPath()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="161"
+                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:161</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the current route path</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The current route path</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -416,19 +465,25 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="119"
-                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:119</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:129</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene el nombre completo del usuario</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                         </div>
+                            <div class="io-description">
+                                <p>String con el nombre completo del usuario</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -453,8 +508,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="87"
-                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:87</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="93"
+                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:93</a></div>
                         </td>
                     </tr>
 
@@ -496,19 +551,25 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="123"
-                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:123</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="137"
+                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:137</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene la especialidad del usuario</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                         </div>
+                            <div class="io-description">
+                                <p>String con la especialidad del usuario</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -533,8 +594,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="103"
-                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:103</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="109"
+                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:109</a></div>
                         </td>
                     </tr>
 
@@ -572,14 +633,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="127"
-                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:127</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="145"
+                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:145</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Abre el modal de perfil</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -609,8 +672,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="95"
-                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:95</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="101"
+                                    class="link-to-prism">src/app/dashboard/dashboard.component.ts:101</a></div>
                         </td>
                     </tr>
 
@@ -652,7 +715,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/dashboard/dashboard.component.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/dashboard/dashboard.component.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -711,7 +774,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/dashboard/dashboard.component.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/dashboard/dashboard.component.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -742,7 +805,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/dashboard/dashboard.component.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/dashboard/dashboard.component.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -767,7 +830,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/dashboard/dashboard.component.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/dashboard/dashboard.component.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -802,7 +865,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/dashboard/dashboard.component.ts:77</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/dashboard/dashboard.component.ts:83</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -828,10 +891,10 @@
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
-import { Router, RouterLink, RouterOutlet } from &#x27;@angular/router&#x27;;
-import { DatabaseService } from &#x27;../services/database.service&#x27;;
+import { Router, RouterLink, RouterOutlet, RouterLinkActive } from &#x27;@angular/router&#x27;;
 import { ToastService } from &#x27;../services/toast.service&#x27;;
 import { ProfileModalComponent } from &#x27;../components/profile-modal/profile-modal.component&#x27;;
+import { ApiService, Rol } from &#x27;../services/api.service&#x27;;
 
 /**
  * Interfaz que define la estructura de un elemento de navegación
@@ -856,7 +919,13 @@ interface NavItem {
 @Component({
   selector: &#x27;app-dashboard&#x27;,
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, ProfileModalComponent],
+  imports: [
+    CommonModule, 
+    RouterLink, 
+    RouterOutlet, 
+    RouterLinkActive,
+    ProfileModalComponent
+  ],
   templateUrl: &#x27;./dashboard.component.html&#x27;,
   styleUrls: [&#x27;./dashboard.component.css&#x27;]
 })
@@ -894,7 +963,7 @@ export class DashboardComponent {
 
   constructor(
     private router: Router,
-    private dbService: DatabaseService,
+    private apiService: ApiService,
     private toastService: ToastService
   ) {}
 
@@ -904,7 +973,7 @@ export class DashboardComponent {
    */
   get authorizedNavItems(): NavItem[] {
     return this.navItems.filter(item &#x3D;&gt; 
-      this.dbService.hasRole(this.currentUser.id, item.requiredRole)
+      this.currentUser.roles.some((role: Rol) &#x3D;&gt; role.nombre &#x3D;&#x3D;&#x3D; item.requiredRole)
     );
   }
 
@@ -944,20 +1013,44 @@ export class DashboardComponent {
     this.router.navigate([&#x27;/&#x27;]);
   }
 
+  /**
+   * Obtiene el nombre completo del usuario
+   * @returns String con el nombre completo del usuario
+   */
   getUserFullName(): string {
     return &#x60;${this.currentUser.nombres} ${this.currentUser.apellidos}&#x60;;
   }
 
+  /**
+   * Obtiene la especialidad del usuario
+   * @returns String con la especialidad del usuario
+   */
   getUserSpecialty(): string {
     return this.currentUser.especialidad;
   }
 
+  /**
+   * Abre el modal de perfil
+   * @description Muestra el modal de perfil
+   */
   openProfileModal() {
     this.showProfileModal &#x3D; true;
   }
 
+  /**
+   * Cierra el modal de perfil
+   * @description Oculta el modal de perfil
+   */
   closeProfileModal() {
     this.showProfileModal &#x3D; false;
+  }
+
+  /**
+   * Gets the current route path
+   * @returns The current route path
+   */
+  getCurrentPath(): string {
+    return this.router.url.split(&#x27;/&#x27;)[2] || &#x27;agenda&#x27;;  // Default to &#x27;agenda&#x27; if no path
   }
 }
 </code></pre>
@@ -976,6 +1069,7 @@ export class DashboardComponent {
           &lt;a *ngFor&#x3D;&quot;let item of authorizedNavItems&quot; 
              [routerLink]&#x3D;&quot;item.path&quot;
              routerLinkActive&#x3D;&quot;active&quot;
+             [class.current]&#x3D;&quot;getCurrentPath() &#x3D;&#x3D;&#x3D; item.path&quot;
              class&#x3D;&quot;nav-link&quot;&gt;
             &lt;span class&#x3D;&quot;nav-icon&quot;&gt;{{ item.icon }}&lt;/span&gt;
             &lt;span class&#x3D;&quot;nav-label&quot;&gt;{{ item.label }}&lt;/span&gt;
@@ -1336,6 +1430,23 @@ export class DashboardComponent {
 
 .profile-btn:hover {
   background-color: #ebf8ff;
+}
+
+.nav-link.current {
+  background-color: #ebf8ff;
+  color: #2c5282;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-link.current::after {
+  content: &#x27;&#x27;;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #4299e1;
 }</code></pre>
     </div>
 
@@ -1364,8 +1475,8 @@ export class DashboardComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="dashboard">  <header class="main-header">    <div class="header-content">      <div class="header-left">        <h1 class="app-title">          <span class="full-title">Hospital Scheduler</span>          <span class="short-title">HS</span>        </h1>        <nav class="main-nav">          <a *ngFor="let item of authorizedNavItems"              [routerLink]="item.path"             routerLinkActive="active"             class="nav-link">            <span class="nav-icon">{{ item.icon }}</span>            <span class="nav-label">{{ item.label }}</span>          </a>        </nav>      </div>      <div class="user-menu" [class.show]="showUserMenu">        <div class="user-circle" (click)="toggleUserMenu()">          {{ getUserInitials() }}        </div>        <div class="dropdown-menu" *ngIf="showUserMenu">          <!-- <div class="user-info">            <span class="user-name">{{ getUserFullName() }}</span>            <span class="user-role">{{ getUserSpecialty() }}</span>          </div> -->          <button class="profile-btn" (click)="openProfileModal()">            <span class="icon">🔧</span>            <span>Modificar Perfil</span>          </button>          <button class="logout-btn" (click)="logout()">            <span class="icon">🚪</span>            <span>Cerrar Sesión</span>          </button>        </div>      </div>    </div>  </header>  <main class="main-content">    <app-profile-modal *ngIf="showProfileModal" (close)="closeProfileModal()"></app-profile-modal>    <router-outlet></router-outlet>  </main></div></div>'
-    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'FuncionariosComponent', 'selector': 'app-funcionarios'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
+        var COMPONENT_TEMPLATE = '<div><div class="dashboard">  <header class="main-header">    <div class="header-content">      <div class="header-left">        <h1 class="app-title">          <span class="full-title">Hospital Scheduler</span>          <span class="short-title">HS</span>        </h1>        <nav class="main-nav">          <a *ngFor="let item of authorizedNavItems"              [routerLink]="item.path"             routerLinkActive="active"             [class.current]="getCurrentPath() === item.path"             class="nav-link">            <span class="nav-icon">{{ item.icon }}</span>            <span class="nav-label">{{ item.label }}</span>          </a>        </nav>      </div>      <div class="user-menu" [class.show]="showUserMenu">        <div class="user-circle" (click)="toggleUserMenu()">          {{ getUserInitials() }}        </div>        <div class="dropdown-menu" *ngIf="showUserMenu">          <!-- <div class="user-info">            <span class="user-name">{{ getUserFullName() }}</span>            <span class="user-role">{{ getUserSpecialty() }}</span>          </div> -->          <button class="profile-btn" (click)="openProfileModal()">            <span class="icon">🔧</span>            <span>Modificar Perfil</span>          </button>          <button class="logout-btn" (click)="logout()">            <span class="icon">🚪</span>            <span>Cerrar Sesión</span>          </button>        </div>      </div>    </div>  </header>  <main class="main-content">    <app-profile-modal *ngIf="showProfileModal" (close)="closeProfileModal()"></app-profile-modal>    <router-outlet></router-outlet>  </main></div></div>'
+    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'DashboardComponent'};
 </script>

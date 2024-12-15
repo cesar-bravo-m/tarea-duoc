@@ -335,6 +335,10 @@ export class InscripcionComponent implements OnInit {
     };
   }
 
+  /**
+   * Validador personalizado para la fecha de nacimiento
+   * @returns ValidatorFn para validar la fecha de nacimiento
+   */
   dateOfBirthValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {

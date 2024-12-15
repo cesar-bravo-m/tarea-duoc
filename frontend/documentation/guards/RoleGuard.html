@@ -167,12 +167,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(dbService: <a href="../injectables/DatabaseService.html" target="_self">DatabaseService</a>, router: Router)</code>
+<code>constructor(apiService: <a href="../injectables/ApiService.html" target="_self">ApiService</a>, router: Router)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/guards/role.guard.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/guards/role.guard.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -190,10 +190,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>dbService</td>
+                                                        <td>apiService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/DatabaseService.html" target="_self" >DatabaseService</a></code>
+                                                                        <code><a href="../injectables/ApiService.html" target="_self" >ApiService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -249,8 +249,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="25"
-                                    class="link-to-prism">src/app/guards/role.guard.ts:25</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="26"
+                                    class="link-to-prism">src/app/guards/role.guard.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -327,7 +327,8 @@
         <div class="tab-pane fade  tab-source-code" id="source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from &#x27;@angular/router&#x27;;
-import { DatabaseService } from &#x27;../services/database.service&#x27;;
+import { ApiService } from &#x27;../services/api.service&#x27;;
+import { firstValueFrom } from &#x27;rxjs&#x27;;
 
 /**
  * Guardia que protege las rutas basadas en roles de usuario
@@ -338,7 +339,7 @@ import { DatabaseService } from &#x27;../services/database.service&#x27;;
 })
 export class RoleGuard implements CanActivate {
   constructor(
-    private dbService: DatabaseService,
+    private apiService: ApiService,
     private router: Router
   ) {}
 
@@ -357,13 +358,11 @@ export class RoleGuard implements CanActivate {
       this.router.navigate([&#x27;/&#x27;]);
       return false;
     }
-    // Hack temporal
-    if (currentUser.id &gt; 10) return true
 
     try {
-      // await this.dbService.initializeDatabase();
-      
-      const hasRole &#x3D; this.dbService.hasRole(currentUser.id, requiredRole);
+      const hasRole &#x3D; await firstValueFrom(
+        this.apiService.hasRole(currentUser.id, requiredRole)
+      );
       
       if (!hasRole) {
         this.router.navigate([&#x27;/dashboard&#x27;]);

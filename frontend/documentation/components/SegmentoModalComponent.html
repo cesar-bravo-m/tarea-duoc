@@ -228,6 +228,9 @@
                                 <a href="#closeModal" >closeModal</a>
                             </li>
                             <li>
+                                <a href="#formatDate" >formatDate</a>
+                            </li>
+                            <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
@@ -560,6 +563,73 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="formatDate"></a>
+                    <span class="name">
+                        <span ><b>formatDate</b></span>
+                        <a href="#formatDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatDate(date: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="79"
+                                    class="link-to-prism">src/app/agenda/segmento-modal/segmento-modal.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>date</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="ngOnInit"></a>
                     <span class="name">
                         <span ><b>ngOnInit</b></span>
@@ -654,8 +724,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="83"
-                                    class="link-to-prism">src/app/agenda/segmento-modal/segmento-modal.component.ts:83</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="86"
+                                    class="link-to-prism">src/app/agenda/segmento-modal/segmento-modal.component.ts:86</a></div>
                         </td>
                     </tr>
 
@@ -757,7 +827,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, Output, OnInit } from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from &#x27;@angular/forms&#x27;;
-import { DatabaseService, Funcionario, SegmentoHorario } from &#x27;../../services/database.service&#x27;;
+import { ApiService, Funcionario, SegmentoHorario } from &#x27;../../services/api.service&#x27;;
 
 /**
  * Componente modal para la gestión de segmentos horarios
@@ -803,8 +873,8 @@ export class SegmentoModalComponent implements OnInit {
   ngOnInit() {
     if (this.segmentoToEdit) {
       this.isEditMode &#x3D; true;
-      const duration &#x3D; (new Date(this.segmentoToEdit.fecha_hora_fin).getTime() - 
-                       new Date(this.segmentoToEdit.fecha_hora_inicio).getTime()) / (30 * 60000);
+      const duration &#x3D; (new Date(this.segmentoToEdit.fechaHoraFin).getTime() - 
+                       new Date(this.segmentoToEdit.fechaHoraInicio).getTime()) / (30 * 60000);
       
       this.segmentoForm.patchValue({
         nombre: this.segmentoToEdit.nombre,
@@ -832,6 +902,9 @@ export class SegmentoModalComponent implements OnInit {
     }
   }
 
+  formatDate(date: Date) {
+    return &#x60;${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, &#x27;0&#x27;)}-${date.getDate().toString().padStart(2, &#x27;0&#x27;)}T${date.getHours().toString().padStart(2, &#x27;0&#x27;)}:${date.getMinutes().toString().padStart(2, &#x27;0&#x27;)}:00.000Z&#x60;;
+  }
   /**
    * Maneja el envío del formulario
    * @description Crea o actualiza un segmento horario
@@ -839,16 +912,16 @@ export class SegmentoModalComponent implements OnInit {
   onSubmit() {
     if (this.segmentoForm.valid) {
       const formValue &#x3D; this.segmentoForm.value;
-      const startDate &#x3D; this.segmentoToEdit ? new Date(this.segmentoToEdit.fecha_hora_inicio) : this.startDate;
+      const startDate &#x3D; this.segmentoToEdit ? new Date(this.segmentoToEdit.fechaHoraInicio) : this.startDate;
       const endDate &#x3D; new Date(startDate);
       endDate.setMinutes(endDate.getMinutes() + (formValue.cupos * 30));
 
       const segmento: SegmentoHorario &#x3D; {
         id: this.segmentoToEdit?.id || 0,
         nombre: formValue.nombre,
-        fecha_hora_inicio: startDate.toISOString(),
-        fecha_hora_fin: endDate.toISOString(),
-        fun_id: this.funcionario.id,
+        fechaHoraInicio: this.formatDate(startDate),
+        fechaHoraFin: this.formatDate(endDate),
+        funcionario: this.funcionario,
         free: true
       };
       
@@ -870,14 +943,21 @@ export class SegmentoModalComponent implements OnInit {
         &lt;form [formGroup]&#x3D;&quot;segmentoForm&quot; (ngSubmit)&#x3D;&quot;onSubmit()&quot;&gt;
         &lt;div class&#x3D;&quot;form-group&quot;&gt;
             &lt;label for&#x3D;&quot;nombre&quot;&gt;Nombre del Segmento&lt;/label&gt;
-            &lt;select
-                id&#x3D;&quot;nombre&quot;
-                formControlName&#x3D;&quot;nombre&quot;
-            &gt;
-                &lt;option value&#x3D;&quot;&quot;&gt;Seleccione un tipo de segmento&lt;/option&gt;
-                &lt;option value&#x3D;&quot;Atención general&quot;&gt;Atención general&lt;/option&gt;
-                &lt;option value&#x3D;&quot;Otro&quot;&gt;Otro&lt;/option&gt;
-            &lt;/select&gt;
+            &lt;div class&#x3D;&quot;select-wrapper&quot;&gt;
+                &lt;select
+                    id&#x3D;&quot;nombre&quot;
+                    formControlName&#x3D;&quot;nombre&quot;
+                    [class.error]&#x3D;&quot;segmentoForm.get(&#x27;nombre&#x27;)?.invalid &amp;&amp; segmentoForm.get(&#x27;nombre&#x27;)?.touched&quot;
+                &gt;
+                    &lt;option value&#x3D;&quot;&quot; disabled&gt;Seleccione un tipo de segmento&lt;/option&gt;
+                    &lt;option value&#x3D;&quot;Atención general&quot;&gt;Atención general&lt;/option&gt;
+                    &lt;option value&#x3D;&quot;Control médico&quot;&gt;Control médico&lt;/option&gt;
+                    &lt;option value&#x3D;&quot;Primera consulta&quot;&gt;Primera consulta&lt;/option&gt;
+                    &lt;option value&#x3D;&quot;Procedimiento&quot;&gt;Procedimiento&lt;/option&gt;
+                    &lt;option value&#x3D;&quot;Otro&quot;&gt;Otro&lt;/option&gt;
+                &lt;/select&gt;
+                &lt;span class&#x3D;&quot;select-arrow&quot;&gt;▼&lt;/span&gt;
+            &lt;/div&gt;
             &lt;div class&#x3D;&quot;error-message&quot; *ngIf&#x3D;&quot;segmentoForm.get(&#x27;nombre&#x27;)?.invalid &amp;&amp; segmentoForm.get(&#x27;nombre&#x27;)?.touched&quot;&gt;
                 El nombre es requerido
             &lt;/div&gt;
@@ -903,7 +983,7 @@ export class SegmentoModalComponent implements OnInit {
         &lt;div class&#x3D;&quot;form-group&quot;&gt;
             &lt;label&gt;Fecha y Hora de Inicio&lt;/label&gt;
             &lt;div class&#x3D;&quot;datetime-display&quot;&gt;
-                {{ (segmentoToEdit ? segmentoToEdit.fecha_hora_inicio : startDate) | date:&#x27;dd/MM/yyyy HH:mm&#x27; }}
+                {{ (segmentoToEdit ? segmentoToEdit.fechaHoraInicio : startDate) | date:&#x27;dd/MM/yyyy HH:mm&#x27; }}
             &lt;/div&gt;
         &lt;/div&gt;
 
@@ -964,8 +1044,8 @@ export class SegmentoModalComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="modal-backdrop" (click)="closeModal()">    <div class="modal-content" (click)="$event.stopPropagation()">    <div class="modal-header">        <h2>{{ isEditMode ? \'Editar\' : \'Crear\' }} Segmento Horario</h2>        <button class="close-button" (click)="closeModal()">×</button>    </div>    <div class="modal-body">        <form [formGroup]="segmentoForm" (ngSubmit)="onSubmit()">        <div class="form-group">            <label for="nombre">Nombre del Segmento</label>            <select                id="nombre"                formControlName="nombre"            >                <option value="">Seleccione un tipo de segmento</option>                <option value="Atención general">Atención general</option>                <option value="Otro">Otro</option>            </select>            <div class="error-message" *ngIf="segmentoForm.get(\'nombre\')?.invalid && segmentoForm.get(\'nombre\')?.touched">                El nombre es requerido            </div>        </div>        <div class="form-group">            <label for="cupos">Número de Cupos (30 min c/u)</label>            <input                 id="cupos"                 type="number"                 formControlName="cupos"                min="1"                max="48"                [class.error]="segmentoForm.get(\'cupos\')?.invalid && segmentoForm.get(\'cupos\')?.touched"            >            <div class="error-message" *ngIf="segmentoForm.get(\'cupos\')?.invalid && segmentoForm.get(\'cupos\')?.touched">                <span *ngIf="segmentoForm.get(\'cupos\')?.errors?.[\'required\']">El número de cupos es requerido</span>                <span *ngIf="segmentoForm.get(\'cupos\')?.errors?.[\'min\']">Mínimo 1 cupo</span>                <span *ngIf="segmentoForm.get(\'cupos\')?.errors?.[\'max\']">Máximo 48 cupos</span>            </div>        </div>        <div class="form-group">            <label>Fecha y Hora de Inicio</label>            <div class="datetime-display">                {{ (segmentoToEdit ? segmentoToEdit.fecha_hora_inicio : startDate) | date:\'dd/MM/yyyy HH:mm\' }}            </div>        </div>        <div class="form-group">            <label>Duración Total</label>            <div class="duration-display">                {{ segmentoForm.get(\'cupos\')?.value * 30 }} minutos            </div>        </div>        <div class="form-footer">            <button                 *ngIf="isEditMode"                 type="button"                 class="delete-btn"                 (click)="onDelete()"            >                Eliminar            </button>            <button type="button" class="cancel-btn" (click)="closeModal()">Cancelar</button>            <button                 type="submit"                 class="submit-btn"                 [disabled]="segmentoForm.invalid"            >                {{ isEditMode ? \'Guardar Cambios\' : \'Crear Segmento\' }}            </button>        </div>        </form>    </div>    </div></div></div>'
-    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'FuncionariosComponent', 'selector': 'app-funcionarios'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
+        var COMPONENT_TEMPLATE = '<div><div class="modal-backdrop" (click)="closeModal()">    <div class="modal-content" (click)="$event.stopPropagation()">    <div class="modal-header">        <h2>{{ isEditMode ? \'Editar\' : \'Crear\' }} Segmento Horario</h2>        <button class="close-button" (click)="closeModal()">×</button>    </div>    <div class="modal-body">        <form [formGroup]="segmentoForm" (ngSubmit)="onSubmit()">        <div class="form-group">            <label for="nombre">Nombre del Segmento</label>            <div class="select-wrapper">                <select                    id="nombre"                    formControlName="nombre"                    [class.error]="segmentoForm.get(\'nombre\')?.invalid && segmentoForm.get(\'nombre\')?.touched"                >                    <option value="" disabled>Seleccione un tipo de segmento</option>                    <option value="Atención general">Atención general</option>                    <option value="Control médico">Control médico</option>                    <option value="Primera consulta">Primera consulta</option>                    <option value="Procedimiento">Procedimiento</option>                    <option value="Otro">Otro</option>                </select>                <span class="select-arrow">▼</span>            </div>            <div class="error-message" *ngIf="segmentoForm.get(\'nombre\')?.invalid && segmentoForm.get(\'nombre\')?.touched">                El nombre es requerido            </div>        </div>        <div class="form-group">            <label for="cupos">Número de Cupos (30 min c/u)</label>            <input                 id="cupos"                 type="number"                 formControlName="cupos"                min="1"                max="48"                [class.error]="segmentoForm.get(\'cupos\')?.invalid && segmentoForm.get(\'cupos\')?.touched"            >            <div class="error-message" *ngIf="segmentoForm.get(\'cupos\')?.invalid && segmentoForm.get(\'cupos\')?.touched">                <span *ngIf="segmentoForm.get(\'cupos\')?.errors?.[\'required\']">El número de cupos es requerido</span>                <span *ngIf="segmentoForm.get(\'cupos\')?.errors?.[\'min\']">Mínimo 1 cupo</span>                <span *ngIf="segmentoForm.get(\'cupos\')?.errors?.[\'max\']">Máximo 48 cupos</span>            </div>        </div>        <div class="form-group">            <label>Fecha y Hora de Inicio</label>            <div class="datetime-display">                {{ (segmentoToEdit ? segmentoToEdit.fechaHoraInicio : startDate) | date:\'dd/MM/yyyy HH:mm\' }}            </div>        </div>        <div class="form-group">            <label>Duración Total</label>            <div class="duration-display">                {{ segmentoForm.get(\'cupos\')?.value * 30 }} minutos            </div>        </div>        <div class="form-footer">            <button                 *ngIf="isEditMode"                 type="button"                 class="delete-btn"                 (click)="onDelete()"            >                Eliminar            </button>            <button type="button" class="cancel-btn" (click)="closeModal()">Cancelar</button>            <button                 type="submit"                 class="submit-btn"                 [disabled]="segmentoForm.invalid"            >                {{ isEditMode ? \'Guardar Cambios\' : \'Crear Segmento\' }}            </button>        </div>        </form>    </div>    </div></div></div>'
+    var COMPONENTS = [{'name': 'AgendaComponent', 'selector': 'app-agenda'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CitasComponent', 'selector': 'app-citas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'InscripcionComponent', 'selector': 'app-inscripcion'},{'name': 'LandingPageComponent', 'selector': 'app-landing-page'},{'name': 'LoginModalComponent', 'selector': 'app-login-modal'},{'name': 'ProfileModalComponent', 'selector': 'app-profile-modal'},{'name': 'RegisterModalComponent', 'selector': 'app-register-modal'},{'name': 'SegmentoModalComponent', 'selector': 'app-segmento-modal'},{'name': 'ToastComponent', 'selector': 'app-toast'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'SegmentoModalComponent'};
 </script>
