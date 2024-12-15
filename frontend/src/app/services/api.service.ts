@@ -77,7 +77,8 @@ export interface Rol {
   providedIn: 'root'
 })
 export class ApiService {
-  private readonly baseUrl = 'http://54.242.17.123:8080/api';
+  // private readonly baseUrl = 'http://54.242.17.123:8080/api';
+  private readonly baseUrl = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient) {}
 
